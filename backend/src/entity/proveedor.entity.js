@@ -14,6 +14,11 @@ const ProveedorSchema = new EntitySchema({
             type: "one-to-many",
             target: "Administrador",
             joinColumn: { name: "AdministradorID" }
+        },
+        provee:{
+            type: "one-to-many",
+            target: "Provee",
+            inverseSide: "Proveedor" 
         }
     }
 });
