@@ -19,6 +19,11 @@ const PedidoSchema = new EntitySchema({
             type: "one-to-many",
             target: "Mesero",
             joinColumn: { name: "MeseroID" }
+        },
+        contiene: {
+            type: "one-to-many",
+            target: "Contiene",
+            inverseSide: "pedido"
         }
     }
 });

@@ -4,19 +4,28 @@ const ContieneSchema = new EntitySchema({
     name: "Contiene",
     tableName: "Contiene",
     columns: {
+        PlatoID: { 
+            type: "int", 
+            primary: true 
+        },
+        PedidoID: { 
+            type: "int", 
+            primary: true 
+        }
+    },
+
     relations: {
         pedido: {
-            type: "many-to-many",
+            type: "one-to-many",
             target: "Pedido",
             joinColumn: { name: "PedidoID" }
         },
         plato: {
-            type: "many-to-many",
+            type: "one-to-many",
             target: "Plato",
             joinColumn: { name: "PlatoID" }
         }
     }
-}
 });
 
 export default ContieneSchema;

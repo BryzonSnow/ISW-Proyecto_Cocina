@@ -4,19 +4,28 @@ const FormadoSchema = new EntitySchema({
     name: "Formado",
     tableName: "Formado",
     columns: {
-    relations: {
+        PlatoID: { 
+            type: "int",
+            primary: true, 
+            generated: true 
+        },
+        IngredienteID: { type: "int", 
+            primary: true, 
+            generated: true 
+        }
+    },
+    relations:{
         plato: {
-            type: "many-to-many",
+            type: "one-to-many",
             target: "Plato",
             joinColumn: { name: "PlatoID" }
         },
         ingrediente: {
-            type: "many-to-many",
+            type: "one-to-many",
             target: "Ingrediente",
             joinColumn: { name: "IngredienteID" }
         }
     }
-}
 });
 
 export default FormadoSchema;

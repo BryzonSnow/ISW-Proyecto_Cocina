@@ -10,10 +10,10 @@ const IngredienteSchema = new EntitySchema({
         UnidadMedida: { type: "varchar", length: 100 , nullable: false }
     },
     relations: {
-        proveedor: {
-            type: "many-to-many",
-            target: "Proveedor",
-            joinColumn: { name: "ProveedorID" }
+        provee: {
+            type: "one-to-many",
+            target: "Provee",
+            inverseSide: "Ingrediente" 
         },
         inventario: {
             type: "one-to-many",
