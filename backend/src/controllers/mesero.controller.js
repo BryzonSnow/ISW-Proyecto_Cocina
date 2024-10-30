@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import MeseroSchema from "../entity/mesero.entity.js";
 
 // Obtener todos los meseros
-export const getMesero = async (req, res) => {
+export const getMeseros = async (req, res) => {
     try {
         const meseros = await getRepository(MeseroSchema).find({ relations: ["empleado"] });
         res.json(meseros);
@@ -12,7 +12,7 @@ export const getMesero = async (req, res) => {
 };
 
 // Obtener un mesero por ID
-export const getMeseroById = async (req, res) => {
+export const getMesero = async (req, res) => {
     const { id } = req.params;
     try {
         const mesero = await getRepository(MeseroSchema).findOne(id, { relations: ["empleado"] });

@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import PlatoSchema from "../entity/plato.entity.js";
 
 // Obtener todos los platos
-export const getPlato = async (req, res) => {
+export const getPlatos = async (req, res) => {
     try {
         const platos = await getRepository(PlatoSchema).find({ relations: ["inventario", "menu"] });
         res.json(platos);
@@ -12,7 +12,7 @@ export const getPlato = async (req, res) => {
 };
 
 // Obtener un plato por ID
-export const getPlatoById = async (req, res) => {
+export const getPlato = async (req, res) => {
     const { id } = req.params;
     try {
         const plato = await getRepository(PlatoSchema).findOne(id, { relations: ["inventario", "menu"] });

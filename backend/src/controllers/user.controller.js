@@ -1,14 +1,6 @@
 "use strict";
-import {
-  deleteUserService,
-  getUserService,
-  getUsersService,
-  updateUserService,
-} from "../services/user.service.js";
-import {
-  userBodyValidation,
-  userQueryValidation,
-} from "../validations/user.validation.js";
+//import { deleteUserService, getUserService, getUsersService, updateUserService, } from "../services/user.service.js";
+//import { userBodyValidation,   userQueryValidation,} from "../validations/user.validation.js";
 import {
   handleErrorClient,
   handleErrorServer,
@@ -23,7 +15,7 @@ export async function getUser(req, res) {
 
     if (error) return handleErrorClient(res, 400, error.message);
 
-    const [user, errorUser] = await getUserService({ rut, id, email });
+    //const [user, errorUser] = await getUserService({ rut, id, email });
 
     if (errorUser) return handleErrorClient(res, 404, errorUser);
 
@@ -56,11 +48,11 @@ export async function updateUser(req, res) {
     const { rut, id, email } = req.query;
     const { body } = req;
 
-    const { error: queryError } = userQueryValidation.validate({
-      rut,
-      id,
-      email,
-    });
+//    const { error: queryError } = userQueryValidation.validate({
+ //     rut,
+   //   id,
+     // email,
+    //});
 
     if (queryError) {
       return handleErrorClient(
@@ -71,7 +63,7 @@ export async function updateUser(req, res) {
       );
     }
 
-    const { error: bodyError } = userBodyValidation.validate(body);
+    //const { error: bodyError } = userBodyValidation.validate(body);
 
     if (bodyError)
       return handleErrorClient(

@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import TurnoSchema from "../entity/turno.entity.js";
 
 // Obtener todos los turnos
-export const getTurno = async (req, res) => {
+export const getTurnos = async (req, res) => {
     try {
         const turnos = await getRepository(TurnoSchema).find({ relations: ["administrador"] });
         res.json(turnos);
@@ -12,7 +12,7 @@ export const getTurno = async (req, res) => {
 };
 
 // Obtener un turno por ID
-export const getTurnoById = async (req, res) => {
+export const getTurno = async (req, res) => {
     const { id } = req.params;
     try {
         const turno = await getRepository(TurnoSchema).findOne(id, { relations: ["administrador"] });

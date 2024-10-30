@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import ChefSchema from "../entity/chef.entity.js";
 
 // Obtener todos los chefs
-export const getChef = async (req, res) => {
+export const getChefs = async (req, res) => {
     try {
         const chefs = await getRepository(ChefSchema).find();
         res.json(chefs);
@@ -12,7 +12,7 @@ export const getChef = async (req, res) => {
 };
 
 // Obtener un chef por ID
-export const getChefById = async (req, res) => {
+export const getChef = async (req, res) => {
     const { id } = req.params;
     try {
         const chef = await getRepository(ChefSchema).findOne(id);

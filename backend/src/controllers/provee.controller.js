@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import ProveeSchema from "../entity/provee.entity.js";
 
 // Obtener todos los registros de Provee
-export const getProvee = async (req, res) => {
+export const getProveen = async (req, res) => {
     try {
         const provees = await getRepository(ProveeSchema).find({ relations: ["proveedor", "ingrediente"] });
         res.json(provees);
@@ -12,7 +12,7 @@ export const getProvee = async (req, res) => {
 };
 
 // Obtener un registro de Provee por ID
-export const getProveeById = async (req, res) => {
+export const getProvee = async (req, res) => {
     const { id } = req.params;
     try {
         const provee = await getRepository(ProveeSchema).findOne(id, { relations: ["proveedor", "ingrediente"] });

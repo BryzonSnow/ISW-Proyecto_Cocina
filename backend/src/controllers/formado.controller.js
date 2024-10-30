@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import FormadoSchema from "../entity/formado.entity.js";
 
 // Obtener todas las relaciones "formado"
-export const getFormado = async (req, res) => {
+export const getFormados = async (req, res) => {
     try {
         const formados = await getRepository(FormadoSchema).find();
         res.json(formados);
@@ -12,7 +12,7 @@ export const getFormado = async (req, res) => {
 };
 
 // Obtener una relación "formado" por ID (PlatoID e IngredienteID)
-export const getFormadoById = async (req, res) => {
+export const getFormado = async (req, res) => {
     const { platoId, ingredienteId } = req.params;
     try {
         const formado = await getRepository(FormadoSchema).findOne({ where: { plato: { id: platoId }, ingrediente: { id: ingredienteId } } });

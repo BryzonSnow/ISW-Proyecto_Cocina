@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import ProveedorSchema from "../entity/proveedor.entity.js";
 
 // Obtener todos los proveedores
-export const getProveedor = async (req, res) => {
+export const getProveedores = async (req, res) => {
     try {
         const proveedores = await getRepository(ProveedorSchema).find({ relations: ["administrador"] });
         res.json(proveedores);
@@ -12,7 +12,7 @@ export const getProveedor = async (req, res) => {
 };
 
 // Obtener un proveedor por ID
-export const getProveedorById = async (req, res) => {
+export const getProveedor = async (req, res) => {
     const { id } = req.params;
     try {
         const proveedor = await getRepository(ProveedorSchema).findOne(id, { relations: ["administrador"] });
