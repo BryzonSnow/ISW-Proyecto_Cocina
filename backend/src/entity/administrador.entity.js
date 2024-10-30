@@ -10,7 +10,7 @@ const AdministradorSchema = new EntitySchema({
     },
     relations:{
         inventario: {
-            type: "one-to-many",
+            type: "one-to-one",
             target: "Inventario",
         }
     }
