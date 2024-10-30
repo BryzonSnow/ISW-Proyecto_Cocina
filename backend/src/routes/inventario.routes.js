@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { getInventarios, getInventarioById, createInventario, updateInventario, deleteInventario } from "../controllers/inventario.controller";
+import { createInventario, deleteInventario, getInventario, getInventarios, updateInventario } from "../controllers/inventario.controller.js";
 
 const router = Router();
 
-router.get("/inventarios", getInventarios);
-router.get("/inventarios/:id", getInventarioById);
-router.post("/inventarios", createInventario);
-router.put("/inventarios/:id", updateInventario);
-router.delete("/inventarios/:id", deleteInventario);
+router.post("/", createInventario);       
+router.get("/all", getInventarios);       
+router.get("/:id", getInventario);        
+router.delete("/:id", deleteInventario);  
+router.put("/:id", updateInventario);     
 
 export default router;
