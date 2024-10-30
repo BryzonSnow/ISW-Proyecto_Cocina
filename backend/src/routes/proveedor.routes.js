@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createProveedor, deleteProveedor, getProveedor, getProveedores, updateProveedor } from "../controllers/proveedor.controller.js";
+import proveedorController from "../controllers/proveedor.controller.js";
 
 const router = Router();
 
-router.post("/", createProveedor);          
-router.get("/all", getProveedores);         
-router.get("/:id", getProveedor);           
-router.delete("/:id", deleteProveedor);     
-router.put("/:id", updateProveedor);        
+router.post("/", proveedorController.create);
+router.get("/", proveedorController.getAll);
+router.get("/:id", proveedorController.getById);
+router.put("/:id", proveedorController.update);
+router.delete("/:id", proveedorController.delete);
 
 export default router;
