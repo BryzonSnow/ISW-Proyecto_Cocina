@@ -11,7 +11,7 @@ const InventarioSchema = new EntitySchema({
     },
     relations: {
         administrador: {
-            type: "many-to-one",
+            type: "one-to-one",
             target: "Administrador",
             joinColumn: { name: "AdministradorID" }
         }
