@@ -12,14 +12,13 @@ import pedidoRoutes from "./pedido.routes.js";
 const router = Router();
 
 router.use("/empleado", empleadoRoutes);
-router.use("/api/turno", turnoRoutes);
-router.use("/api/inventario", inventarioRoutes);
-router.use("/api/ingrediente", ingredienteRoutes);
-router.use("/api/proveedor", proveedorRoutes);
-router.use("/api/menu", menuRoutes);
-router.use("/api/cliente", clienteRoutes);
-router.use("/api/empleado", empleadoRoutes);
-router.use("/api/plato", platoRoutes); 
-router.use("/api/pedido", pedidoRoutes); 
+router.use("/turno", turnoRoutes);
+router.use("/inventario", inventarioRoutes);
+router.use("/ingrediente", ingredienteRoutes);
+router.use("/proveedor", proveedorRoutes);
+router.use("/menu", menuRoutes);
+router.use("/cliente", clienteRoutes);
+router.use("/plato", platoRoutes); 
+router.use("/pedido", pedidoRoutes); 
 
 export default router;
