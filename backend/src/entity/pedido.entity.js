@@ -1,26 +1,62 @@
+"use strict";
 import { EntitySchema } from "typeorm";
 
 const PedidoSchema = new EntitySchema({
     name: "Pedido",
-    tableName: "Pedido",
+    tableName: "pedido",
     columns: {
-        PedidoID: { type: "int", primary: true, generated: true },
-        Fecha: { type: "date", nullable: false },
-        Estado: { type: "varchar", length: 100, nullable: false },
-        Total: { type: "int", nullable: false }
+        pedidoID: {
+            type: "int",
+            primary: true,
+            generated: true,
+        },
+        fecha: {
+            type: "date",
+            nullable: false,
+        },
+        estado: {
+            type: "varchar",
+            length: 50,
+            nullable: false,
+        },
+        total: {
+            type: "decimal",
+            precision: 10,
+            scale: 2,
+            nullable: false,
+        },
+        clienteID: {
+            type: "int",
+            nullable: false,
+        },
+        platoID: {  
+            type: "int",
+            nullable: false,
+        },
+        empleadoID: {  // Agregar la columna empleadoID
+            type: "int",
+            nullable: false,
+        },
     },
     relations: {
         cliente: {
-            type: "one-to-one",
             target: "Cliente",
-            joinColumn: { name: "ClienteID" }
+            type: "many-to-one",
+            joinColumn: { name: "clienteID" },
+            onDelete: "SET NULL",
         },
-        mesero: {
-            type: "one-to-many",
-            target: "Mesero",
-            joinColumn: { name: "MeseroID" }
-        }
-    }
+        plato: { 
+            target: "Plato",
+            type: "many-to-one",
+            joinColumn: { name: "platoID" },  
+        },
+        empleado: {
+            target: "Empleado",
+            type: "many-to-one",
+            joinColumn: { name: "empleadoID" }, 
+            onDelete: "SET NULL", 
+        },
+    },
 });
 
 export default PedidoSchema;

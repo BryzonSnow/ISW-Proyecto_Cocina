@@ -1,64 +1,70 @@
-import { getRepository } from "typeorm";
-import PlatoSchema from "../entity/plato.entity.js";
+"use strict";
+import { AppDataSource } from "../config/configDb.js"; 
+import PlatoSchema from "../entity/Plato.entity.js"; 
 
-// Obtener todos los platos
-export const getPlato = async (req, res) => {
-    try {
-        const platos = await getRepository(PlatoSchema).find({ relations: ["inventario", "menu"] });
-        res.json(platos);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener los platos", error });
-    }
+const platoController = {
+    create: async (req, res) => {
+        try {
+            const platoRepo = AppDataSource.getRepository(PlatoSchema);
+            const nuevoPlato = platoRepo.create(req.body);
+            const result = await platoRepo.save(nuevoPlato);
+            res.status(201).json(result);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    getAll: async (req, res) => {
+        try {
+            const platoRepo = AppDataSource.getRepository(PlatoSchema);
+            const platos = await platoRepo.find();
+            res.status(200).json(platos);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    getById: async (req, res) => {
+        try {
+            const platoRepo = AppDataSource.getRepository(PlatoSchema);
+            const plato = await platoRepo.findOneBy({ platoID: parseInt(req.params.id) }); // Cambiado a platoID
+            if (!plato) {
+                return res.status(404).json({ message: "Plato no encontrado" });
+            }
+            res.status(200).json(plato);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    update: async (req, res) => {
+        try {
+            const platoRepo = AppDataSource.getRepository(PlatoSchema);
+            const plato = await platoRepo.findOneBy({ platoID: parseInt(req.params.id) }); // Cambiado a platoID
+            if (!plato) {
+                return res.status(404).json({ message: "Plato no encontrado" });
+            }
+            platoRepo.merge(plato, req.body);
+            const result = await platoRepo.save(plato);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    delete: async (req, res) => {
+        try {
+            const platoRepo = AppDataSource.getRepository(PlatoSchema);
+            const plato = await platoRepo.findOneBy({ platoID: parseInt(req.params.id) }); // Cambiado a platoID
+            if (!plato) {
+                return res.status(404).json({ message: "Plato no encontrado" });
+            }
+            await platoRepo.remove(plato);
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
 };
 
-// Obtener un plato por ID
-export const getPlatoById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const plato = await getRepository(PlatoSchema).findOne(id, { relations: ["inventario", "menu"] });
-        if (!plato) return res.status(404).json({ message: "Plato no encontrado" });
-        res.json(plato);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener el plato", error });
-    }
-};
-
-// Crear un nuevo plato
-export const createPlato = async (req, res) => {
-    const { Nombre, Descripcion, Precio, Disponibilidad } = req.body;
-    try {
-        const nuevoPlato = getRepository(PlatoSchema).create({ Nombre, Descripcion, Precio, Disponibilidad });
-        const resultado = await getRepository(PlatoSchema).save(nuevoPlato);
-        res.status(201).json(resultado);
-    } catch (error) {
-        res.status(500).json({ message: "Error al crear el plato", error });
-    }
-};
-
-// Actualizar un plato existente
-export const updatePlato = async (req, res) => {
-    const { id } = req.params;
-    const { Nombre, Descripcion, Precio, Disponibilidad } = req.body;
-    try {
-        const platoExistente = await getRepository(PlatoSchema).findOne(id);
-        if (!platoExistente) return res.status(404).json({ message: "Plato no encontrado" });
-
-        getRepository(PlatoSchema).merge(platoExistente, { Nombre, Descripcion, Precio, Disponibilidad });
-        const resultado = await getRepository(PlatoSchema).save(platoExistente);
-        res.json(resultado);
-    } catch (error) {
-        res.status(500).json({ message: "Error al actualizar el plato", error });
-    }
-};
-
-// Eliminar un plato
-export const deletePlato = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const resultado = await getRepository(PlatoSchema).delete(id);
-        if (resultado.affected === 0) return res.status(404).json({ message: "Plato no encontrado" });
-        res.status(204).send();
-    } catch (error) {
-        res.status(500).json({ message: "Error al eliminar el plato", error });
-    }
-};
+export default platoController;

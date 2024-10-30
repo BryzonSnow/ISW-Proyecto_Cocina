@@ -1,25 +1,33 @@
+"use strict";
 import { EntitySchema } from "typeorm";
 
 const ClienteSchema = new EntitySchema({
     name: "Cliente",
-    tableName: "Cliente",
+    tableName: "cliente",
     columns: {
-        ClienteID: { type: "int", primary: true, generated: true },
-        Nombre: { type: "varchar", length: 100, nullable: false },
-        Contacto: { type: "varchar", length: 50, nullable: false }
+        clienteID: {
+            type: "int",
+            primary: true,
+            generated: true,
+        },
+        nombre: {
+            type: "varchar",
+            length: 100,
+            nullable: false,
+        },
+        contacto: {
+            type: "varchar",
+            length: 100,
+            nullable: true,
+        },
     },
     relations: {
-        menu: {
+        pedidos: {
+            target: "Pedido",
             type: "one-to-many",
-            target: "Menu",
-            joinColumn: { name: "MenuID" }
-        }
-//        pedidos: {
-//            type: "one-to-many",
-//            target: "Pedido",
-//            inverseSide: "cliente"
-//        }
-    }
+            inverseSide: "cliente",
+        },
+    },
 });
 
 export default ClienteSchema;

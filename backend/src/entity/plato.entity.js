@@ -1,27 +1,53 @@
+"use strict";
 import { EntitySchema } from "typeorm";
 
 const PlatoSchema = new EntitySchema({
     name: "Plato",
-    tableName: "Plato",
+    tableName: "plato",
     columns: {
-        PlatoID: { type: "int", primary: true, generated: true },
-        Nombre: { type: "varchar", length: 100, nullable: false },
-        Descripcion: { type: "varchar", length: 1000, nullable: false },
-        Precio: { type: "int", nullable: false },
-        Disponibilidad: {type: "boolean", nullable: false}
+        platoID: {
+            type: "int",
+            primary: true,
+            generated: true,
+        },
+        nombre: {
+            type: "varchar",
+            length: 100,
+            nullable: false,
+        },
+        descripcion: {
+            type: "text",
+            nullable: true,
+        },
+        precio: {
+            type: "decimal",
+            precision: 10,
+            scale: 2,
+            nullable: false,
+        },
+        disponibilidad: {
+            type: "boolean",
+            nullable: false,
+        },
+        ingredienteID: {
+            type: "int",
+            nullable: false,
+        },
     },
     relations: {
-        inventario: {
-            type: "one-to-many",
-            target: "Inventario",
-            joinColumn: { name: "InventarioID" }
+        ingrediente: {
+            target: "Ingrediente",
+            type: "many-to-one",
+            joinColumn: { name: "ingredienteID" },
+            onDelete: "CASCADE",
         },
         menu: {
-            type: "one-to-many",
             target: "Menu",
-            joinColumn: { name: "MenuID" }
-        }
-    }
+            type: "many-to-one",
+            joinColumn: { name: "menuID" },
+            onDelete: "CASCADE",
+        },
+    },
 });
 
 export default PlatoSchema;

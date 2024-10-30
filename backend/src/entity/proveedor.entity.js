@@ -1,21 +1,38 @@
+"use strict";
 import { EntitySchema } from "typeorm";
 
 const ProveedorSchema = new EntitySchema({
     name: "Proveedor",
-    tableName: "Proveedor",
+    tableName: "proveedor",
     columns: {
-        ProveedorID: { type: "int", primary: true, generated: true },
-        Nombre: { type: "varchar", length: 100, nullable: false },
-        Contacto: { type: "varchar", length: 100, nullable: false },
-        Direccion: { type: "varchar", length: 100, nullable: false }
+        proveedorID: {
+            type: "int",
+            primary: true,
+            generated: true,
+        },
+        nombre: {
+            type: "varchar",
+            length: 100,
+            nullable: false,
+        },
+        contacto: {
+            type: "varchar",
+            length: 100,
+            nullable: true,
+        },
+        direccion: {
+            type: "varchar",
+            length: 255,
+            nullable: true,
+        },
     },
     relations: {
-        administrador: {
+        inventario: {
+            target: "Inventario",
             type: "one-to-many",
-            target: "Administrador",
-            joinColumn: { name: "AdministradorID" }
-        }
-    }
+            inverseSide: "proveedor",
+        },
+    },
 });
 
 export default ProveedorSchema;

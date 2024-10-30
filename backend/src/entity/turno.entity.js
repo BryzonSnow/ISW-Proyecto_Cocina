@@ -1,21 +1,36 @@
+"use strict";
 import { EntitySchema } from "typeorm";
 
 const TurnoSchema = new EntitySchema({
     name: "Turno",
-    tableName: "Turno",
+    tableName: "turno",
     columns: {
-        TurnoID: { type: "int", primary: true, generated: true },
-        Fecha: { type: "date", nullable: false },
-        HoraInicio: { type: "time", nullable: false },
-        HoraFin: { type: "time", nullable: false }
+        turnoID: {
+            type: "int",
+            primary: true,
+            generated: true,
+        },
+        fecha: {
+            type: "date",
+            nullable: false,
+        },
+        horaInicio: {
+            type: "time",
+            nullable: false,
+        },
+        horaFin: {
+            type: "time",
+            nullable: false,
+        },
     },
     relations: {
-        administrador: {
-            type: "one-to-many",
-            target: "Administrador",
-            joinColumn: { name: "AdministradorID" }
-        }
-    }
+        empleado: {
+            target: "Empleado",
+            type: "many-to-one",
+            joinColumn: { name: "empleadoID" },
+            onDelete: "CASCADE",
+        },
+    },
 });
 
 export default TurnoSchema;

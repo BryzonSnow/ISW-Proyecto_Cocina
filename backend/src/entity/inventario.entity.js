@@ -1,21 +1,48 @@
+"use strict";
 import { EntitySchema } from "typeorm";
 
 const InventarioSchema = new EntitySchema({
     name: "Inventario",
-    tableName: "Inventario",
+    tableName: "inventario",
     columns: {
-        InventarioID: { type: "int", primary: true, generated: true },
-        Fecha: { type: "date", nullable: false },
-        CantidadTotal: { type: "int", nullable: false },
-        Estado: { type: "varchar", length: 50, nullable: false }
+        inventarioID: {
+            type: "int",
+            primary: true,
+            generated: true,
+        },
+        fecha: {
+            type: "date",
+            nullable: false,
+        },
+        cantidadTotal: {
+            type: "int",
+            nullable: false,
+        },
+        estado: {
+            type: "varchar",
+            length: 50,
+            nullable: true,
+        },
     },
     relations: {
-        administrador: {
-            type: "one-to-one",
-            target: "Administrador",
-            joinColumn: { name: "AdministradorID" }
-        }
-    }
+        proveedor: {
+            target: "Proveedor",
+            type: "many-to-one",
+            joinColumn: { name: "proveedorID" },
+            onDelete: "SET NULL",
+        },
+        empleado: {
+            target: "Empleado",
+            type: "many-to-one",
+            joinColumn: { name: "empleadoID" },
+            onDelete: "SET NULL",
+        },
+        ingredientes: {
+            target: "Ingrediente",
+            type: "one-to-many",
+            inverseSide: "inventario", 
+        },
+    },
 });
 
 export default InventarioSchema;
