@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import PedidoSchema from "../entity/pedido.entity.js";
 
 // Obtener todos los pedidos
-export const getPedido = async (req, res) => {
+export const getPedidos = async (req, res) => {
     try {
         const pedidos = await getRepository(PedidoSchema).find({ relations: ["cliente", "mesero"] });
         res.json(pedidos);
@@ -12,7 +12,7 @@ export const getPedido = async (req, res) => {
 };
 
 // Obtener un pedido por ID
-export const getPedidoById = async (req, res) => {
+export const getPedido = async (req, res) => {
     const { id } = req.params;
     try {
         const pedido = await getRepository(PedidoSchema).findOne(id, { relations: ["cliente", "mesero"] });

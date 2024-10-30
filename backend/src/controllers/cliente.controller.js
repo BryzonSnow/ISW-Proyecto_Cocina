@@ -1,7 +1,7 @@
-const { Cliente } = require('../models/cliente.model');
+import Cliente from '../entity/cliente.entity.js';
 
 // Obtener todos los clientes
-exports.getClientes = async (req, res) => {
+export const getClientes = async (req, res) => {
     try {
         const clientes = await Cliente.findAll();
         res.status(200).json(clientes);
@@ -11,7 +11,7 @@ exports.getClientes = async (req, res) => {
 };
 
 // Obtener un cliente por ID
-exports.getClienteById = async (req, res) => {
+export const getCliente = async (req, res) => {
     try {
         const cliente = await Cliente.findByPk(req.params.id);
         if (cliente) {
@@ -25,7 +25,7 @@ exports.getClienteById = async (req, res) => {
 };
 
 // Crear un nuevo cliente
-exports.createCliente = async (req, res) => {
+export const createCliente = async (req, res) => {
     try {
         const nuevoCliente = await Cliente.create(req.body);
         res.status(201).json(nuevoCliente);
@@ -35,7 +35,7 @@ exports.createCliente = async (req, res) => {
 };
 
 // Actualizar un cliente existente
-exports.updateCliente = async (req, res) => {
+export const updateCliente = async (req, res) => {
     try {
         const cliente = await Cliente.findByPk(req.params.id);
         if (cliente) {
@@ -50,7 +50,7 @@ exports.updateCliente = async (req, res) => {
 };
 
 // Eliminar un cliente
-exports.deleteCliente = async (req, res) => {
+export const deleteCliente = async (req, res) => {
     try {
         const cliente = await Cliente.findByPk(req.params.id);
         if (cliente) {

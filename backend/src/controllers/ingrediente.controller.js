@@ -2,7 +2,7 @@ import { getRepository } from "typeorm";
 import IngredienteSchema from "../entity/ingrediente.entity.js";
 
 // Obtener todos los ingredientes
-export const getIngrediente = async (req, res) => {
+export const getIngredientes = async (req, res) => {
     try {
         const ingredientes = await getRepository(IngredienteSchema).find({ relations: ["proveedor", "inventario"] });
         res.json(ingredientes);
@@ -12,7 +12,7 @@ export const getIngrediente = async (req, res) => {
 };
 
 // Obtener un ingrediente por ID
-export const getIngredienteById = async (req, res) => {
+export const getIngrediente = async (req, res) => {
     const { id } = req.params;
     try {
         const ingrediente = await getRepository(IngredienteSchema).findOne(id, { relations: ["proveedor", "inventario"] });

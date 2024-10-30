@@ -1,5 +1,5 @@
 import { getRepository } from "typeorm";
-import Inventario from "../entity/inventario.entity";
+import Inventario from "../entity/inventario.entity.js";
 
 export const getInventarios = async (req, res) => {
     try {
@@ -10,7 +10,7 @@ export const getInventarios = async (req, res) => {
     }
 };
 
-export const getInventarioById = async (req, res) => {
+export const getInventario = async (req, res) => {
     try {
         const { id } = req.params;
         const inventario = await getRepository(Inventario).findOne(id);
