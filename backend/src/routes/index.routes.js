@@ -1,12 +1,42 @@
-"use strict";
 import { Router } from "express";
 import userRoutes from "./user.routes.js";
-import authRoutes from "./auth.routes.js";
+import authRouthes from "./auth.routes.js";
+import inventarioRoutes from "./inventario.routes.js";
+import ingredienteRoutes from "./ingrediente.routes.js";
+import platoRoutes from "./plato.routes.js";
+import proveedorRoutes from "./proveedor.routes.js";
+import menuRoutes from "./menu.routes.js";
+import turnoRoutes from "./turno.routes.js";
+import clienteRoutes from "./cliente.routes.js";
+import adminstradorRoutes from "./administrador.routes.js";
+import empleadoRoutes from "./empleado.routes.js";
+import meseroRoutes from "./mesero.routes.js";
+import chefRoutes from "./chef.routes.js";
+import pedidoRoutes from "./pedido.routes.js";
+import jefecocinaRoutes from "./jefecocina.routes.js";
+import contieneRoutes from "./contiene.routes.js";
+import formadoRoutes from "./formado.routes.js";
+import proveeRoutes from "./provee.routes.js";
 
 const router = Router();
 
-router
-    .use("/auth", authRoutes)
-    .use("/user", userRoutes);
+router.use("/auth", authRouthes);
+router.use("/user", userRoutes);
+router.use("/inventario", inventarioRoutes);
+router.use("/ingrediente", ingredienteRoutes);
+router.use("/platos", platoRoutes);
+router.use("/proveedore", proveedorRoutes);
+router.use("/menu", menuRoutes);
+router.use("/turno", turnoRoutes);
+router.use("/cliente", clienteRoutes);
+router.use("/administrador", adminstradorRoutes);
+router.use("/empleado", empleadoRoutes);
+router.use("/mesero", meseroRoutes);
+router.use("/chef", chefRoutes);
+router.use("/pedido", pedidoRoutes);
+router.use("/jefecocina", jefecocinaRoutes);
+router.use("/contiene", contieneRoutes);
+router.use("/formado", formadoRoutes);
+router.use("/provee", proveeRoutes);
 
 export default router;
