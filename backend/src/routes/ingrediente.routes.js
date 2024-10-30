@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createIngrediente, deleteIngrediente, getIngrediente, getIngredientes, updateIngrediente } from "../controllers/ingrediente.controller.js";
+import ingredienteController from "../controllers/ingrediente.controller.js";
 
 const router = Router();
 
-router.post("/", createIngrediente);         
-router.get("/all", getIngredientes);        
-router.get("/:id", getIngrediente);          
-router.delete("/:id", deleteIngrediente);    
-router.put("/:id", updateIngrediente);       
+router.post("/", ingredienteController.create);
+router.get("/", ingredienteController.getAll);
+router.get("/:id", ingredienteController.getById);
+router.put("/:id", ingredienteController.update);
+router.delete("/:id", ingredienteController.delete);
 
 export default router;

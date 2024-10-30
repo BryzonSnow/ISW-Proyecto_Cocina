@@ -1,65 +1,70 @@
-import { getRepository } from "typeorm";
-import Menu from "../entities/menu.entity";
+"use strict";
+import { AppDataSource } from "../config/configDb.js"; 
+import MenuSchema from "../entity/Menu.entity.js"; 
 
-export const getMenus = async (req, res) => {
-    try {
-        const menus = await getRepository(Menu).find();
-        res.json(menus);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-export const getMenuById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const menu = await getRepository(Menu).findOne(id);
-        if (menu) {
-            res.json(menu);
-        } else {
-            res.status(404).json({ message: "Menú no encontrado" });
+const menuController = {
+    create: async (req, res) => {
+        try {
+            const menuRepo = AppDataSource.getRepository(MenuSchema);
+            const nuevoMenu = menuRepo.create(req.body);
+            const result = await menuRepo.save(nuevoMenu);
+            res.status(201).json(result);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+    },
 
-export const createMenu = async (req, res) => {
-    try {
-        const newMenu = getRepository(Menu).create(req.body);
-        const result = await getRepository(Menu).save(newMenu);
-        res.status(201).json(result);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-export const updateMenu = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const menu = await getRepository(Menu).findOne(id);
-        if (menu) {
-            getRepository(Menu).merge(menu, req.body);
-            const result = await getRepository(Menu).save(menu);
-            res.json(result);
-        } else {
-            res.status(404).json({ message: "Menú no encontrado" });
+    getAll: async (req, res) => {
+        try {
+            const menuRepo = AppDataSource.getRepository(MenuSchema);
+            const menus = await menuRepo.find();
+            res.status(200).json(menus);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    },
+
+    getById: async (req, res) => {
+        try {
+            const menuRepo = AppDataSource.getRepository(MenuSchema);
+            const menu = await menuRepo.findOneBy({ menuID: parseInt(req.params.id) }); // Cambiado a findOneBy
+            if (!menu) {
+                return res.status(404).json({ message: "Menu no encontrado" });
+            }
+            res.status(200).json(menu);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    update: async (req, res) => {
+        try {
+            const menuRepo = AppDataSource.getRepository(MenuSchema);
+            const menu = await menuRepo.findOneBy({ menuID: parseInt(req.params.id) }); // Cambiado a findOneBy
+            if (!menu) {
+                return res.status(404).json({ message: "Menu no encontrado" });
+            }
+            menuRepo.merge(menu, req.body);
+            const result = await menuRepo.save(menu);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    delete: async (req, res) => {
+        try {
+            const menuRepo = AppDataSource.getRepository(MenuSchema);
+            const menu = await menuRepo.findOneBy({ menuID: parseInt(req.params.id) }); // Cambiado a findOneBy
+            if (!menu) {
+                return res.status(404).json({ message: "Menu no encontrado" });
+            }
+            await menuRepo.remove(menu);
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
 };
 
-export const deleteMenu = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const result = await getRepository(Menu).delete(id);
-        if (result.affected) {
-            res.json({ message: "Menú eliminado" });
-        } else {
-            res.status(404).json({ message: "Menú no encontrado" });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+export default menuController;
