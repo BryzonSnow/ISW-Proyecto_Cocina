@@ -1,65 +1,71 @@
-import { getRepository } from "typeorm";
-import Inventario from "../entity/inventario.entity";
+"use strict";
+import { AppDataSource } from "../config/configDb.js"; 
+import InventarioSchema from "../entity/Inventario.entity.js"; 
 
-export const getInventarios = async (req, res) => {
-    try {
-        const inventarios = await getRepository(Inventario).find();
-        res.json(inventarios);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-export const getInventarioById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const inventario = await getRepository(Inventario).findOne(id);
-        if (inventario) {
-            res.json(inventario);
-        } else {
-            res.status(404).json({ message: "Inventario no encontrado" });
+const inventarioController = {
+    create: async (req, res) => {
+        try {
+            const inventarioRepo = AppDataSource.getRepository(InventarioSchema);
+            const nuevoInventario = inventarioRepo.create(req.body);
+            const result = await inventarioRepo.save(nuevoInventario);
+            res.status(201).json(result);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+    },
 
-export const createInventario = async (req, res) => {
-    try {
-        const newInventario = getRepository(Inventario).create(req.body);
-        const result = await getRepository(Inventario).save(newInventario);
-        res.status(201).json(result);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-export const updateInventario = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const inventario = await getRepository(Inventario).findOne(id);
-        if (inventario) {
-            getRepository(Inventario).merge(inventario, req.body);
-            const result = await getRepository(Inventario).save(inventario);
-            res.json(result);
-        } else {
-            res.status(404).json({ message: "Inventario no encontrado" });
+    getAll: async (req, res) => {
+        try {
+            const inventarioRepo = AppDataSource.getRepository(InventarioSchema);
+            const inventarios = await inventarioRepo.find();
+            res.status(200).json(inventarios);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    },
+
+    getById: async (req, res) => {
+        try {
+            const inventarioRepo = AppDataSource.getRepository(InventarioSchema);
+            const inventario = await inventarioRepo.findOneBy({ inventarioID: parseInt(req.params.id) }); // Cambiado a inventarioID
+            if (!inventario) {
+                return res.status(404).json({ message: "Inventario no encontrado" });
+            }
+            res.status(200).json(inventario);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    update: async (req, res) => {
+        try {
+            const inventarioRepo = AppDataSource.getRepository(InventarioSchema);
+            const inventario = await inventarioRepo.findOneBy({ inventarioID: parseInt(req.params.id) }); // Cambiado a inventarioID
+            if (!inventario) {
+                return res.status(404).json({ message: "Inventario no encontrado" });
+            }
+            inventarioRepo.merge(inventario, req.body);
+            const result = await inventarioRepo.save(inventario);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    delete: async (req, res) => {
+        try {
+            const inventarioRepo = AppDataSource.getRepository(InventarioSchema);
+            const inventario = await inventarioRepo.findOneBy({ inventarioID: parseInt(req.params.id) }); // Cambiado a inventarioID
+            if (!inventario) {
+                return res.status(404).json({ message: "Inventario no encontrado" });
+            }
+            await inventarioRepo.remove(inventario);
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
 };
 
-export const deleteInventario = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const result = await getRepository(Inventario).delete(id);
-        if (result.affected) {
-            res.json({ message: "Inventario eliminado exitosamente" });
-        } else {
-            res.status(404).json({ message: "Inventario no encontrado" });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+export default inventarioController;
+

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createEmpleado, deleteEmpleado, getEmpleado, getEmpleados, updateEmpleado } from "../controllers/empleado.controller.js";
+import empleadoController from "../controllers/empleado.controller.js";
 
 const router = Router();
 
-router.post("/", createEmpleado);
-router.get("/all", getEmpleados);
-router.get("/:id", getEmpleado);
-router.delete("/:id", deleteEmpleado);
-router.put("/:id", updateEmpleado);
+router.post("/", empleadoController.create);
+router.get("/", empleadoController.getAll);
+router.get("/:id", empleadoController.getById);
+router.put("/:id", empleadoController.update);
+router.delete("/:id", empleadoController.delete);
 
 export default router;
