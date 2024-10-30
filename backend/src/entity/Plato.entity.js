@@ -47,16 +47,6 @@ const PlatoSchema = new EntitySchema({
             joinColumn: { name: "menuID" },
             onDelete: "CASCADE",
         },
-        pedidos: {
-            target: "Pedido",
-            type: "many-to-many",
-            inverseSide: "platos",
-            joinTable: {
-                name: "pedido_plato",
-                joinColumn: { name: "platoID", referencedColumnName: "platoID" },
-                inverseJoinColumn: { name: "pedidoID", referencedColumnName: "pedidoID" },
-            },
-        },
     },
 });
 

@@ -37,10 +37,10 @@ const InventarioSchema = new EntitySchema({
             joinColumn: { name: "empleadoID" },
             onDelete: "SET NULL",
         },
-        ingrediente: {
+        ingredientes: {
             target: "Ingrediente",
             type: "one-to-many",
-            inverseSide: "inventario",
+            inverseSide: "inventario", 
         },
     },
 });

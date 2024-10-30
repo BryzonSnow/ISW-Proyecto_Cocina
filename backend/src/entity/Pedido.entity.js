@@ -29,6 +29,14 @@ const PedidoSchema = new EntitySchema({
             type: "int",
             nullable: false,
         },
+        platoID: {  
+            type: "int",
+            nullable: false,
+        },
+        empleadoID: {  // Agregar la columna empleadoID
+            type: "int",
+            nullable: false,
+        },
     },
     relations: {
         cliente: {
@@ -37,18 +45,18 @@ const PedidoSchema = new EntitySchema({
             joinColumn: { name: "clienteID" },
             onDelete: "SET NULL",
         },
-        platos: {
+        plato: { 
             target: "Plato",
-            type: "many-to-many",
-            inverseSide: "pedidos",
-            joinTable: {
-                name: "pedido_plato",
-                joinColumn: { name: "pedidoID", referencedColumnName: "pedidoID" },
-                inverseJoinColumn: { name: "platoID", referencedColumnName: "platoID" },
-            },
+            type: "many-to-one",
+            joinColumn: { name: "platoID" },  
+        },
+        empleado: {
+            target: "Empleado",
+            type: "many-to-one",
+            joinColumn: { name: "empleadoID" }, 
+            onDelete: "SET NULL", 
         },
     },
 });
 
 export default PedidoSchema;
-

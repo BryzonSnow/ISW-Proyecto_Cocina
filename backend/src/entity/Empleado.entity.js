@@ -45,6 +45,11 @@ const EmpleadoSchema = new EntitySchema({
             type: "one-to-many",
             inverseSide: "empleado",
         },
+        pedidos: {
+            target: "Pedido",
+            type: "one-to-many",
+            inverseSide: "empleado",
+        },
     },
 });
 

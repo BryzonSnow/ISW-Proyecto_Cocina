@@ -23,13 +23,17 @@ const IngredienteSchema = new EntitySchema({
             type: "int",
             nullable: false,
         },
+        inventarioID: {
+            type: "int",
+            nullable: true, 
+        },
     },
     relations: {
-        plato: {
-            target: "Plato",
+        inventario: {
+            target: "Inventario",
             type: "many-to-one",
-            joinColumn: { name: "platoID" },
-            onDelete: "CASCADE",
+            joinColumn: { name: "inventarioID" },
+            onDelete: "SET NULL",
         },
     },
 });
