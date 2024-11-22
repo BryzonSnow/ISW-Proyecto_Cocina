@@ -1,4 +1,4 @@
-.menu-card {
+  .menu-card {
     margin-bottom: 16px; /* Espacio vertical entre las tarjetas */
     margin-right: 16px; /* Espacio horizontal entre las tarjetas */
     border: 1px solid #ddd; /* Borde de la tarjeta */
@@ -7,10 +7,6 @@
     width: 300px; /* Ancho de la tarjeta */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra de la tarjeta */
     transition: transform 0.2s ease; /* Transición suave para el efecto hover */
-    display: flex; /* Utiliza flexbox para el diseño del contenedor */
-  justify-content: flex-start; /* Alinea las tarjetas hacia el lado izquierdo */
-  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en múltiples líneas si es necesario */
-
   }
   
   .menu-card:hover {
