@@ -1,6 +1,7 @@
 .menu-container {
     padding: 32px;
     background-color: #f9f9f9;
+    margin-right: 16px;
   }
   
   .menu-title {
@@ -12,9 +13,5 @@
   
   .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajusta el número de columnas automáticamente */
-    gap: 16px; /* Espaciado uniforme entre las tarjetas */
-    justify-content: center; /* Centra las tarjetas horizontalmente */
+    grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); /* Ajusta el número de columnas automáticamente */
   }
-  
-  

@@ -10,7 +10,7 @@ const MenuCard = ({ title, description, price, image, isAvailable }) => {
         <p className="menu-card__description">{description}</p>
         <div className="menu-card__footer">
           <span className="menu-card__price">
-            {isAvailable ? `$ ${price}` : <del>$ {price}</del>}
+            {isAvailable ? `$ ${price} CLP` : <del>$ {price} CLP</del>}
           </span>
           {!isAvailable && <span className="menu-card__status">No Disponible</span>}
         </div>

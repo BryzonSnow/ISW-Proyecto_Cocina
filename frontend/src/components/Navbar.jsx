@@ -27,9 +27,7 @@ const Navbar = () => {
             <a href="/Comentarios">Comentarios</a>
             <a href="/perfil">Perfil</a>
             {/* Botón para abrir el modal */}
-            <button className="navbar__login" onClick={toggleModal}>
-              Login
-            </button>
+            <button className="navbar__login" onClick={toggleModal}>Login</button>
           </div>
           {/*<div className="navbar__theme-switch">
             <input
