@@ -1,120 +1,118 @@
 /* Navbar.css */
 .navbar {
+  font-family: 'Newsreader', serif; /* Fuente de la navbar */
+  display: flex; /* Utiliza flexbox para el layout */
+  justify-content: space-between; /* Espacia los elementos */
+  align-items: center; /* Alinea los elementos verticalmente */
+  padding: 1rem 2rem; /* Espaciado interno */
+  background-color: #ffffff; /* Color de fondo */
+  border-bottom: 1px solid #ddd; /* Borde inferior */
+  font-family: Arial, sans-serif; /* Fuente de la navbar */
+}
 
-  font-family: 'Newsreader', serif;
+.navbar__brand {
+  display: flex; /* Utiliza flexbox para el layout */
+  flex-direction: column; /* Dirección de los elementos */
+}
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    font-family: Arial, sans-serif;
-  }
-  
-  .navbar__brand {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .navbar__brand h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    font-weight: bold;
-  }
-  
-  .navbar__admin {
-    font-size: 0.8rem;
-    color: #555;
-  }
-  
-  .navbar__links {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    margin: 2;
-  }
-  
-  .navbar__links li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .navbar__links li a:hover {
-    text-decoration: underline;
-  }
-  
-  .navbar__right {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
-  .navbar__user-options {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-  
-  .navbar__login {
-    padding: 0.7rem 2rem;
-    background-color: #815858;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .navbar__login:hover {
-    background-color: #6e4646;
-  }
-  
-  .navbar__theme-switch {
-    display: flex;
-    align-items: center;
-  }
-  
-  .navbar__toggle {
-    display: none;
-  }
-  
-  .navbar__slider {
-    width: 40px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 10px;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .navbar__slider::after {
-    content: '';
-    width: 16px;
-    height: 16px;
-    background-color: #fff;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    transition: 0.3s;
-  }
-  
-  .navbar__toggle:checked + .navbar__slider {
-    background-color: #815858;
-  }
-  
-  .navbar__toggle:checked + .navbar__slider::after {
-    transform: translateX(20px);
-  }
-  
-  /* Estilo del switch (interruptor) */
+.navbar__brand h1 {
+  margin: 0; /* Sin margen */
+  font-size: 2.5rem; /* Tamaño de fuente */
+  font-weight: bold; /* Fuente en negrita */
+}
+
+.navbar__admin {
+  font-size: 0.8rem; /* Tamaño de fuente */
+  color: #555; /* Color de texto */
+}
+
+.navbar__links {
+  list-style: none; /* Sin estilo de lista */
+  display: flex; /* Utiliza flexbox para el layout */
+  gap: 1rem; /* Espacio entre elementos */
+  padding: 1rem; /* Espaciado interno */
+  margin: 2; /* Margen */
+}
+
+.navbar__links li a {
+  text-decoration: none; /* Sin subrayado */
+  color: #333; /* Color de texto */
+  font-weight: bold; /* Fuente en negrita */
+}
+
+.navbar__links li a:hover {
+  text-decoration: underline; /* Subrayado al pasar el cursor */
+}
+
+.navbar__right {
+  display: flex; /* Utiliza flexbox para el layout */
+  align-items: center; /* Alinea los elementos verticalmente */
+  gap: 1.5rem; /* Espacio entre elementos */
+}
+
+.navbar__user-options {
+  display: flex; /* Utiliza flexbox para el layout */
+  gap: 2rem; /* Espacio entre elementos */
+  align-items: center; /* Alinea los elementos verticalmente */
+}
+
+.navbar__login {
+  padding: 0.7rem 2rem; /* Espaciado interno */
+  background-color: #815858; /* Color de fondo */
+  color: #fff; /* Color de texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+}
+
+.navbar__login:hover {
+  background-color: #6e4646; /* Color de fondo al pasar el cursor */
+}
+
+.navbar__theme-switch {
+  display: flex; /* Utiliza flexbox para el layout */
+  align-items: center; /* Alinea los elementos verticalmente */
+}
+
+.navbar__toggle {
+  display: none; /* Oculta el elemento */
+}
+
+.navbar__slider {
+  width: 40px; /* Ancho */
+  height: 20px; /* Alto */
+  background-color: #ccc; /* Color de fondo */
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+  position: relative; /* Posición relativa */
+}
+
+.navbar__slider::after {
+  content: ''; /* Contenido vacío */
+  width: 16px; /* Ancho */
+  height: 16px; /* Alto */
+  background-color: #fff; /* Color de fondo */
+  border-radius: 50%; /* Bordes redondeados */
+  position: absolute; /* Posición absoluta */
+  top: 2px; /* Posición superior */
+  left: 2px; /* Posición izquierda */
+  transition: 0.3s; /* Transición */
+}
+
+.navbar__toggle:checked + .navbar__slider {
+  background-color: #815858; /* Color de fondo al estar activado */
+}
+
+.navbar__toggle:checked + .navbar__slider::after {
+  transform: translateX(20px); /* Mueve el círculo al lado derecho */
+}
+
+/* Estilo del switch (interruptor) */
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 20px;
+  position: relative; /* Posición relativa */
+  display: inline-block; /* Display en línea */
+  width: 40px; /* Ancho */
+  height: 20px; /* Alto */
 }
 
 .switch input {
@@ -122,27 +120,27 @@
 }
 
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px;
+  position: absolute; /* Posición absoluta */
+  cursor: pointer; /* Cursor de puntero */
+  top: 0; /* Posición superior */
+  left: 0; /* Posición izquierda */
+  right: 0; /* Posición derecha */
+  bottom: 0; /* Posición inferior */
+  background-color: #ccc; /* Color de fondo */
+  transition: 0.4s; /* Transición */
+  border-radius: 34px; /* Bordes redondeados */
 }
 
 .slider:before {
-  position: absolute;
-  content: '';
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
+  position: absolute; /* Posición absoluta */
+  content: ''; /* Contenido vacío */
+  height: 14px; /* Alto */
+  width: 14px; /* Ancho */
+  left: 3px; /* Posición izquierda */
+  bottom: 3px; /* Posición inferior */
+  background-color: white; /* Color de fondo */
+  transition: 0.4s; /* Transición */
+  border-radius: 50%; /* Bordes redondeados */
 }
 
 input:checked + .slider {
@@ -155,65 +153,65 @@ input:checked + .slider:before {
 
 /* Fondo oscuro semitransparente */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  position: fixed; /* Posición fija */
+  top: 0; /* Posición superior */
+  left: 0; /* Posición izquierda */
+  width: 100vw; /* Ancho completo */
+  height: 100vh; /* Alto completo */
   background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  display: flex; /* Utiliza flexbox para el layout */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  z-index: 1000; /* Nivel de apilamiento */
 }
 
 /* Contenedor del modal */
 .modal {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  max-width: 90%;
-  z-index: 1010;
-  text-align: center;
+  background-color: white; /* Color de fondo */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  width: 400px; /* Ancho */
+  max-width: 90%; /* Ancho máximo */
+  z-index: 1010; /* Nivel de apilamiento */
+  text-align: center; /* Alineación de texto */
 }
 
 /* Botón para cerrar el modal */
 .modal-close {
-  margin-top: 10px;
-  padding: 10px 15px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  margin-top: 10px; /* Margen superior */
+  padding: 10px 15px; /* Espaciado interno */
+  background-color: #f44336; /* Color de fondo */
+  color: white; /* Color de texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
 }
 
 .modal-close:hover {
-  background-color: #d32f2f;
+  background-color: #d32f2f; /* Color de fondo al pasar el cursor */
 }
 
 /* Inputs del formulario */
 .modal form input {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  display: block; /* Display en bloque */
+  width: 100%; /* Ancho completo */
+  padding: 10px; /* Espaciado interno */
+  margin: 10px 0; /* Margen */
+  border: 1px solid #ccc; /* Borde */
+  border-radius: 5px; /* Bordes redondeados */
 }
 
 .modal form button {
-  width: 100%;
-  padding: 10px;
-  background-color: #815858;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  width: 100%; /* Ancho completo */
+  padding: 10px; /* Espaciado interno */
+  background-color: #815858; /* Color de fondo */
+  color: white; /* Color de texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
 }
 
 .modal form button:hover {
-  background-color: #6a4646;
+  background-color: #6a4646; /* Color de fondo al pasar el cursor */
 }
