@@ -1,0 +1,17 @@
+.menu-container {
+    padding: 32px;
+    background-color: #f9f9f9;
+    margin-right: 16px;
+  }
+  
+  .menu-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); /* Ajusta el número de columnas automáticamente */
+  }

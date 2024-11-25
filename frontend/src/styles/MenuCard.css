@@ -1,0 +1,64 @@
+  .menu-card {
+    margin-bottom: 16px; /* Espacio vertical entre las tarjetas */
+    margin-right: 16px; /* Espacio horizontal entre las tarjetas */
+    border: 1px solid #ddd; /* Borde de la tarjeta */
+    border-radius: 8px; /* Bordes redondeados de la tarjeta */
+    overflow: hidden; /* Oculta el contenido desbordado */
+    width: 300px; /* Ancho de la tarjeta */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra de la tarjeta */
+    transition: transform 0.2s ease; /* Transición suave para el efecto hover */
+  }
+  
+  .menu-card:hover {
+    transform: scale(1.01); /* Aumenta el tamaño de la tarjeta al pasar el ratón por encima */
+  }
+  
+  .menu-card--unavailable {
+    opacity: 1; /* Define la opacidad de la tarjeta cuando no está disponible */
+  }
+  
+  .menu-card__image {
+    width: 100%; /* Ancho de la imagen dentro de la tarjeta */
+    height: 180px; /* Altura de la imagen dentro de la tarjeta */
+    object-fit: cover; /* Ajusta la imagen para que cubra el contenedor sin distorsionarse */
+  }
+  
+  .menu-card__info {
+    padding: 16px; /* Espaciado interno del contenedor de información */
+    display: flex; /* Utiliza flexbox para el diseño del contenedor */
+    flex-direction: column; /* Coloca los elementos en una columna */
+    gap: 8px; /* Espacio entre los elementos del contenedor */
+  }
+  
+  .menu-card__title {
+    font-size: 1.25rem; /* Tamaño de fuente del título */
+    font-weight: 600; /* Grosor de la fuente del título */
+  }
+  
+  .menu-card__description {
+    font-size: 0.9rem; /* Tamaño de fuente de la descripción */
+    color: #555; /* Color de la fuente de la descripción */
+  }
+  
+  .menu-card__footer {
+    display: flex; /* Utiliza flexbox para el diseño del pie de la tarjeta */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos del pie */
+    align-items: center; /* Alinea los elementos del pie al centro verticalmente */
+    margin-top: 8px; /* Margen superior del pie de la tarjeta */
+  }
+  
+  .menu-card__price {
+    font-size: 1rem; /* Tamaño de fuente del precio */
+    font-weight: bold; /* Grosor de la fuente del precio */
+    color: #69a15e; /* Color de la fuente del precio */
+  }
+  
+  .menu-card__price del {
+    color: #a00; /* Color de la fuente del precio tachado */
+  }
+  
+  .menu-card__status {
+    font-size: 0.9rem; /* Tamaño de fuente del estado */
+    color: #a00; /* Color de la fuente del estado */
+    font-weight: bold; /* Grosor de la fuente del estado */
+  }

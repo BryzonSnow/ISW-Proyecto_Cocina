@@ -1,98 +1,100 @@
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { logout } from '@services/auth.service.js';
-import '@styles/navbar.css';
+import "../styles/navbar.css";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Navbar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
-    const userRole = user?.rol;
-    const [menuOpen, setMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const logoutSubmit = () => {
-        try {
-            logout();
-            navigate('/auth'); 
-        } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-        }
-    };
+  const toggleModal = (e) => {
+    setIsModalOpen(!isModalOpen);
+    if (e.target.className === "modal-overlay") {
+      setIsModalOpen(false);
+    }
+  };
 
-    const toggleMenu = () => {
-        if (!menuOpen) {
-            removeActiveClass();
-        } else {
-            addActiveClass();
-        }
-        setMenuOpen(!menuOpen);
-    };
+  return (
+    <>
+      <nav className="navbar">
+        <div className="navbar__brand">
+          <h1 style={{ fontFamily: "Newsreader, serif" }}>Restaurante</h1>
+        </div>
+        
+        
+        <div className="navbar__right"> {/*Aquí se agregaron las opciones de Quiénes somos, Dirección, Comentarios y Perfil*/}
+          <div className="navbar__user-options">
+            <a href="/Nosotros">Quiénes somos</a>
+            <a href="/Dirección">Dirección</a>
+            <a href="/Comentarios">Comentarios</a>
+            <a href="/perfil">Perfil</a>
+            {/* Botón para abrir el modal */}
+            <button className="navbar__login" onClick={toggleModal}>Login</button>
+          </div>
+          {/*<div className="navbar__theme-switch">
+            <input
+              type="checkbox"
+              id="themeToggle"
+              className="navbar__toggle"
+            />
+            <label htmlFor="themeToggle" className="navbar__slider"></label>
+          </div>
+          */}
+        </div>
+      </nav>
+      <nav>
+      <ul className="navbar__links">
+          <li>
+            <Link to="/" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inicio</Link>
+          </li>
+          <li>
+            <Link to="/menu" style={{ fontFamily: 'Newsreader', fontSize: '1.4rem' }}>Menú</Link>
+          </li>
+          <li>
+            <Link to="/pedidos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Pedidos</Link>
+          </li>
+          <li>
+            <Link to="/inventario" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inventario</Link>
+          </li>
+          <li>
+            <Link to="/turnos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Turnos</Link>
+          </li>
+          <li>
+            <Link to="/proveedores" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Proveedores</Link>
+          </li>
+        </ul>
+      </nav>
 
-    const removeActiveClass = () => {
-        const activeLinks = document.querySelectorAll('.nav-menu ul li a.active');
-        activeLinks.forEach(link => link.classList.remove('active'));
-    };
 
-    const addActiveClass = () => {
-        const links = document.querySelectorAll('.nav-menu ul li a');
-        links.forEach(link => {
-            if (link.getAttribute('href') === location.pathname) {
-                link.classList.add('active');
-            }
-        });
-    };
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Iniciar sesión</h2>
+            <form>
+              <input
+                type="username"
+                id="username"
+                name="username"
+                placeholder="username"
+                required
+              />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="password"
+                required
+              />
 
-    return (
-        <nav className="navbar">
-            <div className={`nav-menu ${menuOpen ? 'activado' : ''}`}>
-                <ul>
-                    <li>
-                        <NavLink 
-                            to="/home" 
-                            onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Inicio
-                        </NavLink>
-                    </li>
-                    {userRole === 'administrador' && (
-                    <li>
-                        <NavLink 
-                            to="/users" 
-                            onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Usuarios
-                        </NavLink>
-                    </li>
-                    )}
-                    <li>
-                        <NavLink 
-                            to="/auth" 
-                            onClick={() => { 
-                                logoutSubmit(); 
-                                setMenuOpen(false); 
-                            }} 
-                            activeClassName="active"
-                        >
-                            Cerrar sesión
-                        </NavLink>
-                    </li>
-                </ul>
-            </div>
-            <div className="hamburger" onClick={toggleMenu}>
-                <span className="bar"></span>
-                <span className="bar"></span>
-                <span className="bar"></span>
-            </div>
-        </nav>
-    );
+              <button type="submit">Login</button>
+            </form>
+            {/* Botón para cerrar el modal */}
+            <button className="modal-close" onClick={toggleModal}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Navbar;
