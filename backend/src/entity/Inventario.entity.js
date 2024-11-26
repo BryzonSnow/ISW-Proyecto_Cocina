@@ -10,6 +10,11 @@ const InventarioSchema = new EntitySchema({
             primary: true,
             generated: true,
         },
+        nombre: {
+            type: "varchar",
+            length: 100,
+            nullable: false,
+        },
         fecha: {
             type: "date",
             nullable: false,

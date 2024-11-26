@@ -8,16 +8,12 @@ async function setupServer() {
     try {
         const app = express();
 
-        // Configuración de CORS
-        app.use(cors());  // Permite solicitudes desde cualquier origen. 
+        app.use(cors());
 
-        // Parsear cuerpo de las solicitudes en formato JSON
         app.use(json());
 
-        // Rutas de la API
-        app.use('/api', indexRoutes);  // Asegúrate de que tus rutas estén bien configuradas
+        app.use('/api', indexRoutes); 
         
-        // Iniciar el servidor
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en: http://${HOST}:${PORT}/api`);
         });

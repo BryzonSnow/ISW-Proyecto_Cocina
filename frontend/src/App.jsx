@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Ingrediente from './components/Ingrediente'; 
+import Inventario from './components/Inventario';
 import Inicio from './components/Inicio';
 import Menu from './components/Menu';
 import WspBubble from './components/wspbubble';
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/" element={<Inicio />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/Ingrediente" element={<Ingrediente />} />
+        <Route path="/Inventario" element={<Inventario />} />
       </Routes>
       <Footer />
       <WspBubble />

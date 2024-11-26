@@ -10,6 +10,7 @@ const Ingrediente = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [newIngrediente, setNewIngrediente] = useState({ nombre: '', cantidad: 0, porcion: 0 });
   const [editIngrediente, setEditIngrediente] = useState(null);
+  const [showForm, setShowForm] = useState(false); // Estado para controlar la visibilidad del formulario
 
   useEffect(() => {
     async function fetchIngredientes() {
@@ -39,6 +40,7 @@ const Ingrediente = () => {
       setIngredientes([...ingredientes, data]);
     }
     setNewIngrediente({ nombre: '', cantidad: 0, porcion: 0 });
+    setShowForm(false); // Ocultar formulario después de enviar
   };
 
   const handleEdit = (ingrediente) => {
@@ -48,6 +50,7 @@ const Ingrediente = () => {
       cantidad: ingrediente.cantidad,
       porcion: ingrediente.porcion,
     });
+    setShowForm(true); // Mostrar formulario al editar
   };
 
   const handleDelete = async (id) => {
@@ -59,66 +62,77 @@ const Ingrediente = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen flex gap-6 items-start">
+    <div className="p-6 bg-gray-100 min-h-screen flex flex-col gap-6 items-start">
+      {/* Botón para mostrar el formulario */}
+      {!showForm && (
+        <button
+          onClick={() => setShowForm(true)}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Crear Ingrediente
+        </button>
+      )}
+
       {/* Sección del formulario */}
-      <form 
-        onSubmit={handleSubmit} 
-        className="bg-white p-4 rounded shadow-md w-1/3 h-auto flex flex-col gap-4"
-      >
-        <h2 className="text-xl font-semibold mb-2">
-          {editIngrediente ? "Actualizar Ingrediente" : "Crear Ingrediente"}
-        </h2>
-        <div>
-          <label className="block text-gray-700 mb-1">Nombre</label>
-          <input
-            type="text"
-            className="w-full p-2 border rounded"
-            placeholder="Nombre"
-            value={newIngrediente.nombre}
-            onChange={(e) => setNewIngrediente({ ...newIngrediente, nombre: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Cantidad</label>
-          <input
-            type="number"
-            className="w-full p-2 border rounded"
-            placeholder="Cantidad"
-            value={newIngrediente.cantidad}
-            onChange={(e) => setNewIngrediente({ ...newIngrediente, cantidad: parseInt(e.target.value) || 0 })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Porción</label>
-          <input
-            type="number"
-            className="w-full p-2 border rounded"
-            placeholder="Porción"
-            value={newIngrediente.porcion}
-            onChange={(e) => setNewIngrediente({ ...newIngrediente, porcion: parseInt(e.target.value) || 0 })}
-          />
-        </div>
-        <div className="flex gap-2">
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            {editIngrediente ? "Actualizar" : "Crear"}
-          </button>
-          {editIngrediente && (
+      {showForm && (
+        <form 
+          onSubmit={handleSubmit} 
+          className="bg-white p-4 rounded shadow-md w-1/3 h-auto flex flex-col gap-4"
+        >
+          <h2 className="text-xl font-semibold mb-2">
+            {editIngrediente ? "Actualizar Ingrediente" : "Crear Ingrediente"}
+          </h2>
+          <div>
+            <label className="block text-gray-700 mb-1">Nombre</label>
+            <input
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Nombre"
+              value={newIngrediente.nombre}
+              onChange={(e) => setNewIngrediente({ ...newIngrediente, nombre: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-1">Cantidad</label>
+            <input
+              type="number"
+              className="w-full p-2 border rounded"
+              placeholder="Cantidad"
+              value={newIngrediente.cantidad}
+              onChange={(e) => setNewIngrediente({ ...newIngrediente, cantidad: parseInt(e.target.value) || 0 })}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-1">Porción</label>
+            <input
+              type="number"
+              className="w-full p-2 border rounded"
+              placeholder="Porción"
+              value={newIngrediente.porcion}
+              onChange={(e) => setNewIngrediente({ ...newIngrediente, porcion: parseInt(e.target.value) || 0 })}
+            />
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              {editIngrediente ? "Actualizar" : "Crear"}
+            </button>
             <button
               type="button"
               onClick={() => {
                 setEditIngrediente(null);
                 setNewIngrediente({ nombre: '', cantidad: 0, porcion: 0 });
+                setShowForm(false); // Ocultar formulario al cancelar
               }}
               className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
             >
               Cancelar
             </button>
-          )}
-        </div>
-      </form>
+          </div>
+        </form>
+      )}
 
       {/* Sección de la tabla */}
       <div className="flex-1 overflow-x-auto">
