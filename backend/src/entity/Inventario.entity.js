@@ -10,6 +10,11 @@ const InventarioSchema = new EntitySchema({
             primary: true,
             generated: true,
         },
+        nombre: {
+            type: "varchar",
+            length: 100,
+            nullable: false,
+        },
         fecha: {
             type: "date",
             nullable: false,
@@ -34,10 +39,10 @@ const InventarioSchema = new EntitySchema({
             onDelete: "SET NULL",
         },
         ingredientes: {
-            target: "Ingrediente",
-            type: "one-to-many",
-            inverseSide: "inventario", 
-        },
+            target: "Ingrediente", 
+            type: "one-to-many", 
+            inverseSide: "inventario",  
+          },
     },
 });
 

@@ -2,7 +2,7 @@
 import { AppDataSource } from "../config/configDb.js"; 
 import PlatoSchema from "../entity/Plato.entity.js"; 
 import IngredienteSchema from "../entity/Ingrediente.entity.js";
-import PlatoIngredienteSchema from "../entity/Ingredientes_Plato.entity.js";
+import PlatoIngredienteSchema from "../entity/ingredientes_plato.entity.js";
 
 const platoController = {
     create: async (req, res) => {
