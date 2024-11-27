@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_BASE_URL;
+const API_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000/api';
 
 export async function getProveedores() {
   try {
-    const { data } = await axios.get(`${API_URL}/proveedor/`);
+    const { data } = await axios.get(`${API_URL}/proveedor/all`);
     return data;
   } catch (error) {
     return error.response?.data || { message: "Error al obtener proveedores", status: 500 };
