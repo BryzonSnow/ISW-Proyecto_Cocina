@@ -10,6 +10,7 @@ router
     .use(isChef)
     .use(isMesero); 
 
+    
 router.post("/", empleadoController.create);
 router.get("/", empleadoController.getAll);
 router.get("/:id", empleadoController.getById);
