@@ -1,6 +1,6 @@
 "use strict";
-import Empleado from '../entity/Empleado.entity.js';
-import { AppDataSource } from '../config/configDb.js';
+import Empleado from "../entity/Empleado.entity.js";
+import { AppDataSource } from "../config/configDb.js";
 
 export async function isChef(req, res, next) {
     try {
@@ -110,6 +110,4 @@ export async function isMesero(req, res, next) {
             message: "Error en authorization.middleware"
         });
     }
-}
-
-module.exports = {  isChef ,isAdmin, isJefeCocina, isMesero };
+};
