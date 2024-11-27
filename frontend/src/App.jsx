@@ -8,6 +8,7 @@ import Proveedores from './components/Proveedores';
 import WspBubble from './components/wspbubble';
 import Footer from './components/Footer';
 import Gestionmenu from './components/Gestionmenu';
+import Proveedor from './components/Proveedores';
 
 const App = () => {
   return (

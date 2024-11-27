@@ -181,4 +181,5 @@ const Proveedor = () => {
   );
 };
 
+
 export default Proveedor;
