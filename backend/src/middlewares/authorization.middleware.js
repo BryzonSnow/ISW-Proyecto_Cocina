@@ -110,6 +110,4 @@ export async function isMesero(req, res, next) {
             message: "Error en authorization.middleware"
         });
     }
-}
-
-module.exports = {  isChef ,isAdmin, isJefeCocina, isMesero };
+};

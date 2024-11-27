@@ -5,7 +5,6 @@ import { isMesero, isAdmin, isChef, isJefeCocina } from "../middlewares/authoriz
 const router = Router();
 
 router
-    .use(authenticateJwt) // Verifico si inicio sesión
     .use(isJefeCocina) //verifica su rol
     .use(isAdmin)
     .use(isChef)
