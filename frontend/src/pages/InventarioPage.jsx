@@ -1,6 +1,6 @@
 import Ingrediente from "../components/Ingrediente";
 
-const InventarioṔage = () => {
+const InventarioPage = () => {
     return (
       <>
       <Ingrediente/>

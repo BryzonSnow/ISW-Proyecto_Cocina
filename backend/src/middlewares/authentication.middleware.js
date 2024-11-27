@@ -4,7 +4,7 @@ import passport from "passport";
 export function authenticateJwt(req, res, next) {
     passport.authenticate("jwt", { session: false }, (err, user, info) => {
         if(err) {
-            return res.status(500).json({ message: "Error de autenticación en el servidor"});
+            return res.status(500).json({ message: "Error de autenticación en el servidor" });
         }
 
         if(!user) {

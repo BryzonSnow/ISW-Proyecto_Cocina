@@ -1,8 +1,8 @@
-import express, { json } from 'express';
-import cors from 'cors';  // Importa el paquete CORS
-import indexRoutes from '../src/routes/index.routes.js';
-import { PORT, HOST } from '../src/config/configEnv.js';
-import { connectDB } from '../src/config/configDb.js';
+import express, { json } from "express";
+import cors from "cors";  // Importa el paquete CORS
+import indexRoutes from "../src/routes/index.routes.js";
+import { HOST, PORT } from "../src/config/configEnv.js";
+import { connectDB } from "../src/config/configDb.js";
 
 async function setupServer() {
     try {
@@ -15,7 +15,7 @@ async function setupServer() {
         app.use(json());
 
         // Rutas de la API
-        app.use('/api', indexRoutes);  // Asegúrate de que tus rutas estén bien configuradas
+        app.use("/api", indexRoutes);  // Asegúrate de que tus rutas estén bien configuradas
         
         // Iniciar el servidor
         app.listen(PORT, () => {
