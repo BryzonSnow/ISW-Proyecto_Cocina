@@ -12,12 +12,13 @@ import { getIngredientes } from "../services/ingrediente.service"; // Agregamos 
 const GestionMenu = () => {
   const [platos, setPlatos] = useState([]);
   const [ingredientes, setIngredientes] = useState([]); // Lista de ingredientes disponibles
+  const [ingredientesCheck, setingredientesCheck] = useState([]);
   const [newPlato, setNewPlato] = useState({
     nombre: "",
     descripcion: "",
     precio: 0,
     disponibilidad: true,
-    ingredientesSeleccionados: [], // ID de ingredientes seleccionados
+    ingredienteID: [], // ID de ingredientes seleccionados
   });
   const [editPlato, setEditPlato] = useState(null);
 
@@ -36,6 +37,7 @@ const handleImageChange = (e) => {
     async function fetchData() {
       try {
         const platosData = await getPlatos();
+        console.log(platosData);
         const ingredientesData = await getIngredientes();
         if (Array.isArray(platosData)) setPlatos(platosData);
         if (Array.isArray(ingredientesData)) setIngredientes(ingredientesData);
@@ -49,14 +51,41 @@ const handleImageChange = (e) => {
   // Manejo del formulario (crear o actualizar plato)
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const dataForm = {
+      nombre: newPlato.nombre,
+      descripcion: newPlato.descripcion,
+      precio: newPlato.precio,
+      disponibilidad: newPlato.disponibilidad,
+      ingredienteID: newPlato.ingredienteID,
+    };
+    const formData = new FormData();
+    formData.append("nombre", newPlato.nombre);
+    formData.append("descripcion", newPlato.descripcion);
+    formData.append("precio", newPlato.precio);
+    formData.append("disponibilidad", newPlato.disponibilidad);
+
+    // Convertir a JSON los ingredientes seleccionados
+    formData.append("ingredienteID", JSON.stringify(ingredientesCheck));
+
+    // Validar que haya al menos un ingrediente seleccionado
+  if (!ingredientesCheck || ingredientesCheck.length === 0) {
+    alert("Debes seleccionar al menos un ingrediente.");
+    return;
+  }
+  newPlato.ingredienteID = ingredientesCheck;
+
     if (!newPlato.nombre || !newPlato.descripcion || newPlato.precio <= 0) {
       alert("Por favor, completa todos los campos correctamente.");
       return;
     }
+    if (newPlato.imagen) {
+      formData.append("imagen", newPlato.imagen);
+    }
 
     if (editPlato) {
+      console.log(newPlato);
       // Actualizar plato
-      const updatedPlato = await updatePlato(editPlato.platoID, newPlato);
+      const updatedPlato = await updatePlato(editPlato.platoID, dataForm);
       if (updatedPlato?.platoID) {
         setPlatos(
           platos.map((plato) =>
@@ -67,45 +96,71 @@ const handleImageChange = (e) => {
       setEditPlato(null);
     } else {
       // Crear nuevo plato
-      const createdPlato = await createPlato(newPlato);
-      if (createdPlato?.platoID) {
-        setPlatos([...platos, createdPlato]);
+      console.log(newPlato);
+      const data = await createPlato(newPlato);
+      setPlatos([...platos, data]);
       }
-    }
-
-    setNewPlato({
-      nombre: "",
-      descripcion: "",
-      precio: 0,
-      disponibilidad: true,
-      ingredientesSeleccionados: [],
-    });
-  };
+      setNewPlato({
+        nombre: "",
+        descripcion: "",
+        precio: 0,
+        disponibilidad: true,
+        ingredienteID: [],
+      });
+    };  // Fin de la función handleSubmit
 
   // Manejar la edición de un plato
   const handleEdit = (plato) => {
+    setingredientesCheck([]);
     setEditPlato(plato);
+    console.log(plato);
+
     setNewPlato({
-      nombre: plato.nombre,
-      descripcion: plato.descripcion,
-      precio: plato.precio,
-      disponibilidad: plato.disponibilidad,
-      ingredientesSeleccionados: plato.ingredientes.map((i) => i.ingredienteID), // Si el plato tiene ingredientes asociados
+        platoID: plato.platoID,
+        nombre: plato.nombre,
+        descripcion: plato.descripcion,
+        precio: plato.precio,
+        disponibilidad: plato.disponibilidad,
+        ingredienteID: plato.ingredienteID,
     });
+
+    console.log(plato);
+
+    setingredientesCheck((prevIngredientesCheck) => [
+        ...prevIngredientesCheck,
+        ...plato.ingredienteID,
+    ]);
+
+    // Estos logs no mostrarán los valores actualizados porque setState es asincrónico
+    console.log(editPlato);
+    console.log(ingredientesCheck);
+    console.log(ingredientes);
   };
 
+// UseEffect para observar cambios en el estado
+useEffect(() => {
+    console.log("EditPlato actualizado:", editPlato);
+}, [editPlato]);
+
+useEffect(() => {
+    console.log("IngredientesCheck actualizado:", ingredientesCheck);
+}, [ingredientesCheck]);
+
   // Manejar la selección de ingredientes
-  const handleSelectIngrediente = (ingredienteID) => {
-    setNewPlato((prevState) => {
-      const yaSeleccionado = prevState.ingredientesSeleccionados.includes(ingredienteID);
-      return {
-        ...prevState,
-        ingredientesSeleccionados: yaSeleccionado
-          ? prevState.ingredientesSeleccionados.filter((id) => id !== ingredienteID) // Deseleccionar
-          : [...prevState.ingredientesSeleccionados, ingredienteID], // Seleccionar
-      };
+  const handleSelectIngrediente = (ingredienteSeleccionado) => {
+    setingredientesCheck((prevIngredientesCheck) => {
+        const yaSeleccionado = prevIngredientesCheck.some(
+            (ingrediente) => ingrediente.ingredienteID === ingredienteSeleccionado.ingredienteID
+        );
+
+        // Si ya está seleccionado, lo eliminamos; si no, lo agregamos
+        return yaSeleccionado
+            ? prevIngredientesCheck.filter(
+                  (ingrediente) => ingrediente.ingredienteID !== ingredienteSeleccionado.ingredienteID
+              ) // Eliminar
+            : [...prevIngredientesCheck, ingredienteSeleccionado]; // Agregar
     });
-  };
+};
 
   // Manejar la eliminación de un plato
   const handleDelete = async (id) => {
@@ -187,14 +242,16 @@ const handleImageChange = (e) => {
               <label key={ingrediente.ingredienteID} className="flex items-center gap-2">
                 <input
                   type="checkbox"
-                  checked={newPlato.ingredientesSeleccionados.includes(
-                    ingrediente.ingredienteID
-                  )}
+                  checked={ ingredientesCheck.some(
+                    (ingredienteCheck) => ingrediente.ingredienteID === ingredienteCheck.ingredienteID) 
+                  }
                   onChange={() =>
-                    handleSelectIngrediente(ingrediente.ingredienteID)
+                    handleSelectIngrediente(ingrediente)
                   }
                 />
-                {ingrediente.nombre}
+                {
+                  ingrediente.nombre
+                }
               </label>
             ))}
           </div>
@@ -244,9 +301,7 @@ const handleImageChange = (e) => {
                   <button
                     onClick={() => handleEdit(plato)}
                     className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 mr-2"
-                  >
-                    Editar
-                  </button>
+                  >Editar</button>
                   <button
                     onClick={() => handleDelete(plato.platoID)}
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
@@ -261,6 +316,6 @@ const handleImageChange = (e) => {
       </div>
     </div>
   );
-};
 
+};
 export default GestionMenu;

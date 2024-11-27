@@ -5,6 +5,8 @@ const API_URL = "http://localhost:3000/api"; // Ajusta esto a tu configuración 
 export async function getPlatos() {
     try {
         const { data } = await axios.get(`${API_URL}/plato/`);
+        console.log("imprimiendo datos...");
+        console.log(data);
         return data;
     } catch (error) {
         return error.response?.data || { message: 'Error al obtener platos', status: 500 };
