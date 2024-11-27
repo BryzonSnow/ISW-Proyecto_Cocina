@@ -61,7 +61,7 @@ const Navbar = () => {
             <Link to="/turnos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Turnos</Link>
           </li>
           <li>
-            <Link to="/proveedores" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Proveedores</Link>
+            <Link to="/proveedor" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Proveedores</Link>
           </li>
         </ul>
       </nav>
