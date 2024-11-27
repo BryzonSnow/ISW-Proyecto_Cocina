@@ -14,10 +14,6 @@ const InventarioSchema = new EntitySchema({
             type: "date",
             nullable: false,
         },
-        cantidadTotal: {
-            type: "int",
-            nullable: false,
-        },
         estado: {
             type: "varchar",
             length: 50,

@@ -28,26 +28,8 @@ const PlatoSchema = new EntitySchema({
         disponibilidad: {
             type: "boolean",
             nullable: false,
-        },
-        ingredienteID: {
-            type: "int",
-            nullable: false,
-        },
-    },
-    relations: {
-        ingrediente: {
-            target: "Ingrediente",
-            type: "many-to-one",
-            joinColumn: { name: "ingredienteID" },
-            onDelete: "CASCADE",
-        },
-        menu: {
-            target: "Menu",
-            type: "many-to-one",
-            joinColumn: { name: "menuID" },
-            onDelete: "CASCADE",
-        },
-    },
+        }
+    }
 });
 
 export default PlatoSchema;
