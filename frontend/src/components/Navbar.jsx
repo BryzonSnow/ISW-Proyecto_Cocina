@@ -52,7 +52,10 @@ const Navbar = () => {
             <Link to="/pedidos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Pedidos</Link>
           </li>
           <li>
-            <Link to="/ingrediente" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inventario</Link>
+            <Link to="/ingrediente" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Ingrediente</Link>
+            </li>
+            <li>
+            <Link to="/inventario" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inventario</Link>
             </li>
             <li>
             <Link to="/turnos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Turnos</Link>

@@ -76,6 +76,11 @@ const Inventario = () => {
     (ingrediente) => ingrediente.inventarioID === parseInt(selectedInventario)
   );
 
+  // Obtener el nombre del inventario seleccionado
+  const selectedInventarioNombre = inventarios.find(
+    (inventario) => inventario.inventarioID === parseInt(selectedInventario)
+  )?.nombre;
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen flex gap-6">
       {/* Formulario para crear o editar inventario */}
@@ -208,7 +213,9 @@ const Inventario = () => {
       <div className="w-1/2">
         {selectedInventario && (
           <div>
-            <h2 className="text-xl font-semibold mb-4">Ingredientes del Inventario Seleccionado</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              {selectedInventarioNombre ? `Ingredientes de Inventario: ${selectedInventarioNombre}` : "Ingredientes del Inventario Seleccionado"}
+            </h2>
             <table className="table-auto w-full bg-white shadow-md rounded">
               <thead>
                 <tr className="bg-gray-200">
