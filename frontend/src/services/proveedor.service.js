@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api"; // Ajusta esto a tu configuración de backend
+const API_URL = import.meta.env.VITE_BASE_URL;
 
 export async function getProveedores() {
   try {
-    const { data } = await axios.get(`${API_URL}/proveedor/all`);
+    const { data } = await axios.get(`${API_URL}/proveedor/`);
     return data;
   } catch (error) {
     return error.response?.data || { message: "Error al obtener proveedores", status: 500 };
@@ -46,4 +46,3 @@ export async function deleteProveedor(id) {
     return error.response?.data || { message: "Error al eliminar proveedor", status: 500 };
   }
 }
-
