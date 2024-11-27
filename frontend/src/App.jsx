@@ -6,6 +6,7 @@ import Menu from './components/Menu';
 import WspBubble from './components/wspbubble';
 import Footer from './components/Footer';
 import Gestionmenu from './components/Gestionmenu';
+import Proveedor from './components/Proveedores';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/menu" element={<Menu />} />
         <Route path="/gestionmenu" element={<Gestionmenu />} />
         <Route path="/Ingrediente" element={<Ingrediente />} />
+        <Route path="/proveedor" element={<Proveedor />} />
       </Routes>
       <Footer />
       <WspBubble />
