@@ -4,7 +4,6 @@ import Ingrediente from './components/Ingrediente';
 import Inicio from './components/Inicio';
 import Menu from './components/Menu';
 import Inventario from './components/Inventario';
-import Proveedores from './components/Proveedores';
 import WspBubble from './components/wspbubble';
 import Footer from './components/Footer';
 import Gestionmenu from './components/Gestionmenu';
@@ -20,7 +19,7 @@ const App = () => {
         <Route path="/gestionmenu" element={<Gestionmenu />} />
         <Route path="/Ingrediente" element={<Ingrediente />} />
         <Route path="/Inventario" element={<Inventario />} />
-        <Route path="/proveedores" element={<Proveedores />} />
+        <Route path="/proveedor" element={<Proveedor />} />
       </Routes>
       <Footer />
       <WspBubble />
