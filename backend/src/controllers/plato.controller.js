@@ -16,10 +16,13 @@ const platoController = {
 
     getAll: async (req, res) => {
         try {
+            console.log("Obteniendo lista de platos...");
             const platoRepo = AppDataSource.getRepository(PlatoSchema);
             const platos = await platoRepo.find();
+            console.log("Platos encontrados:", platos);
             res.status(200).json(platos);
         } catch (error) {
+            console.error("Error en getAll:", error.message);
             res.status(500).json({ message: error.message });
         }
     },
