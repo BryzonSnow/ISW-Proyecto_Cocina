@@ -1,4 +1,5 @@
 import axios from "axios";
+axios.defaults.baseURL = 'http://localhost:<puerto>'; // Cambia el puerto si es necesario
 
 export async function getPedidos() {
     try {

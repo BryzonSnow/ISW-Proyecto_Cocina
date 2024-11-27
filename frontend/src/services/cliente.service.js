@@ -1,46 +1,33 @@
 import axios from "axios";
 
+const API_URL = "http://localhost:3000/api"; // Ajusta según tu configuración
+
 export async function getCliente() {
     try {
-        const { data } = await axios.get('/cliente/');
-        return data;
-    }catch (error) {
-        return error.response?.data || { message: 'Error al obtener cliente', status: 500 };
+      const { data } = await axios.get(`${API_URL}/cliente/`);
+      return data;
+    } catch (error) {
+      console.error("Error al obtener clientes:", error);
+      return [];
     }
-}
-
-export async function getClienteById(id) {
-    try {
-        const { data } = await axios.get(`/cliente/${id}`);
-        return data;
-    }catch (error) {
-        return error.response?.data || { message: 'Error al obtener cliente:', status: 500 };
-    }
-}
+  }
 
 export async function createCliente(clienteData) {
-    try {
-        const { data } = await axios.post('/cliente/', clienteData);
-        return data; // Ajusta según la estructura de tu respuesta del backend
-    }catch (error) {
-        return error.response?.data || { message: 'Error al crear cliente', status: 500 };
-    }
+  try {
+    const { data } = await axios.post(`${API_URL}/cliente/`, clienteData);
+    return data;
+  } catch (error) {
+    console.error("Error al crear cliente:", error);
+    throw error;
+  }
 }
 
 export async function updateCliente(id, clienteData) {
-    try {
-        const { data } = await axios.put(`/cliente/${id}`, clienteData);
-        return data;
-    }catch (error) {
-        return error.response?.data || { message: 'Error al actualizar cliente', status: 500 };
-    }
-}
-
-export async function deleteCliente(id) {
-    try {
-        const { data } = await axios.delete(`/cliente/${id}`);
-        return data;
-    }catch (error) {
-        return error.response?.data || { message: 'Error al eliminar cliente', status: 500 };
-    }
+  try {
+    const { data } = await axios.put(`${API_URL}/cliente/${id}`, clienteData);
+    return data;
+  } catch (error) {
+    console.error("Error al actualizar cliente:", error);
+    throw error;
+  }
 }
