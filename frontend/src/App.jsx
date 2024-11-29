@@ -7,7 +7,7 @@ import Inventario from './components/Inventario';
 import WspBubble from './components/wspbubble';
 import Footer from './components/Footer';
 import Gestionmenu from './components/Gestionmenu';
-import Proveedor from './components/Proveedores';
+import Proveedores from './components/Proveedores';
 
 const App = () => {
   return (
@@ -19,8 +19,7 @@ const App = () => {
         <Route path="/gestionmenu" element={<Gestionmenu />} />
         <Route path="/Ingrediente" element={<Ingrediente />} />
         <Route path="/Inventario" element={<Inventario />} />
-        <Route path="/proveedor" element={<Proveedor />} />
-          
+        <Route path="/proveedor" element={<Proveedores />} />
       </Routes>
       <Footer />
       <WspBubble />
