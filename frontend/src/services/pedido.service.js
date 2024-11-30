@@ -1,38 +1,35 @@
-import axios from "axios";
-axios.defaults.baseURL = 'http://localhost:<puerto>'; // Cambia el puerto si es necesario
+import axios from "./root.service.js";
 
-export async function getPedidos() {
-    try {
-        const { data } = await axios.get('/pedido/');
-        return data;
-    } catch (error) {
-        return error.response?.data || { message: 'Error al obtener pedidos', status: 500 };
-    }
-}
+export const getPedidos = () => {
+    return axios.get(`/pedido`);
+  };
 
-export async function getPedidoById(id) {
+export const createPedido = async (pedidoData) => {
     try {
-        const { data } = await axios.get(`/pedido/${id}`);
-        return data;
+        const response = await axios.post(`/pedido`, pedidoData);
+        return response.data;
     } catch (error) {
-        return error.response?.data || { message: 'Error al obtener pedido:', status: 500 };
+        console.error("Error al crear pedido:", error.response?.data || error.message);
+        throw new Error(error.response?.data || 'Error al crear pedido');
     }
-}
-
-export async function createPedido(pedidoData) {
-    try {
-        const { data } = await axios.post('/pedido/', pedidoData);
-        return data; // Ajusta según la estructura de tu respuesta del backend
-    } catch (error) {
-        return error.response?.data || { message: 'Error creating pedido', status: 500 };
-    }
-}
+};
 
 export async function updatePedido(id, pedidoData) {
-    try {
-        const { data } = await axios.put(`/pedido/${id}`, pedidoData);
-        return data;
-    } catch (error) {
-        return error.response?.data || { message: 'Error al actualizar pedido', status: 500 };
-    }
+  try {
+    const { data } = await axios.put(`/pedido/${id}`, pedidoData);
+    return data;
+  } catch (error) {
+    console.error("Error al actualizar pedido", error);
+    return null;
+  }
+}
+
+export async function deletePedido(id) {
+  try {
+    const { data } = await axios.delete(`/pedido/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Error al eliminar pedido", error);
+    return null;
+  }
 }
