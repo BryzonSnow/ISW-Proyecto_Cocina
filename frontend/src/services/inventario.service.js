@@ -51,8 +51,4 @@ export async function deleteInventario(id) {
   } catch (error) {
     return error.response?.data || { message: 'Error al eliminar inventario', status: 500 };
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> main
