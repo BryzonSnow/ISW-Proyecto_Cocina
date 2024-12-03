@@ -247,4 +247,8 @@ const Inventario = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Inventario;
+=======
+export default Inventario;
+>>>>>>> main

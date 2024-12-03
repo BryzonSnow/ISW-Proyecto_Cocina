@@ -1,7 +1,7 @@
 {
-  "name": "plantillaisw2024",
+  "name": "cocina2024",
   "version": "1.0.0",
-  "description": "Plantilla de proyecto para Ingenieria de Software 2024-2",
+  "description": "Proyecto para Ingenieria de Software 2024-2",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -11,16 +11,17 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
-  "author": "Diego Salazar Jara",
+  "author": "Grupo 5",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.0.0",
     "cors": "^2.8.5",
-    "express": "^4.21.0",
+    "express": "^4.21.1",
     "express-session": "^1.18.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.12.0",

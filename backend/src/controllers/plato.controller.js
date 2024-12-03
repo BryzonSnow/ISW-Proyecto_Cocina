@@ -1,25 +1,99 @@
 "use strict";
 import { AppDataSource } from "../config/configDb.js"; 
 import PlatoSchema from "../entity/Plato.entity.js"; 
+import IngredienteSchema from "../entity/Ingrediente.entity.js";
+import PlatoIngredienteSchema from "../entity/ingredientes_plato.entity.js";
 
 const platoController = {
     create: async (req, res) => {
         try {
-            const platoRepo = AppDataSource.getRepository(PlatoSchema);
-            const nuevoPlato = platoRepo.create(req.body);
-            const result = await platoRepo.save(nuevoPlato);
-            res.status(201).json(result);
+          const platoRepo = AppDataSource.getRepository(PlatoSchema);
+          const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
+    
+          console.log("Datos en req.body:", req.body);
+    
+          // Obtener datos del cuerpo de la solicitud
+          const data = req.body;
+    
+          // Validar datos obligatorios
+          if (!data.nombre || !data.descripcion || !data.precio || data.disponibilidad === undefined) {
+            return res.status(400).json({ message: "Todos los campos son obligatorios." });
+          }
+    
+          // Validar que haya al menos un ingrediente seleccionado
+          if (!data.ingredienteID || data.ingredienteID.length === 0) {
+            return res.status(400).json({ message: "Debes seleccionar al menos un ingrediente." });
+          }
+        
+          // Crear el nuevo plato con los ingredientes relacionados
+          const nuevoPlato = await platoRepo.save({
+            nombre: data.nombre,
+            descripcion: data.descripcion,
+            precio: data.precio,
+            disponibilidad: data.disponibilidad
+          });
+          console.log("Plato creado:", nuevoPlato);
+
+          data.ingredienteID.forEach(async (ingredienteID) => {
+            const ingrediente = await ingredienteRepo.findOne({ 
+                where: { 
+                    ingredienteID: ingredienteID.ingredienteID
+                 } });
+             
+            
+            if (!ingrediente) {
+                console.error("El ingrediente no existe:", error);
+                res.status(500).json({ message: error.message });
+            }
+            console.log("Ingrediente encontrado:", ingrediente);
+
+            const platoIngredienteRepo = AppDataSource.getRepository(PlatoIngredienteSchema);
+            let platoIngrediente = platoIngredienteRepo.save({
+                platoID: nuevoPlato.platoID,
+                ingredienteID: ingrediente.ingredienteID
+            });
+            console.log("PlatoIngrediente creado:", platoIngrediente);
+          });
+            
+          res.status(201).json(nuevoPlato);
         } catch (error) {
-            res.status(500).json({ message: error.message });
+          console.error("Error al crear el plato:", error);
+          res.status(500).json({ message: error.message });
         }
-    },
+      },
 
     getAll: async (req, res) => {
         try {
             const platoRepo = AppDataSource.getRepository(PlatoSchema);
+            const platoIngredienteRepo = AppDataSource.getRepository(PlatoIngredienteSchema);
+            const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
+            const response = [];
             const platos = await platoRepo.find();
-            res.status(200).json(platos);
+            for(const plato of platos) {
+                
+                const ingredientes = await platoIngredienteRepo.find({ where: { platoID: plato.platoID } });
+                let ingredientesData = [];
+                for(const ingrediente of ingredientes) {
+                    const ingredienteData = await ingredienteRepo.findOne({ 
+                        where: { ingredienteID: ingrediente.ingredienteID }, select: { nombre: true } });
+                    ingredientesData.push({
+                        ingredienteID: ingrediente.ingredienteID,
+                        nombre: ingredienteData.nombre
+                    });
+                }
+                
+                response.push({
+                    platoID: plato.platoID,
+                    nombre: plato.nombre,
+                    descripcion: plato.descripcion,
+                    precio: plato.precio,
+                    disponibilidad: plato.disponibilidad,
+                    ingredienteID: ingredientesData
+                 });
+            };
+            res.status(200).json(response);
         } catch (error) {
+            console.error("Error en getAll:", error.message);
             res.status(500).json({ message: error.message });
         }
     },
@@ -40,11 +114,15 @@ const platoController = {
     update: async (req, res) => {
         try {
             const platoRepo = AppDataSource.getRepository(PlatoSchema);
-            const plato = await platoRepo.findOneBy({ platoID: parseInt(req.params.id) }); // Cambiado a platoID
+            console.log(req.params.id);
+            const plato = await platoRepo.findOne({
+                where: { platoID: parseInt(req.params.id) }
+            }); // Cambiado a platoID
+            console.log(req.body);
             if (!plato) {
                 return res.status(404).json({ message: "Plato no encontrado" });
             }
-            platoRepo.merge(plato, req.body);
+            platoRepo.merge(req.param.id, req.body);
             const result = await platoRepo.save(plato);
             res.status(200).json(result);
         } catch (error) {
