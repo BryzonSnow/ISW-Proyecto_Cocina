@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Ingrediente from './components/Ingrediente'; 
+import Inventario from './components/Inventario';
 import Inicio from './components/Inicio';
 import Menu from './components/Menu';
 import Inventario from './components/Inventario';
@@ -23,11 +24,14 @@ const App = () => {
         <Route path="/gestionmenu" element={<Gestionmenu />} />
         <Route path="/Ingrediente" element={<Ingrediente />} />
         <Route path="/Inventario" element={<Inventario />} />
+<<<<<<< HEAD
+=======
         <Route path="/proveedor" element={<Proveedores />} />
         <Route path="/pedido" element={<Pedido />} />
         <Route path="/clientes" element={<Cliente />} />
         <Route path="/empleados" element={<Empleado />} />
         <Route path="/verpedidos" element={<VerPedidos />} />
+>>>>>>> main
       </Routes>
       <Footer />
       <WspBubble />

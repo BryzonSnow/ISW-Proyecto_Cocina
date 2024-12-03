@@ -27,7 +27,7 @@ const ingredienteController = {
     getById: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
-            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) }); // Cambiado a findOneBy
+            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) });
             if (!ingrediente) {
                 return res.status(404).json({ message: "Ingrediente no encontrado" });
             }
@@ -40,7 +40,7 @@ const ingredienteController = {
     update: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
-            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) }); // Cambiado a findOneBy
+            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) }); 
             if (!ingrediente) {
                 return res.status(404).json({ message: "Ingrediente no encontrado" });
             }
@@ -55,7 +55,7 @@ const ingredienteController = {
     delete: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
-            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) }); // Cambiado a findOneBy
+            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) }); 
             if (!ingrediente) {
                 return res.status(404).json({ message: "Ingrediente no encontrado" });
             }
