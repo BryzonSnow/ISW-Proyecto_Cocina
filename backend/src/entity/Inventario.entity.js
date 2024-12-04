@@ -10,12 +10,13 @@ const InventarioSchema = new EntitySchema({
             primary: true,
             generated: true,
         },
-        fecha: {
-            type: "date",
+        nombre: {
+            type: "varchar",
+            length: 100,
             nullable: false,
         },
-        cantidadTotal: {
-            type: "int",
+        fecha: {
+            type: "date",
             nullable: false,
         },
         estado: {
@@ -38,10 +39,10 @@ const InventarioSchema = new EntitySchema({
             onDelete: "SET NULL",
         },
         ingredientes: {
-            target: "Ingrediente",
-            type: "one-to-many",
-            inverseSide: "inventario", 
-        },
+            target: "Ingrediente", 
+            type: "one-to-many", 
+            inverseSide: "inventario",  
+          },
     },
 });
 

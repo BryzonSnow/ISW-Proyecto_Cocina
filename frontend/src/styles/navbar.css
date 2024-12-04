@@ -1,159 +1,217 @@
+/* Navbar.css */
 .navbar {
-	position: fixed;
-	width: 100%;
-	top: 0;
-	left: 0;
-	display: block;
-	background-color: #003366; /*Color de la navbar*/
-	height: 9vh;
-	z-index: 1000;
-	ul {
-		display: flex;
-		justify-content:end;
-		align-items: center;
-		padding: 0 5vw;
-		margin: 0;
-		height: 100%;
-		li {
-			display: flex;
-			align-items: center;
-			padding: 0 60px;
-			position: relative;
-			height: 100%;
-			a {
-				color: white;
-				font-size: 0.9em;
-				text-decoration: none;
-				position: relative;
-				border-bottom: transparent 3px solid;
-				transition: border-color 0.3s ease;
-				padding: 0 10px 3px 10px;
-				box-sizing: border-box;
-			}
-			:not(.active)::before {
-				content: "";
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				width: 100%;
-				height: 3px;
-				background-color: #006edf;
-				transform: scaleX(0);
-				transform-origin: bottom;
-				transition: transform 0.3s ease;
-			}
-			:not(.active):hover::before {
-				animation: heartbeat 5s ease-in-out infinite;
-				transform: scaleX(1);
-			}
-			.active {
-				font-weight: bold;
-				background-color: #eef7ff;
-				color: #002651;
-				margin: 0;
-				padding-bottom: 0;
-				border: 0;
-				height: 100%;
-				line-height: 9.1vh;
-			}
-		}
-	}
+  font-family: 'Newsreader', serif; /* Fuente de la navbar */
+  display: flex; /* Utiliza flexbox para el layout */
+  justify-content: space-between; /* Espacia los elementos */
+  align-items: center; /* Alinea los elementos verticalmente */
+  padding: 1rem 2rem; /* Espaciado interno */
+  background-color: #ffffff; /* Color de fondo */
+  border-bottom: 1px solid #ddd; /* Borde inferior */
+  font-family: Arial, sans-serif; /* Fuente de la navbar */
 }
 
-.hamburger {
-	display: none;
-	flex-direction: column;
-	cursor: pointer;
-	position: absolute;
-	top: 25px;
-	right: 20px;
-	z-index: 1001;
+.navbar__brand {
+  display: flex; /* Utiliza flexbox para el layout */
+  flex-direction: column; /* Dirección de los elementos */
 }
 
-.hamburger .bar {
-	width: 25px;
-	height: 3px;
-	background-color: white;
-	margin: 4px 0;
+.navbar__brand h1 {
+  margin: 0; /* Sin margen */
+  font-size: 2.5rem; /* Tamaño de fuente */
+  font-weight: bold; /* Fuente en negrita */
 }
 
-@media (max-width: 768px) {
-	.nav-menu ul {
-		display: none;
-		flex-direction: column;
-		background-color: #003366;
-		position: absolute;
-		top: 9vh;
-		left: 0;
-		width: 100%;
-		text-align: center;
-	}
-
-	.nav-menu.activado ul {
-		display: flex;
-		background-color: #eef7ff;
-		justify-content: center;
-		padding: 0;
-	}
-
-	.hamburger {
-		display: flex;
-	}
-
-	.nav-menu.activado ul li {
-		padding: 0;
-		width: 100%;
-		height: 60px;
-		a {
-			color: #003366;
-			font-weight: bold;
-			font-size: 0.9em;
-			text-decoration: none;
-			position: relative;
-			border-bottom: none;
-			transition: border-color 0.3s ease;
-			padding-left: 5px;
-			box-sizing: border-box;
-        }
-	}
+.navbar__admin {
+  font-size: 0.8rem; /* Tamaño de fuente */
+  color: #555; /* Color de texto */
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-	.nav-menu ul {
-		display: none;
-		flex-direction: column;
-		background-color: #003366;
-		position: absolute;
-		top: 9vh;
-		left: 0;
-		width: 100%;
-		text-align: center;
-	}
-	.nav-menu.activado ul {
-		display: flex;
-		background-color: #eef7ff;
-		justify-content: center;
-		padding: 0;
-	}
+.navbar__links {
+  list-style: none; /* Sin estilo de lista */
+  display: flex; /* Utiliza flexbox para el layout */
+  gap: 1rem; /* Espacio entre elementos */
+  padding: 1rem; /* Espaciado interno */
+  margin: 2; /* Margen */
+}
 
-	.hamburger {
-		display: flex;
-	}
+.navbar__links li a {
+  text-decoration: none; /* Sin subrayado */
+  color: #333; /* Color de texto */
+  font-weight: bold; /* Fuente en negrita */
+}
 
-	.nav-menu.activado ul li {
-		padding: 0;
-		width: 100%;
-		height: 60px;
-		a {
-			color: #003366;
-			font-weight: bold;
-			font-size: 0.9em;
-			text-decoration: none;
-			position: relative;
-			border-bottom: none;
-			transition: border-color 0.3s ease;
-			padding-left: 5px;
-			box-sizing: border-box;
-        }
-	}
+.navbar__links li a:hover {
+  text-decoration: underline; /* Subrayado al pasar el cursor */
+}
+
+.navbar__right {
+  display: flex; /* Utiliza flexbox para el layout */
+  align-items: center; /* Alinea los elementos verticalmente */
+  gap: 1.5rem; /* Espacio entre elementos */
+}
+
+.navbar__user-options {
+  display: flex; /* Utiliza flexbox para el layout */
+  gap: 2rem; /* Espacio entre elementos */
+  align-items: center; /* Alinea los elementos verticalmente */
+}
+
+.navbar__login {
+  padding: 0.7rem 2rem; /* Espaciado interno */
+  background-color: #815858; /* Color de fondo */
+  color: #fff; /* Color de texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+}
+
+.navbar__login:hover {
+  background-color: #6e4646; /* Color de fondo al pasar el cursor */
+}
+
+.navbar__theme-switch {
+  display: flex; /* Utiliza flexbox para el layout */
+  align-items: center; /* Alinea los elementos verticalmente */
+}
+
+.navbar__toggle {
+  display: none; /* Oculta el elemento */
+}
+
+.navbar__slider {
+  width: 40px; /* Ancho */
+  height: 20px; /* Alto */
+  background-color: #ccc; /* Color de fondo */
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+  position: relative; /* Posición relativa */
+}
+
+.navbar__slider::after {
+  content: ''; /* Contenido vacío */
+  width: 16px; /* Ancho */
+  height: 16px; /* Alto */
+  background-color: #fff; /* Color de fondo */
+  border-radius: 50%; /* Bordes redondeados */
+  position: absolute; /* Posición absoluta */
+  top: 2px; /* Posición superior */
+  left: 2px; /* Posición izquierda */
+  transition: 0.3s; /* Transición */
+}
+
+.navbar__toggle:checked + .navbar__slider {
+  background-color: #815858; /* Color de fondo al estar activado */
+}
+
+.navbar__toggle:checked + .navbar__slider::after {
+  transform: translateX(20px); /* Mueve el círculo al lado derecho */
+}
+
+/* Estilo del switch (interruptor) */
+.switch {
+  position: relative; /* Posición relativa */
+  display: inline-block; /* Display en línea */
+  width: 40px; /* Ancho */
+  height: 20px; /* Alto */
+}
+
+.switch input {
+  display: none; /* Oculta el checkbox */
+}
+
+.slider {
+  position: absolute; /* Posición absoluta */
+  cursor: pointer; /* Cursor de puntero */
+  top: 0; /* Posición superior */
+  left: 0; /* Posición izquierda */
+  right: 0; /* Posición derecha */
+  bottom: 0; /* Posición inferior */
+  background-color: #ccc; /* Color de fondo */
+  transition: 0.4s; /* Transición */
+  border-radius: 34px; /* Bordes redondeados */
+}
+
+.slider:before {
+  position: absolute; /* Posición absoluta */
+  content: ''; /* Contenido vacío */
+  height: 14px; /* Alto */
+  width: 14px; /* Ancho */
+  left: 3px; /* Posición izquierda */
+  bottom: 3px; /* Posición inferior */
+  background-color: white; /* Color de fondo */
+  transition: 0.4s; /* Transición */
+  border-radius: 50%; /* Bordes redondeados */
+}
+
+input:checked + .slider {
+  background-color: #815858; /* Color del switch en modo oscuro */
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px); /* Mueve el círculo al lado derecho */
+}
+
+/* Fondo oscuro semitransparente */
+.modal-overlay {
+  position: fixed; /* Posición fija */
+  top: 0; /* Posición superior */
+  left: 0; /* Posición izquierda */
+  width: 100vw; /* Ancho completo */
+  height: 100vh; /* Alto completo */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: flex; /* Utiliza flexbox para el layout */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  z-index: 1000; /* Nivel de apilamiento */
+}
+
+/* Contenedor del modal */
+.modal {
+  background-color: white; /* Color de fondo */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  width: 400px; /* Ancho */
+  max-width: 90%; /* Ancho máximo */
+  z-index: 1010; /* Nivel de apilamiento */
+  text-align: center; /* Alineación de texto */
+}
+
+/* Botón para cerrar el modal */
+.modal-close {
+  margin-top: 10px; /* Margen superior */
+  padding: 10px 15px; /* Espaciado interno */
+  background-color: #f44336; /* Color de fondo */
+  color: white; /* Color de texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+}
+
+.modal-close:hover {
+  background-color: #d32f2f; /* Color de fondo al pasar el cursor */
+}
+
+/* Inputs del formulario */
+.modal form input {
+  display: block; /* Display en bloque */
+  width: 100%; /* Ancho completo */
+  padding: 10px; /* Espaciado interno */
+  margin: 10px 0; /* Margen */
+  border: 1px solid #ccc; /* Borde */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.modal form button {
+  width: 100%; /* Ancho completo */
+  padding: 10px; /* Espaciado interno */
+  background-color: #815858; /* Color de fondo */
+  color: white; /* Color de texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+}
+
+.modal form button:hover {
+  background-color: #6a4646; /* Color de fondo al pasar el cursor */
 }

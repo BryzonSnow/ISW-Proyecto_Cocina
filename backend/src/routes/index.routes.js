@@ -18,7 +18,7 @@ router.use("/proveedor", proveedorRoutes);
 router.use("/menu", menuRoutes);
 router.use("/cliente", clienteRoutes);
 router.use("/empleado", empleadoRoutes);
-router.use("/api/plato", platoRoutes); 
-router.use("/pedido", pedidoRoutes); 
+router.use("/plato", platoRoutes); 
+router.use("/pedido", pedidoRoutes);
 
 export default router;

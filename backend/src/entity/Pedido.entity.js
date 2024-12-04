@@ -12,18 +12,18 @@ const PedidoSchema = new EntitySchema({
         },
         fecha: {
             type: "date",
-            nullable: false,
+            nullable: true,
         },
         estado: {
             type: "varchar",
             length: 50,
-            nullable: false,
+            nullable: true,
         },
         total: {
             type: "decimal",
             precision: 10,
             scale: 2,
-            nullable: false,
+            nullable: true,
         },
         clienteID: {
             type: "int",
@@ -33,7 +33,7 @@ const PedidoSchema = new EntitySchema({
             type: "int",
             nullable: false,
         },
-        empleadoID: {  // Agregar la columna empleadoID
+        empleadoID: { 
             type: "int",
             nullable: false,
         },

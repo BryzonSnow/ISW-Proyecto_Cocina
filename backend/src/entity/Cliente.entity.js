@@ -15,10 +15,10 @@ const ClienteSchema = new EntitySchema({
             length: 100,
             nullable: false,
         },
-        contacto: {
-            type: "varchar",
-            length: 100,
-            nullable: true,
+        estado: {
+            type: "enum",
+            enum: ["disponible", "Con clientes"], // Valores permitidos
+            default: "disponible", // Valor por defecto
         },
     },
     relations: {
