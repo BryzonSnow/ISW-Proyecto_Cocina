@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getEmpleado,
   createEmpleado,
@@ -9,39 +9,41 @@ import {
 const Empleado = () => {
   const [empleados, setEmpleados] = useState([]);
   const [filteredEmpleados, setFilteredEmpleados] = useState([]);
-  const [formData, setFormData] = useState({ nombre: "", contacto: "", rol: "Mesero" });
+  const [formData, setFormData] = useState({
+    nombre: "",
+    contacto: "",
+    rol: "Mesero",
+    rut: "",
+    email: "",
+  });
   const [editing, setEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [rolFilter, setRolFilter] = useState("Todos");
 
-  // Obtener todos los empleados
   useEffect(() => {
     const fetchEmpleados = async () => {
       const empleados = await getEmpleado();
       setEmpleados(empleados);
-      setFilteredEmpleados(empleados);  // Inicia la lista filtrada con todos los empleados
+      setFilteredEmpleados(empleados);
     };
     fetchEmpleados();
   }, []);
 
-  // Filtrar empleados por rol
   const handleFilterChange = (e) => {
     const selectedRole = e.target.value;
     setRolFilter(selectedRole);
     if (selectedRole === "Todos") {
-      setFilteredEmpleados(empleados);  // Mostrar todos los empleados si se selecciona "Todos"
+      setFilteredEmpleados(empleados);
     } else {
       setFilteredEmpleados(empleados.filter((emp) => emp.rol === selectedRole));
     }
   };
 
-  // Manejar cambios en el formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Manejar la creación de un nuevo empleado
   const handleCreate = async (e) => {
     e.preventDefault();
     if (editing) {
@@ -56,30 +58,33 @@ const Empleado = () => {
     } else {
       const newEmpleado = await createEmpleado(formData);
       setEmpleados((prev) => [...prev, newEmpleado]);
-      setFilteredEmpleados((prev) => [...prev, newEmpleado]); // También agregar al estado filtrado
+      setFilteredEmpleados((prev) => [...prev, newEmpleado]);
     }
-    setFormData({ nombre: "", contacto: "", rol: "Mesero" });
-    setRolFilter("Todos");  // Resetea el filtro de rol al crear un empleado
+    setFormData({ nombre: "", contacto: "", rol: "Mesero", rut: "", email: "" });
+    setRolFilter("Todos");
   };
 
-  // Manejar la edición de un empleado
   const handleEdit = (id) => {
     const empleado = empleados.find((emp) => emp.empleadoID === id);
-    setFormData({ nombre: empleado.nombre, contacto: empleado.contacto, rol: empleado.rol });
+    setFormData({
+      nombre: empleado.nombre,
+      contacto: empleado.contacto,
+      rol: empleado.rol,
+      rut: empleado.rut,
+      email: empleado.email,
+    });
     setEditing(true);
     setEditId(id);
   };
 
-  // Manejar la eliminación de un empleado con confirmación
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("¿Estás seguro que deseas eliminar este empleado?");
     if (confirmDelete) {
       try {
-        const response = await deleteEmpleado(id);  // Eliminar el empleado desde el backend
+        const response = await deleteEmpleado(id);
         if (response.status === 200) {
-          // Actualizar el estado para eliminar el empleado de la lista
           setEmpleados((prev) => prev.filter((emp) => emp.empleadoID !== id));
-          setFilteredEmpleados((prev) => prev.filter((emp) => emp.empleadoID !== id));  // También eliminar de la lista filtrada
+          setFilteredEmpleados((prev) => prev.filter((emp) => emp.empleadoID !== id));
         } else {
           console.error("Error al eliminar el empleado");
         }
@@ -109,7 +114,22 @@ const Empleado = () => {
           placeholder="Contacto"
           style={styles.input}
         />
-        {/* Menú desplegable para el rol */}
+        <input
+          type="text"
+          name="rut"
+          value={formData.rut}
+          onChange={handleChange}
+          placeholder="RUT"
+          style={styles.input}
+        />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Email"
+          style={styles.input}
+        />
         <select
           name="rol"
           value={formData.rol}
@@ -126,7 +146,6 @@ const Empleado = () => {
         </button>
       </form>
 
-      {/* Filtro por rol */}
       <div style={styles.filterContainer}>
         <label>Filtrar por rol: </label>
         <select value={rolFilter} onChange={handleFilterChange} style={styles.input}>
@@ -143,6 +162,8 @@ const Empleado = () => {
           <tr>
             <th style={styles.th}>Nombre</th>
             <th style={styles.th}>Contacto</th>
+            <th style={styles.th}>RUT</th>
+            <th style={styles.th}>Email</th>
             <th style={styles.th}>Rol</th>
             <th style={styles.th}>Acciones</th>
           </tr>
@@ -152,6 +173,8 @@ const Empleado = () => {
             <tr key={empleado.empleadoID} style={styles.tr}>
               <td style={styles.td}>{empleado.nombre}</td>
               <td style={styles.td}>{empleado.contacto}</td>
+              <td style={styles.td}>{empleado.rut}</td>
+              <td style={styles.td}>{empleado.email}</td>
               <td style={styles.td}>{empleado.rol}</td>
               <td style={styles.td}>
                 <button onClick={() => handleEdit(empleado.empleadoID)} style={styles.editButton}>

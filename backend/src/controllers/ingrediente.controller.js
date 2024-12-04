@@ -3,7 +3,6 @@ import { AppDataSource } from "../config/configDb.js";
 import IngredienteSchema from "../entity/Ingrediente.entity.js"; 
 
 const ingredienteController = {
-    // Crear un ingrediente (Solo JefeCocina y Administrador)
     create: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
@@ -15,7 +14,6 @@ const ingredienteController = {
         }
     },
 
-    // Obtener todos los ingredientes (Todos los roles pueden ver)
     getAll: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
@@ -26,7 +24,6 @@ const ingredienteController = {
         }
     },
 
-    // Obtener ingrediente por ID (Todos los roles pueden ver por ID)
     getById: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
@@ -40,7 +37,6 @@ const ingredienteController = {
         }
     },
 
-    // Actualizar ingrediente (Solo Chef puede actualizar)
     update: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
@@ -56,7 +52,6 @@ const ingredienteController = {
         }
     },
 
-    // Eliminar ingrediente (Solo JefeCocina y Administrador pueden borrar)
     delete: async (req, res) => {
         try {
             const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);

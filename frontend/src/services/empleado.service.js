@@ -2,7 +2,7 @@ import axios from "./root.service.js";
 
 export async function getEmpleado() {
   try {
-    const { data } = await axios.get(`/empleado/`);
+    const { data } = await axios.get(`/empleado/all`);
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Error al obtener empleados", error);
@@ -22,7 +22,7 @@ export async function getEmpleadoById(id) {
 
 export async function createEmpleado(empleadoData) {
   try {
-    const { data } = await axios.post(`/empleado/`, empleadoData);
+    const { data } = await axios.post(`/empleado/create`, empleadoData);
     return data;
   } catch (error) {
     console.error("Error al crear empleado", error);
@@ -32,7 +32,7 @@ export async function createEmpleado(empleadoData) {
 
 export async function updateEmpleado(id, empleadoData) {
   try {
-    const { data } = await axios.put(`$/empleado/${id}`, empleadoData);
+    const { data } = await axios.put(`/empleado/update?id=${id}`, empleadoData);
     return data;
   } catch (error) {
     console.error("Error al actualizar empleado", error);
@@ -41,11 +41,11 @@ export async function updateEmpleado(id, empleadoData) {
 }
 
 export async function deleteEmpleado(id) {
-    try {
-      const { data } = await axios.delete(`/empleado/${id}`);
-      return data;
-    } catch (error) {
-      console.error("Error al eliminar empleado", error);
-      return error.response?.data || { message: "Error al eliminar empleado", status: 500 };
-    }
+  try {
+    const { data } = await axios.delete(`/empleado/delete?id=${id}`);
+    return data;
+  } catch (error) {
+    console.error("Error al eliminar empleado", error);
+    return error.response?.data || { message: "Error al eliminar empleado", status: 500 };
   }
+}
