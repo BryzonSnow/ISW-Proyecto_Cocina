@@ -111,3 +111,37 @@ export async function isMesero(req, res, next) {
         });
     }
 };
+
+// Middleware para permitir acceso público
+export const publicAccess = (req, res, next) => {
+    next();
+};
+
+
+// Middleware para permitir acceso a usuarios con roles específicos
+export const hasRoles = (roles) => async (req, res, next) => {
+    try {
+        const userRepository = AppDataSource.getRepository(Empleado); // Acceso a la base de datos
+        const userFound = await userRepository.findOneBy({ email: req.empleadoID }); // Busca al usuario por su ID (o email)
+
+        if (!userFound) {
+            return res.status(404).json({
+                message: "Empleado no encontrado",
+            });
+        }
+
+        // Comprobar si el rol del usuario está en la lista de roles permitidos
+        if (!roles.includes(userFound.rol)) {
+            return res.status(403).json({
+                message: "No tienes permisos para realizar esta acción",
+            });
+        }
+
+        next(); // Continuar con la solicitud si el usuario tiene un rol válido
+    } catch (error) {
+        res.status(500).json({
+            message: "Error en authorization.middleware",
+        });
+    }
+};
+

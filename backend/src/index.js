@@ -8,10 +8,6 @@ import pedidoRoutes from './routes/pedido.routes.js';
 async function setupServer() {
     try {
         const app = express();
-<<<<<<< HEAD
-
-        app.use(cors());
-=======
         // Configuración de CORS
         
         app.use(cors({
@@ -20,16 +16,11 @@ async function setupServer() {
         }));
 
         app.use('/pedido', pedidoRoutes);
->>>>>>> main
 
         app.use(json());
 
-<<<<<<< HEAD
-        app.use('/api', indexRoutes); 
-=======
         // Rutas de la API
         app.use("/api", indexRoutes);  // Asegúrate de que tus rutas estén bien configuradas
->>>>>>> main
         
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en: http://${HOST}:${PORT}/api`);

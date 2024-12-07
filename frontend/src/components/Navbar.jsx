@@ -22,22 +22,13 @@ const Navbar = () => {
         
         <div className="navbar__right"> {/*Aquí se agregaron las opciones de Quiénes somos, Dirección, Comentarios y Perfil*/}
           <div className="navbar__user-options">
-            <a href="/Nosotros">Quiénes somos</a>
+            <a href="/gestionusuarios">Gestión Usuarios</a>
             <a href="/Dirección">Dirección</a>
             <a href="/Comentarios">Comentarios</a>
             <a href="/perfil">Perfil</a>
             {/* Botón para abrir el modal */}
             <button className="navbar__login" onClick={toggleModal}>Login</button>
           </div>
-          {/*<div className="navbar__theme-switch">
-            <input
-              type="checkbox"
-              id="themeToggle"
-              className="navbar__toggle"
-            />
-            <label htmlFor="themeToggle" className="navbar__slider"></label>
-          </div>
-          */}
         </div>
       </nav>
       <nav>
@@ -65,37 +56,6 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-
-
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Iniciar sesión</h2>
-            <form>
-              <input
-                type="username"
-                id="username"
-                name="username"
-                placeholder="username"
-                required
-              />
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="password"
-                required
-              />
-
-              <button type="submit">Login</button>
-            </form>
-            {/* Botón para cerrar el modal */}
-            <button className="modal-close" onClick={toggleModal}>
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
