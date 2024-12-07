@@ -49,7 +49,7 @@ const Navbar = () => {
             <Link to="/menu" style={{ fontFamily: 'Newsreader', fontSize: '1.4rem' }}>Menú</Link>
           </li>
           <li>
-            <Link to="/pedidos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Pedidos</Link>
+            <Link to="/pedido" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Pedidos</Link>
           </li>
           <li>
             <Link to="/ingrediente" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Ingrediente</Link>
@@ -62,6 +62,12 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/proveedor" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Proveedores</Link>
+          </li>
+          <li>
+            <Link to="/empleados" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Empleados</Link>
+          </li>
+          <li>
+            <Link to="/clientes" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Clientes</Link>
           </li>
         </ul>
       </nav>

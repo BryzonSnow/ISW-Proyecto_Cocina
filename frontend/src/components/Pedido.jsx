@@ -22,6 +22,23 @@ const Pedido = () => {
 
     return (
         <div style={styles.container}>
+            <div style={{ margin: '1px 0', textAlign: 'left' }}>
+      <a href="localhost:5173/verpedidos">
+        <button
+          style={{
+            backgroundColor: '#6c757d',
+            color: 'white',
+            border: 'none',
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            borderRadius: '5px',
+          }}
+        >
+          Gestionar pedidos
+        </button>
+      </a>
+    </div>
             <h1 style={styles.title}>Crear Pedido</h1>
             <form onSubmit={(e) => e.preventDefault()} style={styles.form}>
                 <div style={styles.inputGroup}>
