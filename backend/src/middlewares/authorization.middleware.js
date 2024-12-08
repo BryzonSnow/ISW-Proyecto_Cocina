@@ -2,112 +2,54 @@
 import Empleado from "../entity/Empleado.entity.js";
 import { AppDataSource } from "../config/configDb.js";
 
-export async function isChef(req, res, next) {
-    try {
-        const userRepository = AppDataSource.getRepository(Empleado);
-        const userFound = await userRepository.findOneBy({ email: req.empleadoID });
+/**
+ * Función para verificar el rol de un empleado.
+ * @param {string} requiredRole - El rol requerido para continuar con la solicitud.
+ * @returns {Function} Middleware para la verificación del rol.
+ */
+function checkRole(requiredRole) {
+    return async (req, res, next) => {
+        try {
+            // Asumimos que req.empleadoID está configurado previamente por un middleware de autenticación
+            const userRepository = AppDataSource.getRepository(Empleado);
+            const userFound = await userRepository.findOneBy({ email: req.empleadoID });
 
-        if (!userFound) {
-            return res.status(404).json({
-                message: "Empleado no encontrado",
+            if (!userFound) {
+                return res.status(404).json({
+                    status: "Client error",
+                    message: "Empleado no encontrado",
+                });
+            }
+
+            const rolUser = userFound.rol;
+
+            // Verifica si el rol del usuario coincide con el rol requerido
+            if (rolUser !== requiredRole) {
+                return res.status(403).json({
+                    status: "Forbidden",
+                    message: `Se requiere un rol de ${requiredRole} para realizar esta acción`,
+                });
+            }
+
+            next();  // Si el rol coincide, continúa con la solicitud
+        } catch (error) {
+            res.status(500).json({
+                status: "Server error",
+                message: "Error en authorization.middleware",
+                error: error.message || "Error desconocido",
             });
         }
-
-        const rolUser = userFound.rol;
-
-        // Verifica si el rol del usuario es "chef"
-        if (rolUser !== "Chef") {
-            return res.status(403).json({
-                message: "Se requiere un rol de chef para realizar esta acción"  
-            });
-        }
-
-        next();  // Si el rol es chef, continúa con la solicitud
-    } catch (error) {
-        res.status(500).json({
-            message: "Error en authorization.middleware"
-        });
-    }
+    };
 }
 
-export async function isAdmin(req, res, next) {
-    try {
-        const userRepository = AppDataSource.getRepository(Empleado);
-        const userFound = await userRepository.findOneBy({ email: req.empleadoID });
+// Middleware para verificar si el empleado es un Chef
+export const isChef = checkRole("Chef");
 
-        if (!userFound) {
-            return res.status(404).json({
-                message: "Empleado no encontrado",
-            });
-        }
+// Middleware para verificar si el empleado es un Admin
+export const isAdmin = checkRole("Admin");
 
-        const rolUser = userFound.rol;
+// Middleware para verificar si el empleado es un Jefe de Cocina
+export const isJefeCocina = checkRole("JefeCocina");
 
-        // Verifica si el rol del usuario es "admin"
-        if (rolUser !== "Admin") {
-            return res.status(403).json({
-                message: "Se requiere un rol de administrador para realizar esta acción"  
-            });
-        }
-
-        next();  // Si el rol es admin, continúa con la solicitud
-    } catch (error) {
-        res.status(500).json({
-            message: "Error en authorization.middleware"
-        });
-    }
-}
-export async function isJefeCocina(req, res, next) {
-    try {
-        const userRepository = AppDataSource.getRepository(Empleado);
-        const userFound = await userRepository.findOneBy({ email: req.empleadoID });
-
-        if (!userFound) {
-            return res.status(404).json({
-                message: "Empleado no encontrado",
-            });
-        }
-
-        const rolUser = userFound.rol;
-
-        // Verifica si el rol del usuario es "Jefe de cocina"
-        if (rolUser !== "JefeCocina") {
-            return res.status(403).json({
-                message: "Se requiere un rol de Jefe de cocina para realizar esta acción"  
-            });
-        }
-
-        next();  // Si el rol es jefe de cocina, continúa con la solicitud
-    } catch (error) {
-        res.status(500).json({
-            message: "Error en authorization.middleware"
-        });
-    }
-}
-export async function isMesero(req, res, next) {
-    try {
-        const userRepository = AppDataSource.getRepository(Empleado);
-        const userFound = await userRepository.findOneBy({ email: req.empleadoID });
-
-        if (!userFound) {
-            return res.status(404).json({
-                message: "Empleado no encontrado",
-            });
-        }
-
-        const rolUser = userFound.rol;
-
-        // Verifica si el rol del usuario es "mesero"
-        if (rolUser !== "Mesero") {
-            return res.status(403).json({
-                message: "Se requiere un rol de mesero para realizar esta acción"  
-            });
-        }
-
-        next();  // Si el rol es mesero, continúa con la solicitud
-    } catch (error) {
-        res.status(500).json({
-            message: "Error en authorization.middleware"
-        });
-    }
-};
+// Middleware para verificar si el empleado es un Mesero
+export const isMesero = checkRole("Mesero");

@@ -8,6 +8,9 @@ import clienteRoutes from "../routes/cliente.routes.js";
 import empleadoRoutes from "../routes/empleado.routes.js";
 import platoRoutes from "../routes/plato.routes.js"; 
 import pedidoRoutes from "./pedido.routes.js";
+import emailRoutes from "./email.routes.js";
+import userRoutes from "./user.routes.js";
+import authRoutes from "./auth.routes.js";
 
 const router = Router();
 
@@ -20,5 +23,8 @@ router.use("/cliente", clienteRoutes);
 router.use("/empleado", empleadoRoutes);
 router.use("/plato", platoRoutes); 
 router.use("/pedido", pedidoRoutes); 
+router.use("/email", emailRoutes);
+router.use("/auth", authRoutes)
+router.use("/user", userRoutes);
 
 export default router;

@@ -14,6 +14,7 @@ const ProveedorSchema = new EntitySchema({
             type: "varchar",
             length: 100,
             nullable: false,
+            check: "LENGTH(nombre) > 2", // Validación de longitud
         },
         contacto: {
             type: "varchar",
@@ -25,14 +26,25 @@ const ProveedorSchema = new EntitySchema({
             length: 255,
             nullable: true,
         },
+        createdAt: { // Se crea automáticamente
+            type: "timestamp",
+            default: () => "CURRENT_TIMESTAMP",
+        },
+        updatedAt: { // Se actualiza automáticamente
+            type: "timestamp",
+            default: () => "CURRENT_TIMESTAMP",
+            onUpdate: "CURRENT_TIMESTAMP",
+        },
     },
     relations: {
         inventario: {
             target: "Inventario",
             type: "one-to-many",
             inverseSide: "proveedor",
+            //eager: true, // Carga los datos relacionados
         },
     },
 });
+
 
 export default ProveedorSchema;
