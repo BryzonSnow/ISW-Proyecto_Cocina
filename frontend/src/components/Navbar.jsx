@@ -1,14 +1,42 @@
 import "../styles/navbar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import axios from "../services/root.service.js";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // Para manejar errores de login
 
   const toggleModal = (e) => {
     setIsModalOpen(!isModalOpen);
     if (e.target.className === "modal-overlay") {
       setIsModalOpen(false);
+    }
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const email = event.target.username.value;
+    const password = event.target.password.value;
+
+    try {
+      const response = await axios.post('/auth/login', {
+        email,
+        password,
+      });
+
+      console.log('Login exitoso:', response.data);
+      setErrorMessage(''); // Limpiar mensaje de error si el login es exitoso
+      setIsModalOpen(false); // Cerrar el modal tras el login exitoso
+    } catch (error) {
+      if (error.response) {
+        // Error del backend
+        setErrorMessage(error.response.data.message || 'Error en el login');
+      } else {
+        // Error de red u otro problema
+        setErrorMessage('Error al conectar con el servidor');
+      }
+      console.error('Error en la solicitud:', error);
     }
   };
 
@@ -19,8 +47,7 @@ const Navbar = () => {
           <h1 style={{ fontFamily: "Newsreader, serif" }}>Restaurante</h1>
         </div>
         
-        
-        <div className="navbar__right"> {/*Aquí se agregaron las opciones de Quiénes somos, Dirección, Comentarios y Perfil*/}
+        <div className="navbar__right">
           <div className="navbar__user-options">
             <a href="/gestionusuarios">Gestión Usuarios</a>
             <a href="/Dirección">Dirección</a>
@@ -31,8 +58,9 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      
       <nav>
-      <ul className="navbar__links">
+        <ul className="navbar__links">
           <li>
             <Link to="/" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inicio</Link>
           </li>
@@ -44,11 +72,11 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/ingrediente" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Ingrediente</Link>
-            </li>
-            <li>
+          </li>
+          <li>
             <Link to="/inventario" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inventario</Link>
-            </li>
-            <li>
+          </li>
+          <li>
             <Link to="/turnos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Turnos</Link>
           </li>
           <li>
@@ -56,6 +84,38 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={toggleModal}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Iniciar sesión</h2>
+            <form onSubmit={handleLogin}>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="username"
+                required
+              />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="password"
+                required
+              />
+              <button type="submit">Login</button>
+            </form>
+            {/* Mensaje de error */}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {/* Botón para cerrar el modal */}
+            <button className="modal-close" onClick={toggleModal}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

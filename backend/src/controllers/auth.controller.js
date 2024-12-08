@@ -14,6 +14,8 @@ export async function login(req, res) {
   try {
     const { body } = req;
 
+console.log("body", body);
+
     const { error } = authValidation.validate(body);
 
     if (error) {
