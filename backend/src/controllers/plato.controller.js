@@ -122,7 +122,7 @@ const platoController = {
             if (!plato) {
                 return res.status(404).json({ message: "Plato no encontrado" });
             }
-            platoRepo.merge(req.param.id, req.body);
+            platoRepo.merge(plato, req.body);
             const result = await platoRepo.save(plato);
             res.status(200).json(result);
         } catch (error) {
