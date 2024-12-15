@@ -49,7 +49,7 @@ const Navbar = () => {
         
         <div className="navbar__right">
           <div className="navbar__user-options">
-            <a href="/gestionusuarios">Gestión Usuarios</a>
+            <a href="/usuarios">Usuarios</a>
             <a href="/Dirección">Dirección</a>
             <a href="/Comentarios">Comentarios</a>
             <a href="/perfil">Perfil</a>

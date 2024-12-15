@@ -10,7 +10,12 @@ const Menu = () => {
   useEffect(() => {
     async function fetchMenuItems() {
       const data = await getPlatos();
-      setMenuItems(data);
+        console.log(data); // Revisar la estructura de los datos
+      const dataIds = data.map((item, index) => ({
+        ...item,
+        id: item.id || index, // Usa item.id si existe, de lo contrario el índice
+      }));
+      setMenuItems(dataIds);
     }
     fetchMenuItems();
   }, []);
@@ -40,7 +45,7 @@ const Menu = () => {
             key={item.id}
             title={item.nombre}
             description={item.descripcion}
-            price={item.precio}
+            price={Number(item.precio)} // Convierte el precio a número
             isAvailable={item.disponibilidad}
           />
         ))}
@@ -48,59 +53,5 @@ const Menu = () => {
     </div>
     );
   }
-
-
-
-//const menuBebidaItems = [
-//  {
-//    id: 7,
-//    title: 'Coca Cola',
-//    description: 'Bebida gaseosa de cola.',
-//    price: 1000,
-//    image: 'https://static.salcobrandonline.cl/spree/products/36375/large_webp/8971600.webp?1641477356',
-//    isAvailable: true,
-// },
-//  {
-//    id: 8,
-//    title: 'Fanta',
-//    description: 'Bebida gaseosa de naranja.',
-//    price: 1000,
-//    image: 'https://brindo.cl/15-thickbox_default/1x-fanta-lata-350cc.jpg',
-//    isAvailable: true,
-//  },
-//  {
-//  id: 9,
-//    title: 'Sprite',
-//    description: 'Bebida gaseosa de limón.',
-//    price: 1000,
-//    image: 'https://www.distribuidoralamartina.cl/wp-content/uploads/2021/04/sprite-origianl-lata-330ml-min.png',
-//    isAvailable: true,
-//  },
-//  {
-//    id: 10,
-//    title: 'Agua Mineral',
-//    description: 'Agua mineral sin gas.',
-//    price: 800,
-//    image: 'https://prisa.cl/media/cache/attachment/filter/product_gallery_main/b6b1adc76b36bd6a7f81344215e93277/144922/Prisa-65254a9542780488932197.png',
-//    isAvailable: true,
-//  },
-  // Poner mas bebidas aquí
-
-//];
-
-{/*      <h1 style={{ fontSize: '2em' }}>Bebidas</h1>
-      <div className="menu-grid">
-        {menuBebidaItems.map((item) => (
-          <MenuCard
-            key={item.id}
-            title={item.title}
-            description={item.description}
-            price={item.price}
-            image={item.image}
-            isAvailable={item.isAvailable}
-          />
-        ))}
-      </div>
-*/}
 
 export default Menu;
