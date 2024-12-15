@@ -237,25 +237,23 @@ useEffect(() => {
         </div>
         <div>
           <label className="block text-gray-700 mb-1">Ingredientes</label>
-          <div className="flex flex-wrap gap-2">
+          {/* Contenedor desplazable */}
+          <div className="border p-2 rounded h-40 overflow-y-scroll">
             {ingredientes.map((ingrediente) => (
-              <label key={ingrediente.ingredienteID} className="flex items-center gap-2">
+              <label key={ingrediente.ingredienteID} className="flex items-center gap-2 mb-1">
                 <input
                   type="checkbox"
-                  checked={ ingredientesCheck.some(
-                    (ingredienteCheck) => ingrediente.ingredienteID === ingredienteCheck.ingredienteID) 
-                  }
-                  onChange={() =>
-                    handleSelectIngrediente(ingrediente)
-                  }
+                  checked={ingredientesCheck.some(
+                    (ingredienteCheck) =>
+                      ingrediente.ingredienteID === ingredienteCheck.ingredienteID
+                  )}
+                  onChange={() => handleSelectIngrediente(ingrediente)}
                 />
-                {
-                  ingrediente.nombre
-                }
+                {ingrediente.nombre}
               </label>
-            ))}
-          </div>
+          ))}
         </div>
+</div>
         {/* Cargar imagen */}
         <div>
             <label className="block text-gray-700 mb-1">Imagen del Plato</label>
