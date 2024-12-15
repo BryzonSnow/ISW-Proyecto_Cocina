@@ -111,6 +111,14 @@ const handleImageChange = (e) => {
 
   // Manejar la edición de un plato
   const handleEdit = (plato) => {
+
+    console.log("Plato a editar:", plato); // Mostrar el plato a editar
+    
+    if (!Array.isArray(plato.ingredienteID)) {
+        console.error("ingredienteID no es un array al editar:", plato.ingredienteID);
+        plato.ingredienteID = []; // Establecer como array vacío
+    }
+
     setingredientesCheck([]);
     setEditPlato(plato);
     console.log(plato);
@@ -149,6 +157,10 @@ useEffect(() => {
   // Manejar la selección de ingredientes
   const handleSelectIngrediente = (ingredienteSeleccionado) => {
     setingredientesCheck((prevIngredientesCheck) => {
+      if (!Array.isArray(prevIngredientesCheck)) {
+        console.error("El estado ingredientesCheck no es un array:", prevIngredientesCheck);
+        return []; // Devolver array vacío
+    }
         const yaSeleccionado = prevIngredientesCheck.some(
             (ingrediente) => ingrediente.ingredienteID === ingredienteSeleccionado.ingredienteID
         );
