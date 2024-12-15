@@ -9,6 +9,9 @@ import empleadoRoutes from "../routes/empleado.routes.js";
 import platoRoutes from "../routes/plato.routes.js"; 
 import pedidoRoutes from "./pedido.routes.js";
 
+import userRoutes from "./user.routes.js";
+import authRoutes from "./auth.routes.js";
+
 const router = Router();
 
 router.use("/turno", turnoRoutes);
@@ -20,5 +23,9 @@ router.use("/cliente", clienteRoutes);
 router.use("/empleado", empleadoRoutes);
 router.use("/plato", platoRoutes); 
 router.use("/pedido", pedidoRoutes); 
+
+router
+    .use("/auth", authRoutes)
+    .use("/user", userRoutes);
 
 export default router;
