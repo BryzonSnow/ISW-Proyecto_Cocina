@@ -6,16 +6,15 @@ export const getPedidos = () => {
     return axios.get(`${API_URL}/pedido`);
   };
 
-export const createPedido = async (pedidoData) => {
+  export async function createPedido(pedidoData) {
     try {
-        const response = await axios.post(`${API_URL}/pedido`, pedidoData);
-        return response.data;
+        const { data } = await axios.post(`${API_URL}/pedido/`, pedidoData);
+        return data;
     } catch (error) {
-        console.error("Error al crear pedido:", error.response?.data || error.message);
-        throw new Error(error.response?.data || 'Error al crear pedido');
+        console.error('Error al crear pedido:', error.response?.data || error.message);
+        throw error.response?.data || error;
     }
-};
-
+}
 export async function updatePedido(id, pedidoData) {
   try {
     const { data } = await axios.put(`${API_URL}/pedido/${id}`, pedidoData);

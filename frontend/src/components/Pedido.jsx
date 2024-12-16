@@ -1,63 +1,139 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPedido } from '../services/pedido.service';
+import { getPlatos } from '../services/plato.service';
+import { getCliente } from '../services/cliente.service';
 
 const Pedido = () => {
     const [pedido, setPedido] = useState({
         clienteID: '',
-        platoID: '',
         empleadoID: '',
-        fecha: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        estado: 'Pendiente',
-        total: 0
+        fecha: new Date().toISOString().slice(0, 10),
+        estado: 'pendiente',
+        total: 0,
     });
 
+    const [clientes, setClientes] = useState([]);
+    const [platos, setPlatos] = useState([]);
+    const [platosSeleccionados, setPlatosSeleccionados] = useState([]);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const cargarDatos = async () => {
+            try {
+                const clientesData = await getCliente();
+                const platosData = await getPlatos();
+                setClientes(clientesData);
+                setPlatos(platosData);
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+            }
+        };
+
+        cargarDatos();
+    }, []);
+
+    const handlePlatoSelect = (idPlato) => {
+        const plato = platos.find((p) => p.platoID === parseInt(idPlato));
+        if (plato && !platosSeleccionados.some((p) => p.platoID === parseInt(idPlato))) {
+            setPlatosSeleccionados([...platosSeleccionados, plato]);
+            setPedido((prevPedido) => ({
+                ...prevPedido,
+                total: prevPedido.total + parseFloat(plato.precio),
+            }));
+        }
+    };
+
+    const handlePlatoRemove = (idPlato) => {
+        const plato = platosSeleccionados.find((p) => p.platoID === parseInt(idPlato));
+        if (plato) {
+            setPlatosSeleccionados(platosSeleccionados.filter((p) => p.platoID !== parseInt(idPlato)));
+            setPedido((prevPedido) => ({
+                ...prevPedido,
+                total: prevPedido.total - parseFloat(plato.precio),
+            }));
+        }
+    };
+
     const handleCreate = async () => {
+        if (!pedido.clienteID || !pedido.empleadoID || platosSeleccionados.length === 0) {
+            setError('Todos los campos son obligatorios.');
+            return;
+        }
+
         try {
-            const resultado = await createPedido(pedido);
-            console.log('Pedido creado con éxito:', resultado);
+            setError('');
+            for (const plato of platosSeleccionados) {
+                const nuevoPedido = {
+                    ...pedido,
+                    platoID: plato.platoID,
+                };
+                await createPedido(nuevoPedido);
+            }
+
+            console.log('Pedido(s) creado(s) con éxito');
+            setPedido({
+                clienteID: '',
+                empleadoID: '',
+                fecha: new Date().toISOString().slice(0, 10),
+                estado: 'pendiente',
+                total: 0,
+            });
+            setPlatosSeleccionados([]);
         } catch (error) {
             console.error('Error creando pedido:', error.message);
+            setError('Hubo un error al crear el pedido.');
         }
     };
 
     return (
         <div style={styles.container}>
-            <div style={{ margin: '1px 0', textAlign: 'left' }}>
-      <a href="localhost:5173/verpedidos">
-        <button
-          style={{
-            backgroundColor: '#6c757d',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            borderRadius: '5px',
-          }}
-        >
-          Gestionar pedidos
-        </button>
-      </a>
-    </div>
             <h1 style={styles.title}>Crear Pedido</h1>
+            {error && <p style={styles.error}>{error}</p>}
             <form onSubmit={(e) => e.preventDefault()} style={styles.form}>
                 <div style={styles.inputGroup}>
-                    <label style={styles.label}>Cliente ID:</label>
-                    <input
-                        type="text"
+                    <label style={styles.label}>Cliente:</label>
+                    <select
                         value={pedido.clienteID}
-                        onChange={(e) => setPedido({ ...pedido, clienteID: e.target.value })}
-                        style={styles.input}
-                    />
+                        onChange={(e) => setPedido({ ...pedido, clienteID: parseInt(e.target.value) || '' })}
+                        style={styles.select}
+                    >
+                        <option value="">Seleccione un cliente</option>
+                        {clientes.map((cliente) => (
+                            <option key={cliente.clienteID} value={cliente.clienteID}>
+                                {cliente.nombre}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div style={styles.inputGroup}>
-                    <label style={styles.label}>Plato ID:</label>
-                    <input
-                        type="text"
-                        value={pedido.platoID}
-                        onChange={(e) => setPedido({ ...pedido, platoID: e.target.value })}
-                        style={styles.input}
-                    />
+                    <label style={styles.label}>Platos:</label>
+                    <select
+                        onChange={(e) => handlePlatoSelect(e.target.value)}
+                        style={styles.select}
+                    >
+                        <option value="">Seleccione un plato</option>
+                        {platos.map((plato) => (
+                            <option key={plato.platoID} value={plato.platoID}>
+                                {plato.nombre} - ${plato.precio}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <h3>Platos seleccionados:</h3>
+                    <ul>
+                        {platosSeleccionados.map((plato) => (
+                            <li key={plato.platoID}>
+                                {plato.nombre} - ${plato.precio}
+                                <button
+                                    onClick={() => handlePlatoRemove(plato.platoID)}
+                                    style={styles.removeButton}
+                                >
+                                    Quitar
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
                 <div style={styles.inputGroup}>
                     <label style={styles.label}>Empleado ID:</label>
@@ -82,11 +158,13 @@ const Pedido = () => {
                     <input
                         type="number"
                         value={pedido.total}
-                        onChange={(e) => setPedido({ ...pedido, total: parseFloat(e.target.value) })}
+                        readOnly
                         style={styles.input}
                     />
                 </div>
-                <button type="button" onClick={handleCreate} style={styles.button}>Crear Pedido</button>
+                <button type="button" onClick={handleCreate} style={styles.button}>
+                    Crear Pedido
+                </button>
             </form>
         </div>
     );
@@ -128,6 +206,24 @@ const styles = {
         width: '100%',
         boxSizing: 'border-box',
     },
+    select: {
+        padding: '10px',
+        fontSize: '16px',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        outline: 'none',
+        width: '100%',
+        boxSizing: 'border-box',
+    },
+    removeButton: {
+        marginLeft: '10px',
+        backgroundColor: '#ff5c5c',
+        color: 'white',
+        border: 'none',
+        padding: '5px 10px',
+        cursor: 'pointer',
+        borderRadius: '4px',
+    },
     button: {
         padding: '10px 20px',
         backgroundColor: '#4CAF50',
@@ -137,6 +233,11 @@ const styles = {
         borderRadius: '4px',
         cursor: 'pointer',
         transition: 'background-color 0.3s',
+    },
+    error: {
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: '10px',
     },
 };
 
