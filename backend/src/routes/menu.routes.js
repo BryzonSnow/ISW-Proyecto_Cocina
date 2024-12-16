@@ -10,13 +10,11 @@ router.get("/", publicAccess, menuController.getAll); //Todos pueden ver el menu
 router.get("/:id", publicAccess, menuController.getById); //Todos pueden ver un plato específico
 
 // Rutas protegidas
-router.post("/", hasRoles(["Admin", "JefeCocina"]), menuController.create); // Solo "Admin" y "JefeCocina" pueden crear platos
-router.put("/:id", hasRoles(["Admin", "JefeCocina"]), menuController.update); // Solo "Admin" y "JefeCocina" pueden actualizar platos
-router.delete("/:id", hasRoles(["Admin"]), menuController.delete); // Solo "Admin" puede eliminar platos
-
-router.post("/", decodeToken, hasRoles(["Admin", "JefeCocina"]), menuController.create); // Crear plato
-router.put("/:id", decodeToken, hasRoles(["Admin", "JefeCocina", "Chef"]), menuController.update); // Actualizar plato
-router.delete("/:id", decodeToken, hasRoles(["Admin"]), menuController.delete); // Eliminar plato
+// Rutas protegidas que requieren autenticación y autorización
+router.post("/", decodeToken, hasRoles(["Admin", "JefeCocina"]), menuController.create); // Solo "Admin" y "JefeCocina" pueden crear platos
+router.put("/:id", decodeToken, hasRoles(["Admin", "JefeCocina"]), menuController.update); 
+// Solo "Admin" y "JefeCocina" pueden actualizar platos
+router.delete("/:id", decodeToken, hasRoles(["Admin"]), menuController.delete); // Solo "Admin" puede eliminar platos
 
 
 export default router;

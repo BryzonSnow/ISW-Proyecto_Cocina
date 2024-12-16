@@ -6,7 +6,7 @@ import {
   deletePlato,
 } from "../services/plato.service";
 import { getIngredientes } from "../services/ingrediente.service"; // Agregamos este servicio
-
+import { useSnackbar } from "../components/SnackbarContext.jsx"; // Importar el hook
 
 // Componente de la página de gestión de menú
 const GestionMenu = () => {
@@ -21,6 +21,7 @@ const GestionMenu = () => {
     ingredienteID: [], // ID de ingredientes seleccionados
   });
   const [editPlato, setEditPlato] = useState(null);
+  const { showSnackbar } = useSnackbar(); // Usar el hook para mostrar el Snackbar
 
 
     // Manejar la carga de imágenes
@@ -48,6 +49,17 @@ const handleImageChange = (e) => {
     fetchData();
   }, []);
 
+  const updateFetchData = async () => {
+    try {
+      const platosData = await getPlatos();
+      const ingredientesData = await getIngredientes();
+      if (Array.isArray(platosData)) setPlatos(platosData);
+      if (Array.isArray(ingredientesData)) setIngredientes(ingredientesData);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+    }
+  };
+
   // Manejo del formulario (crear o actualizar plato)
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,24 +70,32 @@ const handleImageChange = (e) => {
       disponibilidad: newPlato.disponibilidad,
       ingredienteID: newPlato.ingredienteID,
     };
+    const dataFormEdit = {
+      nombre: newPlato.nombre,
+      descripcion: newPlato.descripcion,
+      precio: newPlato.precio,
+      disponibilidad: newPlato.disponibilidad,
+      ingredienteID: newPlato.ingredientesCheck,
+    };
     const formData = new FormData();
     formData.append("nombre", newPlato.nombre);
     formData.append("descripcion", newPlato.descripcion);
     formData.append("precio", newPlato.precio);
     formData.append("disponibilidad", newPlato.disponibilidad);
 
+
     // Convertir a JSON los ingredientes seleccionados
     formData.append("ingredienteID", JSON.stringify(ingredientesCheck));
 
     // Validar que haya al menos un ingrediente seleccionado
   if (!ingredientesCheck || ingredientesCheck.length === 0) {
-    alert("Debes seleccionar al menos un ingrediente.");
+    showSnackbar("Debes seleccionar al menos un ingrediente.");
     return;
   }
   newPlato.ingredienteID = ingredientesCheck;
 
     if (!newPlato.nombre || !newPlato.descripcion || newPlato.precio <= 0) {
-      alert("Por favor, completa todos los campos correctamente.");
+      showSnackbar("Por favor, completa todos los campos correctamente.", "error");
       return;
     }
     if (newPlato.imagen) {
@@ -85,12 +105,13 @@ const handleImageChange = (e) => {
     if (editPlato) {
       console.log(newPlato);
       // Actualizar plato
-      const updatedPlato = await updatePlato(editPlato.platoID, dataForm);
+      const updatedPlato = await updatePlato(editPlato.platoID, newPlato);
       if (updatedPlato?.platoID) {
         setPlatos(
           platos.map((plato) =>
             plato.platoID === updatedPlato.platoID ? updatedPlato : plato
-          )
+          ),
+          
         );
       }
       setEditPlato(null);
@@ -107,6 +128,34 @@ const handleImageChange = (e) => {
         disponibilidad: true,
         ingredienteID: [],
       });
+      try {
+        if (editPlato) {
+          // Actualizar plato
+          const updatedPlato = await updatePlato(editPlato.platoID, newPlato);
+          if (updatedPlato?.platoID) {
+            showSnackbar("Plato actualizado correctamente.", "success");
+            updateFetchData(); // Refrescar la tabla de datos
+          }
+          setEditPlato(null);
+        } else {
+            showSnackbar("Plato creado exitosamente", "success");
+            updateFetchData(); // Refrescar la tabla de datos
+        }
+    
+        // Reiniciar el formulario
+        setNewPlato({
+          nombre: "",
+          descripcion: "",
+          precio: 0,
+          disponibilidad: true,
+          ingredienteID: [],
+        });
+        setingredientesCheck([]);
+      } catch (error) {
+        console.error("Error al guardar el plato:", error);
+        showSnackbar("Ocurrió un error al guardar el plato. Inténtalo de nuevo.", "error");
+      }
+
     };  // Fin de la función handleSubmit
 
   // Manejar la edición de un plato
@@ -114,10 +163,7 @@ const handleImageChange = (e) => {
 
     console.log("Plato a editar:", plato); // Mostrar el plato a editar
     
-    if (!Array.isArray(plato.ingredienteID)) {
-        console.error("ingredienteID no es un array al editar:", plato.ingredienteID);
-        plato.ingredienteID = []; // Establecer como array vacío
-    }
+    
 
     setingredientesCheck([]);
     setEditPlato(plato);
@@ -184,7 +230,7 @@ useEffect(() => {
       if (result?.status !== 500) {
         setPlatos(platos.filter((plato) => plato.platoID !== id));
       } else {
-        alert("Error al eliminar el plato");
+        showSnackbar("Error al eliminar el plato", "error");
       }
     }
   };
@@ -196,9 +242,24 @@ useEffect(() => {
         onSubmit={handleSubmit}
         className="bg-white p-4 rounded shadow-md w-1/3 h-auto flex flex-col gap-4"
       >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2 className="text-xl font-semibold mb-2">
           {editPlato ? "Actualizar Plato" : "Crear Plato"}
         </h2>
+        <a href="http://localhost:5173/gestionmenu" style={{ textDecoration: 'none' }}>
+    <button style={{
+      backgroundColor: '#6C757D',
+      color: 'white',
+      border: 'none',
+      padding: '10px 20px',
+      fontSize: '16px',
+      cursor: 'pointer',
+      borderRadius: '5px'
+    }}>
+      Atrás
+    </button>
+  </a>
+  </div>
         <div>
           <label className="block text-gray-700 mb-1">Nombre</label>
           <input
