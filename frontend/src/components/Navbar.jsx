@@ -62,7 +62,6 @@ const Navbar = () => {
         <div className="navbar__brand">
           <h1 style={{ fontFamily: "Newsreader, serif" }}>Restaurante</h1>
         </div>
-
         <div className="navbar__right">
           <div className="navbar__user-options">
             <a href="/usuarios">Usuarios</a>

@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import '../styles/MenuCard.css';
 
-const MenuCard = ({ title, description, price, image, isAvailable }) => {
+const MenuCard = ({ title, description, price, isAvailable }) => {
   return (
     <div className={`menu-card ${!isAvailable ? 'menu-card--unavailable' : ''}`}>
-      <img src={image} alt={title} className="menu-card__image" />
       <div className="menu-card__info">
         <h3 className="menu-card__title">{title}</h3>
         <p className="menu-card__description">{description}</p>
@@ -23,8 +22,7 @@ const MenuCard = ({ title, description, price, image, isAvailable }) => {
 MenuCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired, 
-    price: PropTypes.number.isRequired,       
-    image: PropTypes.string.isRequired,       
+    price: PropTypes.number.isRequired,   
     isAvailable: PropTypes.bool.isRequired,   
   };
 
