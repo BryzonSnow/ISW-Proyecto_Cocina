@@ -1,48 +1,48 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001/api/proveedor";
 
-export async function getProveedores() {
+export const getProveedores = async () => {
   try {
-    const { data } = await axios.get(`${API_URL}/proveedor/all`);
+    const { data } = await axios.get(`${API_URL}/all`);
     return data;
   } catch (error) {
-    return error.response?.data || { message: "Error al obtener proveedores", status: 500 };
+    throw error.response?.data || new Error("Error al obtener los proveedores");
   }
-}
+};
 
-export async function getProveedorById(id) {
+export const getProveedorById = async (id) => {
   try {
-    const { data } = await axios.get(`${API_URL}/proveedor/${id}`);
+    const { data } = await axios.get(`${API_URL}/${id}`);
     return data;
   } catch (error) {
-    return error.response?.data || { message: "Error al obtener proveedor", status: 500 };
+    throw error.response?.data || new Error("Error al obtener el proveedor");
   }
-}
+};
 
-export async function createProveedor(proveedorData) {
+export const createProveedor = async (proveedor) => {
   try {
-    const { data } = await axios.post(`${API_URL}/proveedor`, proveedorData);
+    const { data } = await axios.post(API_URL, proveedor);
     return data;
   } catch (error) {
-    return error.response?.data || { message: "Error al crear proveedor", status: 500 };
+    throw error.response?.data || new Error("Error al crear el proveedor");
   }
-}
+};
 
-export async function updateProveedor(id, proveedorData) {
+export const updateProveedor = async (id, proveedor) => {
   try {
-    const { data } = await axios.put(`${API_URL}/proveedor/${id}`, proveedorData);
+    const { data } = await axios.put(`${API_URL}/${id}`, proveedor);
     return data;
   } catch (error) {
-    return error.response?.data || { message: "Error al actualizar proveedor", status: 500 };
+    throw error.response?.data || new Error("Error al actualizar el proveedor");
   }
-}
+};
 
-export async function deleteProveedor(id) {
+export const deleteProveedor = async (id) => {
   try {
-    const { data } = await axios.delete(`${API_URL}/proveedor/${id}`);
+    const { data } = await axios.delete(`${API_URL}/${id}`);
     return data;
   } catch (error) {
-    return error.response?.data || { message: "Error al eliminar proveedor", status: 500 };
+    throw error.response?.data || new Error("Error al eliminar el proveedor");
   }
-}
+};
