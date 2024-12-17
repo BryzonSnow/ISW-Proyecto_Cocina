@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { createContext, useContext, useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -31,7 +32,7 @@ export const SnackbarProvider = ({ children }) => {
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
       {/* Snackbar global */}
-      <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
         <Alert onClose={handleClose} severity={snackbar.severity} sx={{ width: "100%" }}>
           {snackbar.message}
         </Alert>

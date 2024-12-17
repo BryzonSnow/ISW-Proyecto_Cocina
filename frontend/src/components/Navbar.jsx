@@ -2,10 +2,12 @@ import "../styles/navbar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "../services/root.service.js";
+import Cookies from "js-cookie";
+import { useSnackbar } from "../components/SnackbarContext.jsx";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // Para manejar errores de login
+  const [errorMessage, setErrorMessage] = useState(""); // Para manejar errores de login
 
   const toggleModal = (e) => {
     setIsModalOpen(!isModalOpen);
@@ -14,29 +16,43 @@ const Navbar = () => {
     }
   };
 
+  const { showSnackbar } = useSnackbar();
+
   const handleLogin = async (event) => {
     event.preventDefault();
     const email = event.target.username.value;
     const password = event.target.password.value;
 
     try {
-      const response = await axios.post('/auth/login', {
+      const response = await axios.post("/auth/login", {
         email,
         password,
       });
 
-      console.log('Login exitoso:', response.data);
-      setErrorMessage(''); // Limpiar mensaje de error si el login es exitoso
+      console.log("Login exitoso:", response.data);
+      showSnackbar("Login exitoso", "success");
+
+      // Obtener la cookie 'payload'
+      const payloadCookie = Cookies.get("payload");
+
+      if (payloadCookie) {
+        const payload = JSON.parse(payloadCookie);
+        console.log("Datos del payload:", payload);
+      } else {
+        console.log("No existe la cookie de payload");
+      }
+
+      setErrorMessage(""); // Limpiar mensaje de error si el login es exitoso
       setIsModalOpen(false); // Cerrar el modal tras el login exitoso
     } catch (error) {
       if (error.response) {
         // Error del backend
-        setErrorMessage(error.response.data.message || 'Error en el login');
+        setErrorMessage(error.response.data.message || "Error en el login");
       } else {
         // Error de red u otro problema
-        setErrorMessage('Error al conectar con el servidor');
+        setErrorMessage("Error al conectar con el servidor");
       }
-      console.error('Error en la solicitud:', error);
+      console.error("Error en la solicitud:", error);
     }
   };
 
@@ -46,7 +62,7 @@ const Navbar = () => {
         <div className="navbar__brand">
           <h1 style={{ fontFamily: "Newsreader, serif" }}>Restaurante</h1>
         </div>
-        
+
         <div className="navbar__right">
           <div className="navbar__user-options">
             <a href="/usuarios">Usuarios</a>
@@ -54,33 +70,70 @@ const Navbar = () => {
             <a href="/Comentarios">Comentarios</a>
             <a href="/perfil">Perfil</a>
             {/* Botón para abrir el modal */}
-            <button className="navbar__login" onClick={toggleModal}>Login</button>
+            <button className="navbar__login" onClick={toggleModal}>
+              Login
+            </button>
           </div>
         </div>
       </nav>
-      
+
       <nav>
         <ul className="navbar__links">
           <li>
-            <Link to="/" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inicio</Link>
+            <Link
+              to="/"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Inicio
+            </Link>
           </li>
           <li>
-            <Link to="/menu" style={{ fontFamily: 'Newsreader', fontSize: '1.4rem' }}>Menú</Link>
+            <Link
+              to="/menu"
+              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+            >
+              Menú
+            </Link>
           </li>
           <li>
-            <Link to="/pedidos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Pedidos</Link>
+            <Link
+              to="/pedidos"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Pedidos
+            </Link>
           </li>
           <li>
-            <Link to="/ingrediente" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Ingrediente</Link>
+            <Link
+              to="/ingrediente"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Ingrediente
+            </Link>
           </li>
           <li>
-            <Link to="/inventario" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Inventario</Link>
+            <Link
+              to="/inventario"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Inventario
+            </Link>
           </li>
           <li>
-            <Link to="/turnos" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Turnos</Link>
+            <Link
+              to="/turnos"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Turnos
+            </Link>
           </li>
           <li>
-            <Link to="/proveedor" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Proveedores</Link>
+            <Link
+              to="/proveedor"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Proveedores
+            </Link>
           </li>
         </ul>
       </nav>
@@ -95,7 +148,7 @@ const Navbar = () => {
                 type="text"
                 id="username"
                 name="username"
-                placeholder="username"
+                placeholder="email"
                 required
               />
               <input

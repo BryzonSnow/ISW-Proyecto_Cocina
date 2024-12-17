@@ -12,6 +12,7 @@ import Pedido from './components/Pedido';
 import Cliente from './components/Cliente';
 import Empleado from './components/Empleado';
 import VerPedidos from './components/VerPedidos';
+import Perfil from './components/Perfil';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/clientes" element={<Cliente />} />
         <Route path="/empleados" element={<Empleado />} />
         <Route path="/verpedidos" element={<VerPedidos />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
       <Footer />
       <WspBubble />

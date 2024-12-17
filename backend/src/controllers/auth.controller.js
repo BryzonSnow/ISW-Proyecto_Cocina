@@ -9,6 +9,8 @@ import {
   handleErrorServer,
   handleSuccess,
 } from "../handlers/responseHandlers.js";
+import jwt from "jsonwebtoken";
+
 
 export async function login(req, res) {
   try {
@@ -25,9 +27,18 @@ console.log("body", body);
 
     if (errorToken) return handleErrorClient(res, 400, "Error iniciando sesión", errorToken);
 
-    res.cookie("jwt", accessToken, {
+    // Decodificar el payload del token
+    const decodedPayload = jwt.decode(accessToken);
+
+    res.cookie("jwt", accessToken, { // Crear cookie con el token JWT
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.cookie("payload", JSON.stringify(decodedPayload), { // Crear cookie con el payload del token
+      httpOnly: false,
+      maxAge: 24 * 60 * 60 * 1000, // 1 día
+      sameSite: "Lax",
     });
 
     handleSuccess(res, 200, "Inicio de sesión exitoso", { token: accessToken });
