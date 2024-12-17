@@ -5,26 +5,27 @@ import {
     handleErrorServer,
 } from "../handlers/responseHandlers.js";
 
-export function authenticateJwt(req, res, next) {
-    passport.authenticate("jwt", { session: false }, (err, user, info) => {
+export function authenticateJwt(req, res, next) {  
+    passport.authenticate("jwt", { session: false }, (err, empleado, info) => {
         if (err) {
-        return handleErrorServer(
-            res,
-            500,
-            "Error de autenticación en el servidor"
-        );
+            return handleErrorServer(
+                res,
+                500,
+                "Error de autenticación en el servidor"
+            );
         }
 
-        if (!user) {
-        return handleErrorClient(
-            res,
-            401,
-            "No tienes permiso para acceder a este recurso",
-            { info: info ? info.message : "No se encontró el usuario" }
-        )
+        if (!empleado) {
+            return handleErrorClient(
+                res,
+                401,
+                "No tienes permiso para acceder a este recurso",
+                { info: info ? info.message : "No se encontró el empleado" }
+            )
         }
 
-        req.user = user;
+        req.empleado = empleado; 
         next();
     })(req, res, next);
 }
+
