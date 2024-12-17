@@ -1,15 +1,45 @@
 "use strict";
 import Joi from "joi";
 
+// Validador personalizado para el dominio del correo electrónico
 const domainEmailValidator = (value, helper) => {
-  if (!value.endsWith("@gmail.cl")) {
-    return helper.message(
-      "El correo electrónico debe finalizar en @gmail.cl."
-    );
+  // Permite varios dominios de correo electrónico si es necesario
+  const validDomains = ["gmail.com", "hotmail.com", "yahoo.com"]; // Agrega otros dominios válidos si es necesario
+  const emailDomain = value.split("@")[1];
+
+  if (!validDomains.includes(emailDomain)) {
+    return helper.message(`El correo electrónico debe ser de uno de los siguientes dominios: ${validDomains.join(", ")}`);
   }
   return value;
 };
 
+// Función para validar el RUT chileno, considerando el dígito verificador
+const validateRUT = (rut) => {
+  // Eliminar puntos y guión
+  rut = rut.replace(/[.]/g, "").replace(/[-]/g, "");
+
+  const body = rut.slice(0, -1); // Cuerpo del RUT (sin el DV)
+  const dv = rut[rut.length - 1]; // Dígito verificador
+  let sum = 0;
+  let multiplier = 2;
+
+  // Realizar la operación para calcular el DV
+  for (let i = body.length - 1; i >= 0; i--) {
+    sum += parseInt(body[i]) * multiplier;
+    multiplier = multiplier === 7 ? 2 : multiplier + 1;
+  }
+
+  const mod = sum % 11;
+  const calculatedDV = mod === 0 ? "0" : mod === 1 ? "K" : (11 - mod).toString();
+
+  if (calculatedDV !== dv.toUpperCase()) {
+    throw new Error("El dígito verificador del RUT es incorrecto.");
+  }
+
+  return rut; // RUT válido
+};
+
+// Validación para el inicio de sesión (Login)
 export const authValidation = Joi.object({
   email: Joi.string()
     .min(15)
@@ -20,7 +50,7 @@ export const authValidation = Joi.object({
       "string.empty": "El correo electrónico no puede estar vacío.",
       "any.required": "El correo electrónico es obligatorio.",
       "string.base": "El correo electrónico debe ser de tipo texto.",
-      "string.email": "El correo electrónico debe finalizar en @gmail.cl.",
+      "string.email": "El correo electrónico debe ser válido.",
       "string.min": "El correo electrónico debe tener al menos 15 caracteres.",
       "string.max": "El correo electrónico debe tener como máximo 35 caracteres.",
     })
@@ -42,6 +72,7 @@ export const authValidation = Joi.object({
   "object.unknown": "No se permiten propiedades adicionales.",
 });
 
+// Validación para el registro de un nuevo empleado
 export const registerValidation = Joi.object({
   nombre: Joi.string()
     .min(15)
@@ -56,17 +87,14 @@ export const registerValidation = Joi.object({
       "string.max": "El nombre completo debe tener como máximo 50 caracteres.",
       "string.pattern.base": "El nombre completo solo puede contener letras y espacios.",
     }),
-    rut: Joi.string()
+  rut: Joi.string()
     .min(9)
     .max(12)
     .required()
-    .pattern(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
+    .pattern(/^\d{1,2}\.?\d{3}\.?\d{3}[-]?[0-9kK]{1}$/) // Expresión regular mejorada para permitir puntos y guión
+    .custom(validateRUT, "Validación RUT")
     .messages({
-      "string.empty": "El rut no puede estar vacío.",
-      "string.base": "El rut debe ser de tipo string.",
-      "string.min": "El rut debe tener como mínimo 9 caracteres.",
-      "string.max": "El rut debe tener como máximo 12 caracteres.",
-      "string.pattern.base": "Formato rut inválido, debe ser xx.xxx.xxx-x o xxxxxxxx-x.",
+      "string.pattern.base": "Formato RUT inválido, debe ser xx.xxx.xxx-x o xxxxxxxx-x.",
     }),
   email: Joi.string()
     .min(15)
@@ -77,7 +105,7 @@ export const registerValidation = Joi.object({
       "string.empty": "El correo electrónico no puede estar vacío.",
       "any.required": "El correo electrónico es obligatorio.",
       "string.base": "El correo electrónico debe ser de tipo texto.",
-      "string.email": "El correo electrónico debe finalizar en @gmail.cl.",
+      "string.email": "El correo electrónico debe ser válido.",
       "string.min": "El correo electrónico debe tener al menos 15 caracteres.",
       "string.max": "El correo electrónico debe tener como máximo 35 caracteres.",
     })
@@ -98,5 +126,5 @@ export const registerValidation = Joi.object({
 })
   .unknown(false)
   .messages({
-  "object.unknown": "No se permiten propiedades adicionales.",
-});
+    "object.unknown": "No se permiten propiedades adicionales.",
+  });

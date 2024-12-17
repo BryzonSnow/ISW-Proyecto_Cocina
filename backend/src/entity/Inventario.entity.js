@@ -26,12 +26,6 @@ const InventarioSchema = new EntitySchema({
         },
     },
     relations: {
-        proveedor: {
-            target: "Proveedor",
-            type: "many-to-one",
-            joinColumn: { name: "proveedorID" },
-            onDelete: "SET NULL",
-        },
         empleado: {
             target: "Empleado",
             type: "many-to-one",
@@ -42,7 +36,7 @@ const InventarioSchema = new EntitySchema({
             target: "Ingrediente", 
             type: "one-to-many", 
             inverseSide: "inventario",  
-          },
+        },
     },
 });
 

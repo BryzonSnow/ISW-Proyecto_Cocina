@@ -61,14 +61,31 @@ const proveedorQueryValidation = Joi.object({
         }),
 });
 
-// Función para validar la unicidad del proveedor
+// Función para validar la unicidad del proveedor (nombre o correo)
 const validateProviderUniqueness = async (nombre, email) => {
-    const existingProveedor = await Proveedor.findOne({
-        where: { nombre, email }
-    });
-
-    if (existingProveedor) {
-        throw new Error("Ya existe un proveedor con este nombre y correo.");
+    try {
+        // Verificar si existe un proveedor con el mismo nombre
+        const existingByName = await Proveedor.findOne({
+            where: { nombre }
+        });
+    
+        // Si existe un proveedor con el mismo nombre, lanzar error específico
+        if (existingByName) {
+            throw new Error(`Ya existe un proveedor con el nombre "${nombre}".`);
+        }
+    
+        // Verificar si existe un proveedor con el mismo correo
+        const existingByEmail = await Proveedor.findOne({
+            where: { email }
+        });
+    
+        // Si existe un proveedor con el mismo correo, lanzar error específico
+        if (existingByEmail) {
+            throw new Error(`Ya existe un proveedor con el correo electrónico "${email}".`);
+        }
+    } catch (error) {
+        // Manejo de errores
+        throw new Error(`Error al verificar la unicidad del proveedor: ${error.message}`);
     }
 };
 
