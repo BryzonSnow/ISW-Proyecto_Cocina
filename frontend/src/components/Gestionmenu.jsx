@@ -24,15 +24,6 @@ const GestionMenu = () => {
   const { showSnackbar } = useSnackbar(); // Usar el hook para mostrar el Snackbar
 
 
-    // Manejar la carga de imágenes
-const handleImageChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setNewPlato({ ...newPlato, imagen: file });
-  }
-};
-
-
   // Cargar platos e ingredientes al inicio
   useEffect(() => {
     async function fetchData() {
@@ -89,7 +80,7 @@ const handleImageChange = (e) => {
 
     // Validar que haya al menos un ingrediente seleccionado
   if (!ingredientesCheck || ingredientesCheck.length === 0) {
-    showSnackbar("Debes seleccionar al menos un ingrediente.");
+    showSnackbar("Debes seleccionar al menos un ingrediente.", "error");
     return;
   }
   newPlato.ingredienteID = ingredientesCheck;
@@ -97,9 +88,6 @@ const handleImageChange = (e) => {
     if (!newPlato.nombre || !newPlato.descripcion || newPlato.precio <= 0) {
       showSnackbar("Por favor, completa todos los campos correctamente.", "error");
       return;
-    }
-    if (newPlato.imagen) {
-      formData.append("imagen", newPlato.imagen);
     }
 
     if (editPlato) {
@@ -163,8 +151,6 @@ const handleImageChange = (e) => {
 
     console.log("Plato a editar:", plato); // Mostrar el plato a editar
     
-    
-
     setingredientesCheck([]);
     setEditPlato(plato);
     console.log(plato);
@@ -327,16 +313,6 @@ useEffect(() => {
           ))}
         </div>
 </div>
-        {/* Cargar imagen */}
-        <div>
-            <label className="block text-gray-700 mb-1">Imagen del Plato</label>
-            <input
-                type="file"
-                accept="image/*"
-                className="w-full p-2 border rounded"
-                onChange={handleImageChange}
-            />
-        </div>
         <div>
           <button
             type="submit"
