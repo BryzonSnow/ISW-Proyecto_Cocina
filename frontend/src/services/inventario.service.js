@@ -1,7 +1,7 @@
 // src/api/inventario.js
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api"; // Asegúrate de que esta URL sea correcta
+const API_URL = "http://localhost:3001/api"; // Asegúrate de que esta URL sea correcta
 
 // Obtener todos los inventarios
 export async function getInventarios() {

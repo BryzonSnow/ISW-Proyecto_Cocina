@@ -1,6 +1,6 @@
 import { Router } from "express";
 import empleadoController from "../controllers/empleado.controller.js";
-//import { isAdmin, isChef, isJefeCocina, isMesero } from "../middlewares/authorization.middleware.js";
+import { isAdmin, isChef, isJefeCocina, isMesero } from "../middlewares/authorization.middleware.js";
 
 const router = Router();
 

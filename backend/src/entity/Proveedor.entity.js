@@ -26,6 +26,11 @@ const ProveedorSchema = new EntitySchema({
             length: 255,
             nullable: true,
         },
+        email: {
+            type: "varchar",
+            length: 100,
+            nullable: true,
+        },
         createdAt: { // Se crea automáticamente
             type: "timestamp",
             default: () => "CURRENT_TIMESTAMP",

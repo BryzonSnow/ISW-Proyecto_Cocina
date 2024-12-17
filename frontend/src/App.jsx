@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';  // No es necesario importar BrowserRouter aquí
 import Navbar from './components/Navbar';
 import Ingrediente from './components/Ingrediente'; 
 import Inicio from './components/Inicio';
@@ -12,27 +12,40 @@ import Pedido from './components/Pedido';
 import Cliente from './components/Cliente';
 import Empleado from './components/Empleado';
 import VerPedidos from './components/VerPedidos';
+import PrivateRoute from './components/PrivateRoute';  // Importa el PrivateRoute
+import { useAuth } from '@context/AuthContext';  // Asegúrate de que el hook useAuth esté configurado
 
 const App = () => {
+  const { isAuthenticated } = useAuth();  // Obtén el estado de autenticación global
+
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
+        {/* Ruta pública */}
         <Route path="/" element={<Inicio />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/gestionmenu" element={<Gestionmenu />} />
-        <Route path="/Ingrediente" element={<Ingrediente />} />
-        <Route path="/Inventario" element={<Inventario />} />
-        <Route path="/proveedor" element={<Proveedores />} />
-        <Route path="/pedido" element={<Pedido />} />
-        <Route path="/clientes" element={<Cliente />} />
-        <Route path="/empleados" element={<Empleado />} />
-        <Route path="/verpedidos" element={<VerPedidos />} />
+        
+        {/* Rutas protegidas */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/gestionmenu" element={<Gestionmenu />} />
+          <Route path="/ingrediente" element={<Ingrediente />} />
+          <Route path="/inventario" element={<Inventario />} />
+          <Route path="/proveedor" element={<Proveedores />} />
+          <Route path="/pedido" element={<Pedido />} />
+          <Route path="/clientes" element={<Cliente />} />
+          <Route path="/empleados" element={<Empleado />} />
+          <Route path="/verpedidos" element={<VerPedidos />} />
+        </Route>
+
+        {/* Otras rutas públicas si es necesario */}
+        {/* <Route path="/auth" element={<Login />} />  Este sería tu login */} 
       </Routes>
       <Footer />
       <WspBubble />
-    </Router>
+    </>
   );
 };
 
 export default App;
+

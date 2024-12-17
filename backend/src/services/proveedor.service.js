@@ -1,76 +1,110 @@
 "use strict";
+import ProveedorSchema from "../entity/Proveedor.entity.js";
 import { AppDataSource } from "../config/configDb.js";
-import Proveedor from "../entity/Proveedor.entity.js";
+import { handleErrorClient, handleErrorServer, handleSuccess } from "../handlers/responseHandlers.js";
 
-// Crear un nuevo proveedor
-export async function createProveedorService(proveedorData) {
+// Repositorio de Proveedor
+const proveedorRepo = AppDataSource.getRepository(ProveedorSchema);
+
+// Obtener un proveedor por los parámetros 
+export async function getProveedorService(query) {
     try {
-        const proveedorRepository = AppDataSource.getRepository(Proveedor);
-        const newProveedor = proveedorRepository.create(proveedorData);
-        const result = await proveedorRepository.save(newProveedor);
-        return [result, null];
+        const { nombre, id, email } = query;
+
+        const proveedorFound = await proveedorRepo.findOne({
+        where: [{ proveedorID: id }, { nombre: nombre }, { email: email }],
+        });
+
+        if (!proveedorFound) return [null, "Proveedor no encontrado"];
+
+        return [proveedorFound, null];
     } catch (error) {
-        console.error("Error al crear proveedor:", error);
+        console.error("Error al obtener el proveedor:", error);
         return [null, "Error interno del servidor"];
     }
 }
 
 // Obtener todos los proveedores
-export async function getAllProveedoresService() {
+export async function getProveedoresService() {
     try {
-        const proveedorRepository = AppDataSource.getRepository(Proveedor);
-        const proveedores = await proveedorRepository.find();
+        const proveedores = await proveedorRepo.find();
+
+        if (!proveedores || proveedores.length === 0) return [null, "No hay proveedores"];
+
         return [proveedores, null];
     } catch (error) {
         console.error("Error al obtener proveedores:", error);
         return [null, "Error interno del servidor"];
     }
-}
+    }
 
-// Obtener proveedor por ID
-export async function getProveedorByIdService(id) {
+// Actualizar un proveedor
+export async function updateProveedorService(query, body) {
     try {
-        const proveedorRepository = AppDataSource.getRepository(Proveedor);
-        const proveedor = await proveedorRepository.findOneBy({ proveedorID: id });
-        if (!proveedor) {
-            return [null, "Proveedor no encontrado"];
+        const { id, nombre, email } = query;
+
+        const proveedorFound = await proveedorRepo.findOne({
+        where: [{ proveedorID: id }, { nombre: nombre }, { email: email }],
+        });
+
+        if (!proveedorFound) return [null, "Proveedor no encontrado"];
+
+        // Verificar si el nombre o email ya existen
+        const existingProveedor = await proveedorRepo.findOne({
+        where: [{ nombre: body.nombre }, { email: body.email }],
+        });
+
+        if (existingProveedor && existingProveedor.proveedorID !== proveedorFound.proveedorID) {
+        return [null, "Ya existe un proveedor con el mismo nombre o email"];
         }
-        return [proveedor, null];
+        
+        
+
+        const updatedProveedor = {
+        ...proveedorFound,
+        ...body,
+        updatedAt: new Date(),
+        };
+
+        await proveedorRepo.save(updatedProveedor);
+
+        return [updatedProveedor, null];
     } catch (error) {
-        console.error("Error al obtener proveedor:", error);
+        console.error("Error al modificar el proveedor:", error);
         return [null, "Error interno del servidor"];
     }
 }
 
-// Actualizar proveedor
-export async function updateProveedorService(id, updatedData) {
+// Eliminar un proveedor
+export async function deleteProveedorService(query) {
     try {
-        const proveedorRepository = AppDataSource.getRepository(Proveedor);
-        const proveedor = await proveedorRepository.findOneBy({ proveedorID: id });
-        if (!proveedor) {
-            return [null, "Proveedor no encontrado"];
-        }
-        proveedorRepository.merge(proveedor, updatedData);
-        const result = await proveedorRepository.save(proveedor);
-        return [result, null];
+        const { id, nombre, email } = query;
+
+        const proveedorFound = await proveedorRepo.findOne({
+        where: [{ proveedorID: id }, { nombre: nombre }, { email: email }],
+        });
+
+        if (!proveedorFound) return [null, "Proveedor no encontrado"];
+
+        await proveedorRepo.remove(proveedorFound);
+
+        return [proveedorFound, null];
     } catch (error) {
-        console.error("Error al actualizar proveedor:", error);
+        console.error("Error al eliminar el proveedor:", error);
         return [null, "Error interno del servidor"];
     }
 }
 
-// Eliminar proveedor
-export async function deleteProveedorService(id) {
+// Crear un nuevo proveedor
+export async function createProveedorService(body) {
     try {
-        const proveedorRepository = AppDataSource.getRepository(Proveedor);
-        const proveedor = await proveedorRepository.findOneBy({ proveedorID: id });
-        if (!proveedor) {
-            return [null, "Proveedor no encontrado"];
-        }
-        await proveedorRepository.remove(proveedor);
-        return [null, null];
+        const proveedor = proveedorRepo.create(body);
+
+        const savedProveedor = await proveedorRepo.save(proveedor);
+
+        return [savedProveedor, null];
     } catch (error) {
-        console.error("Error al eliminar proveedor:", error);
+        console.error("Error al crear el proveedor:", error);
         return [null, "Error interno del servidor"];
     }
 }
