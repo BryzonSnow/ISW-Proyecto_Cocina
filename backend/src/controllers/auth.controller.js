@@ -21,7 +21,7 @@ console.log("body", body);
     const { error } = authValidation.validate(body);
 
     if (error) {
-      return handleErrorClient(res, 400, "Error de validación", error.message);
+      return handleErrorClient(res, 400, "Error de validación, revise sus credenciales", error.message);
     }
     const [accessToken, errorToken] = await loginService(body);
 

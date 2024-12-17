@@ -51,11 +51,11 @@ const Menu = () => {
     <div className="menu-container">
       {/* Botón de gestionar menú para administradores */}
       {isAdmin && (
-        <div style={{ margin: "1px 0", textAlign: "left" }}>
+        <div style={{ margin: "5px 0", textAlign: "left" }}>
           <a href="http://localhost:5173/gestionmenu">
             <button
               style={{
-                backgroundColor: "#6c757d",
+                backgroundColor: "#795548",
                 color: "white",
                 border: "none",
                 padding: "10px 20px",
@@ -67,6 +67,7 @@ const Menu = () => {
               Gestionar Menú
             </button>
           </a>
+
         </div>
       )}
 

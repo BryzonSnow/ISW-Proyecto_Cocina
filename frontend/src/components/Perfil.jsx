@@ -77,7 +77,7 @@ const Perfil = () => {
               window.location.reload();
             }}
             style={{
-              backgroundColor: "#6c757d",
+              backgroundColor: "#795548",
               color: "white",
               border: "none",
               padding: "8px 16px",
