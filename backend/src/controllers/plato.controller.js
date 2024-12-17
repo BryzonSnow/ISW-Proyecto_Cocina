@@ -134,7 +134,20 @@ const platoController = {
             if (descripcion !== undefined) plato.descripcion = descripcion;
             if (precio !== undefined) plato.precio = precio;
             if (disponibilidad !== undefined) plato.disponibilidad = disponibilidad;
-            if (ingredienteID !== undefined) plato.ingredienteID = ingredienteID;
+            if (ingredienteID !== undefined) {
+                const platoIngredienteRepo = AppDataSource.getRepository(PlatoIngredienteSchema);
+            
+                // Eliminar relaciones existentes
+                await platoIngredienteRepo.delete({ platoID: plato.platoID });
+            
+                // Insertar nuevas relaciones
+                for (const id of ingredienteID) {
+                    await platoIngredienteRepo.save({
+                        platoID: plato.platoID,
+                        ingredienteID: id,
+                    });
+                }
+            }
     
             // Guardar el plato actualizado
             const result = await platoRepo.save(plato);
