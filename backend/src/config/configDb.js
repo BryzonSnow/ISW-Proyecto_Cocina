@@ -10,9 +10,7 @@ export const AppDataSource = new DataSource({
   username: `${DB_USERNAME}`, // Usuario para la conexión
   password: `${PASSWORD}`, // Contraseña para la conexión
   database: `${DATABASE}`, // Nombre de la base de datos
-  entities: [
-    "src/entity/**/*.js", // Path a las entidades (Modelos de datos) que usará TypeORM
-  ],
+  entities: ["src/entity/**/*.js",], // Path a las entidades (Modelos de datos) que usará TypeORM
   synchronize: true, // Sincroniza automáticamente el esquema de la base de datos (evitar en producción)
   logging: false, // No se activa el registro de logs (para producción)
 });

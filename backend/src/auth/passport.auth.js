@@ -1,6 +1,6 @@
 "use strict";
 import passport from "passport";
-import User from "../entity/user.entity.js";
+import Empleado from "../entity/Empleado.entity.js";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { ACCESS_TOKEN_SECRET } from "../config/configEnv.js";
 import { AppDataSource } from "../config/configDb.js";
@@ -13,15 +13,15 @@ const options = {
 passport.use(
   new JwtStrategy(options, async (jwt_payload, done) => {
     try {
-      const userRepository = AppDataSource.getRepository(User);
-      const user = await userRepository.findOne({
+      const empleadoRepository = AppDataSource.getRepository(Empleado);
+      const empleado = await empleadoRepository.findOne({
         where: {
           email: jwt_payload.email,
         },
       });
 
-      if (user) {
-        return done(null, user);
+      if (empleado) {
+        return done(null, empleado);
       } else {
         return done(null, false);
       }

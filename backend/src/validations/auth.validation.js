@@ -43,7 +43,7 @@ export const authValidation = Joi.object({
 });
 
 export const registerValidation = Joi.object({
-  nombreCompleto: Joi.string()
+  nombre: Joi.string()
     .min(15)
     .max(50)
     .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)

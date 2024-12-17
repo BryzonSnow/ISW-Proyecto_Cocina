@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api"; // Ajusta esto a tu configuración de backend
+const API_URL = "http://localhost:3001/api"; // Ajusta esto a tu configuración de backend
 
 export async function getPlatos() {
     try {

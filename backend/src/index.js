@@ -7,12 +7,15 @@ import session from "express-session";
 import passport from "passport";
 import { cookieKey, HOST, PORT } from "./config/configEnv.js";
 import { connectDB } from "./config/configDb.js";
-import { createUsers } from "./config/initialSetup.js";  // Si es necesario para la creación de usuarios iniciales
+import { createEmpleados } from "./config/initialSetup.js";  // Si es necesario para la creación de usuarios iniciales
 import { passportJwtSetup } from "./auth/passport.auth.js";  // Configuración de Passport JWT
 import indexRoutes from "./routes/index.routes.js";  // Rutas principales de la API
 import authRoutes from "./routes/auth.routes.js";  // Rutas de autenticación (Login, Registro)
 import { authenticateJwt } from "./middlewares/authentication.middleware.js";  // Middleware de autenticación
 import { isAdmin } from "./middlewares/authorization.middleware.js";  // Middleware de autorización (por ejemplo, admin)
+import { AppDataSource } from "./config/configDb.js"; // Importar la clase AppDataSource
+
+
 
 // Función para configurar y arrancar el servidor
 async function setupServer() {
@@ -73,7 +76,7 @@ async function setupAPI() {
     try {
         await connectDB();  // Conexión a la base de datos
         await setupServer();  // Configuración del servidor y rutas
-        await createUsers();  // Crear usuarios iniciales (si es necesario)
+        await createEmpleados();  // Crear usuarios iniciales (si es necesario)
     } catch (error) {
         console.log("Error en index.js -> setupAPI(), el error es: ", error);
     }

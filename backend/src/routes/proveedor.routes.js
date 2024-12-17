@@ -1,24 +1,25 @@
 import { Router } from "express";
-import proveedorController from "../controllers/proveedor.controller.js";
 import { authenticateJwt } from "../middlewares/authentication.middleware.js";
-import { isAdmin } from "../middlewares/authorization.middleware.js";
+import { isAdmin } from "../middlewares/authorization.middleware.js"; 
+import { createProveedor, 
+    deleteProveedor, 
+    getProveedor, 
+    getProveedores,   
+    updateProveedor,      
+} from "../controllers/proveedor.controller.js";
+
 
 const router = Router();
 
-// Ruta para crear un nuevo proveedor (Protegida por autenticación y autorización)
-router.post("/", authenticateJwt, isAdmin, proveedorController.create);
+router
+    .use(authenticateJwt)
+    .use(isAdmin);
 
-// Ruta para obtener todos los proveedores
-router.get("/all", proveedorController.getAll);
-
-// Ruta para obtener un proveedor por ID
-router.get("/:id", proveedorController.getById);
-
-// Ruta para actualizar un proveedor por ID (Protegida por autenticación y autorización)
-router.put("/:id", authenticateJwt, isAdmin, proveedorController.update);
-
-// Ruta para eliminar un proveedor por ID (Protegida por autenticación y autorización)
-router.delete("/:id", authenticateJwt, isAdmin, proveedorController.delete);
+router
+    .get("/all", getProveedores)
+    .get("/:id", getProveedor)
+    .post("/", createProveedor)
+    .put("/:id", updateProveedor)
+    .delete("/:id", deleteProveedor);
 
 export default router;
-

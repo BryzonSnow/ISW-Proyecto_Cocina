@@ -20,6 +20,7 @@ export const DB_USERNAME = process.env.DB_USERNAME;  // Usuario para la base de 
 export const PASSWORD = process.env.PASSWORD;  // Contraseña para la base de datos
 export const DATABASE = process.env.DATABASE;  // Nombre de la base de datos
 export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;  // Secreto para JWT
+export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;  // Secreto para JWT
 export const cookieKey = process.env.cookieKey;  // Clave para las cookies
 export const emailConfig = {
     service: "gmail",

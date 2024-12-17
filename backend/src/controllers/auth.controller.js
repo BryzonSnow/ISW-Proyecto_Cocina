@@ -16,7 +16,8 @@ import {
 export async function login(req, res) {
   try {
     const { body } = req;
-
+    
+    console.log("body", body);
     // Validación de los datos de entrada usando Joi
     const { error } = authValidation.validate(body);
 
@@ -35,8 +36,8 @@ export async function login(req, res) {
     // Si el login fue exitoso, creamos una cookie con el token
     res.cookie("jwt", accessToken, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, // 1 día
-    });
+      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 días
+    });    
 
     // Respuesta exitosa con el token de acceso
     handleSuccess(res, 200, "Inicio de sesión exitoso", { token: accessToken });
@@ -90,7 +91,7 @@ export async function register(req, res) {
 export async function logout(req, res) {
   try {
     // Limpiar la cookie del JWT
-    res.clearCookie("jwt", { httpOnly: true });
+    res.clearCookie("jwt-auth", { httpOnly: true });
 
     // Respuesta exitosa al cerrar sesión
     handleSuccess(res, 200, "Sesión cerrada exitosamente");

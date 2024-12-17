@@ -71,7 +71,7 @@ export async function updateUserService(query, body) {
     }
 
     const dataUserUpdate = {
-      nombreCompleto: body.nombreCompleto,
+      nombre: body.nombre,
       rut: body.rut,
       email: body.email,
       rol: body.rol,
@@ -113,7 +113,7 @@ export async function deleteUserService(query) {
 
     if (!userFound) return [null, "Usuario no encontrado"];
 
-    if (userFound.rol === "administrador") {
+    if (userFound.rol === "Administrador") {
       return [null, "No se puede eliminar un usuario con rol de administrador"];
     }
 
