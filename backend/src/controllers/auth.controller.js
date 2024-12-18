@@ -34,10 +34,19 @@ export async function login(req, res) {
     }
 
     // Si el login fue exitoso, creamos una cookie con el token
-    res.cookie("jwt", accessToken, {
+    const decodedPayload = jwt.decode(accessToken);
+
+    res.cookie("jwt", accessToken, { // Crear cookie con el token JWT
       httpOnly: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 días
-    });    
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    
+    // Decodificar el payload del token
+    res.cookie("payload", JSON.stringify(decodedPayload), { // Crear cookie con el payload del token
+      httpOnly: false,
+      maxAge: 24 * 60 * 60 * 1000, // 1 día
+      sameSite: "Lax",
+    });
 
     // Respuesta exitosa con el token de acceso
     handleSuccess(res, 200, "Inicio de sesión exitoso", { token: accessToken });
