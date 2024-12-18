@@ -243,7 +243,7 @@ const styles = {
     buttonLink: {
         display: 'inline-block',
         padding: '10px 20px',
-        backgroundColor: '#259CC7',
+        backgroundColor: '#4CAF50',
         color: 'white',
         fontSize: '16px',
         borderRadius: '4px',
