@@ -20,10 +20,11 @@ const Menu = () => {
     }
 
     const payloadCookie = Cookies.get("payload");
+    
     if (payloadCookie) {
       try {
         const payload = JSON.parse(payloadCookie);
-        setIsAdmin(payload.rol === "administrador");
+        setIsAdmin(payload.rol.toLowerCase() === "administrador");
       } catch (error) {
         console.error("Error al parsear el payload:", error);
       }
@@ -51,7 +52,7 @@ const Menu = () => {
   return (
     <div className="menu-container">
       {/* Botón de gestionar menú para administradores */}
-      {/*{isAdmin && ( */}
+      {isAdmin && ( 
         <div style={{ margin: "10px 0", textAlign: "left" }}>
           <Link to="/gestionmenu">
             <button
@@ -69,7 +70,7 @@ const Menu = () => {
             </button>
           </Link>
         </div>
-      {/*})} */}
+      )}
 
       {/* Sección para Otros Platos */}
       <h2 className="section-title">Otros Platos</h2>
