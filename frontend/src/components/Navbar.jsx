@@ -16,7 +16,7 @@ const Navbar = () => {
     }
   };
 
-//  const { showSnackbar } = useSnackbar();
+  //  const { showSnackbar } = useSnackbar();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -95,16 +95,12 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-<<<<<<< HEAD
             <Link
-              to="/pedidos"
+              to="/pedido"
               style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
             >
               Pedidos
             </Link>
-=======
-            <Link to="/pedido" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Pedidos</Link>
->>>>>>> main
           </li>
           <li>
             <Link
@@ -139,7 +135,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-          <Link
+            <Link
               to="/empleados"
               style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
             >
@@ -147,7 +143,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-          <Link
+            <Link
               to="/cliente"
               style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
             >
@@ -155,10 +151,20 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/empleados" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Empleados</Link>
+            <Link
+              to="/empleados"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Empleados
+            </Link>
           </li>
           <li>
-            <Link to="/clientes" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Clientes</Link>
+            <Link
+              to="/clientes"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Clientes
+            </Link>
           </li>
         </ul>
       </nav>

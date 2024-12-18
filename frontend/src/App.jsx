@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import IngredientePage from "./pages/IngredientePage";
@@ -14,22 +13,6 @@ import Empleado from "./components/Empleado";
 import VerPedidos from "./components/VerPedidos";
 import Perfil from "./components/Perfil";
 import GestionMenuPage from "./pages/gestionMenuPage";
-=======
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Ingrediente from './components/Ingrediente'; 
-import Inventario from './components/Inventario';
-import Inicio from './components/Inicio';
-import Menu from './components/Menu';
-import WspBubble from './components/wspbubble';
-import Footer from './components/Footer';
-import Gestionmenu from './components/Gestionmenu';
-import Proveedores from './components/Proveedores';
-import Pedido from './components/Pedido';
-import Cliente from './components/Cliente';
-import Empleado from './components/Empleado';
-import VerPedidos from './components/VerPedidos';
->>>>>>> main
 
 const App = () => {
   return (
