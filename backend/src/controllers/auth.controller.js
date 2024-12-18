@@ -16,45 +16,51 @@ import {
 export async function login(req, res) {
   try {
     const { body } = req;
-    
-    console.log("body", body);
-    // Validación de los datos de entrada usando Joi
-    const { error } = authValidation.validate(body);
 
+    // Validar datos de entrada
+    const { error } = authValidation.validate(body);
     if (error) {
       return handleErrorClient(res, 400, "Error de validación", error.message);
     }
 
-    // Llamada al servicio de login
-    const [accessToken, errorToken] = await loginService(body);
+    // Llamar al servicio de login
+    const [result, errorToken] = await loginService(body);
 
-    // Si ocurre un error en el servicio de login
     if (errorToken) {
       return handleErrorClient(res, 400, "Error iniciando sesión", errorToken);
     }
 
-    // Si el login fue exitoso, creamos una cookie con el token
-    const decodedPayload = jwt.decode(accessToken);
+    const { accessToken, payload } = result;
 
-    res.cookie("jwt", accessToken, { // Crear cookie con el token JWT
+    // Configurar cookies
+    res.cookie("jwt", accessToken, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000, // 1 día
     });
-    
-    // Decodificar el payload del token
-    res.cookie("payload", JSON.stringify(decodedPayload), { // Crear cookie con el payload del token
+
+    res.cookie("payload", JSON.stringify(payload), {
       httpOnly: false,
       maxAge: 24 * 60 * 60 * 1000, // 1 día
       sameSite: "Lax",
+      path: "/",
     });
 
-    // Respuesta exitosa con el token de acceso
+    // Agregar un console.log para verificar la respuesta
+    console.log("Respuesta enviada al cliente:", {
+      status: "Success",
+      message: "Inicio de sesión exitoso",
+      data: { token: accessToken },
+    });
+
+    // Respuesta exitosa
     handleSuccess(res, 200, "Inicio de sesión exitoso", { token: accessToken });
   } catch (error) {
-    // Manejo de errores internos del servidor
+    console.error("Error en el controlador login:", error);
     handleErrorServer(res, 500, "Error interno del servidor");
   }
 }
+
+
 
 // Función de registro de usuario
 export async function register(req, res) {

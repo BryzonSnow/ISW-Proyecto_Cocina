@@ -36,8 +36,12 @@ const Navbar = () => {
       const payloadCookie = Cookies.get("payload");
 
       if (payloadCookie) {
+        try {
         const payload = JSON.parse(payloadCookie);
         console.log("Datos del payload:", payload);
+        } catch (e) {
+          console.error("Error al parsear el payload:", e);
+        }
       } else {
         console.log("No existe la cookie de payload");
       }

@@ -49,10 +49,10 @@ export async function loginService(empleado) {
       expiresIn: "10d", // El refresh token expira en 10 días
     });
 
-    return [{ accessToken, refreshToken }, null];
+    return [{ accessToken, refreshToken, payload }, null];
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
-    return [null, { message: "Error interno del servidor" }];
+    handleErrorServer(res, 500, "Error interno del servidor");
   }
 }
 
