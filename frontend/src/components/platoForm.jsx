@@ -95,48 +95,41 @@ const PlatoForm = ({
       </div>
 
       <div>
-        <label className="block text-gray-700 mb-1">Ingredientes</label>
-        <div className="border p-2 rounded h-40 overflow-y-scroll">
-          {ingredientes
-            .slice() // Clonamos el array para no mutar el original
-            .sort((a, b) => a.nombre.localeCompare(b.nombre)) // Orden alfabético por nombre
-            .map((ingrediente) => (
-              <label
-                key={ingrediente.ingredienteID}
-                className="flex items-center gap-2 mb-1"
-                style={{
-                  justifyContent: "flex-start",
-                  textAlign: "left",
-                  direction: "ltr",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={ingredientesCheck.some(
-                    (ing) => ing.ingredienteID === ingrediente.ingredienteID
-                  )}
-                  onChange={() => onSelectIngrediente(ingrediente)}
-                />
-                {ingrediente.nombre}
-              </label>
-            ))}
+  <label className="block text-gray-700 mb-1">Ingredientes</label>
+  <div className="border p-2 rounded h-40 overflow-y-scroll ingredientes-container">
+    {ingredientes
+      .slice()
+      .sort((a, b) => a.nombre.localeCompare(b.nombre))
+      .map((ingrediente) => (
+        <div key={ingrediente.ingredienteID}>
+          <input
+            type="checkbox"
+            checked={ingredientesCheck.some(
+              (ing) => ing.ingredienteID === ingrediente.ingredienteID
+            )}
+            onChange={() => onSelectIngrediente(ingrediente)}
+          />
+          <span>{ingrediente.nombre}</span>
         </div>
-      </div>
-      <div>
-          <button
-            type="submit"
-            className="text-white px-4 py-2 rounded hover:opacity-90"
-            style={{ backgroundColor: "#FF5722" }}
-          >
-            {editPlato ? "Actualizar" : "Crear"}
-          </button>
-        </div>
-        {/* pequeño comentario sobre los prefijos de ensaladas y postres} */}
-        <h3 className="text-gray-500 text-sm">
-          Nota: Para Utilizar los apartados de Ensaladas y Postres del menú
-          utilice el prefijo Ensalada y Postre respectivamente.
-        </h3>
+      ))}
+  </div>
+</div>
 
+
+      <div>
+        <button
+          type="submit"
+          className="text-white px-4 py-2 rounded hover:opacity-90"
+          style={{ backgroundColor: "#FF5722" }}
+        >
+          {editPlato ? "Actualizar" : "Crear"}
+        </button>
+      </div>
+      {/* pequeño comentario sobre los prefijos de ensaladas y postres} */}
+      <h3 className="text-gray-500 text-sm">
+        Nota: Para Utilizar los apartados de Ensaladas y Postres del menú
+        utilice el prefijo Ensalada y Postre respectivamente.
+      </h3>
     </form>
   );
 };

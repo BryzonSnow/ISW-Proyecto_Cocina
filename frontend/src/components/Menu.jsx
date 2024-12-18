@@ -43,10 +43,16 @@ const Menu = () => {
     item.nombre.toLowerCase().includes("postre")
   );
 
+// Filtrar Bebidas
+  const Bebidas = menuItems.filter((item) =>
+    item.nombre.toLowerCase().includes("bebida")
+  );
+
   // Filtrar el resto de los platos
   const otrosPlatos = menuItems
     .filter((item) => !item.nombre.toLowerCase().includes("ensalada"))
     .filter((item) => !item.nombre.toLowerCase().includes("postre"))
+    .filter((item) => !item.nombre.toLowerCase().includes("bebida"))
     .sort((a, b) => a.nombre.localeCompare(b.nombre)); // Ordenar alfabéticamente
 
   return (
@@ -73,7 +79,6 @@ const Menu = () => {
       )}
 
       {/* Sección para Otros Platos */}
-      <h2 className="section-title">Otros Platos</h2>
       <div className="menu-grid gap-x-10">
         {otrosPlatos.map((item) => (
           <MenuCard
@@ -113,6 +118,21 @@ const Menu = () => {
           />
         ))}
       </div>
+
+      {/* Sección de Bebidas */}
+      <h2 className="section-title">Bebidas</h2>
+      <div className="menu-grid gap-x-10">
+        {Bebidas.map((item) => (
+        <MenuCard
+          key={item.id}
+          title={item.nombre}
+          description={item.descripcion}
+          price={Number(item.precio)}
+          isAvailable={item.disponibilidad}
+        />
+        ))}
+      </div>
+
     </div>
   );
 };
