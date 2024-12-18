@@ -35,21 +35,6 @@ const IngredienteSchema = new EntitySchema({
             joinColumn: { name: "inventarioID" },
             onDelete: "SET NULL",
         },
-        proveedores: {
-            target: "Proveedor",
-            type: "many-to-many",
-            joinTable: {
-                name: "ProveedorIngrediente",
-                joinColumn: {
-                    name: "ingredienteID",
-                    referencedColumnName: "ingredienteID",
-                },
-                inverseJoinColumn: {
-                    name: "proveedorID",
-                    referencedColumnName: "proveedorID",
-                },
-            },
-        },
     },
 });
 

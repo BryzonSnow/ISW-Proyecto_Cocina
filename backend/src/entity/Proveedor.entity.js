@@ -42,22 +42,14 @@ const ProveedorSchema = new EntitySchema({
         },
     },
     relations: {
-        ingredientes: {
-            type: "many-to-many",
-            target: "Ingrediente",
-            joinTable: {
-                name: "ProveedorIngrediente",
-                joinColumn: {
-                    name: "proveedorID",
-                    referencedColumnName: "proveedorID",
-                },
-                inverseJoinColumn: {
-                    name: "ingredienteID",
-                    referencedColumnName: "ingredienteID",
-                },
-            },
+        inventario: {
+            target: "Inventario",
+            type: "one-to-many",
+            inverseSide: "proveedor",
+            //eager: true, // Carga los datos relacionados
         },
     },
 });
+
 
 export default ProveedorSchema;

@@ -36,7 +36,7 @@ const EmpleadoSchema = new EntitySchema({
         email: { 
             type: "varchar",
             length: 100,
-            nullable: false,  
+            nullable: true,  
             unique: true,    
         },
         password: {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
-import jwtDecode from 'jwt-decode'; // Importa jwtDecode
+//import jwtDecode from 'jwt-decode'; // Importa jwtDecode
+import { jwtDecode } from "jwt-decode";
 
 // Función para verificar si el token es válido
 function isTokenValid(token) {
@@ -14,7 +15,7 @@ function isTokenValid(token) {
     }
 }
 
-const API_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3001/api';
 
 const instance = axios.create({
     baseURL: API_URL,
@@ -26,16 +27,15 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     (config) => {
-        const token = cookies.get('jwt-auth', { path: '/' });
+        const token = cookies.get("accessToken"); // Asegúrate de que el nombre coincida
         if (token && isTokenValid(token)) {
             config.headers.Authorization = `Bearer ${token}`;
         } else {
-            // Si el token no es válido o ha expirado, redirige al login
-            window.location.href = '/login';
+            window.location.href = "/login";
         }
         return config;
-    },
-    (error) => Promise.reject(error)
+        },
+        (error) => Promise.reject(error)
 );
 
 instance.interceptors.response.use(

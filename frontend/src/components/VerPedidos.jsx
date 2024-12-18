@@ -8,6 +8,7 @@ const VerPedidos = () => {
   const [editPedido, setEditPedido] = useState(null);
   const [formData, setFormData] = useState({ estado: '', total: '' });
 
+  // Obtener pedidos al cargar el componente
   useEffect(() => {
     getPedidos()
       .then((response) => {
@@ -20,16 +21,19 @@ const VerPedidos = () => {
       });
   }, []);
 
+  // Manejar click para editar un pedido
   const handleEditClick = (pedido) => {
     setEditPedido(pedido);
     setFormData({ estado: pedido.estado, total: pedido.total });
   };
 
+  // Manejar cambios en los campos del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Enviar formulario de edición
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const updatedData = await updatePedido(editPedido.pedidoID, formData);
@@ -47,6 +51,7 @@ const VerPedidos = () => {
     }
   };
 
+  // Mostrar mensaje de carga o error
   if (loading) {
     return <div><h3>Cargando pedidos...</h3></div>;
   }
