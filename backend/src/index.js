@@ -44,7 +44,7 @@ async function setupServer() {
                 sameSite: "strict",
             },
         }));
-
+        
         // Configuración de Passport para manejar la autenticación (JWT, sessions, etc.)
         app.use(passport.initialize());
         app.use(passport.session());

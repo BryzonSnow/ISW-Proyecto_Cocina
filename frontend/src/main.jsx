@@ -16,7 +16,7 @@ import Menu from '@components/Menu';
 import Ingrediente from '@components/Ingrediente';
 import Pedido from '@components/Pedido';
 import Proveedores from '@components/Proveedores';
-//import Turnos from '@components/Turnos';
+import Turnos from '@components/Turnos';
 import Inventario from '@components/Inventario';
 import VerPedidos from '@components/VerPedidos';
 import Perfil from '@components/Perfil';
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       { path: '/ingrediente', element: <Ingrediente /> },
       { path: '/pedidos', element: <Pedido /> },
       { path: '/proveedor', element: <Proveedores /> },
-//      { path: '/turnos', element: <Turnos /> },
+      { path: '/turnos', element: <Turnos /> },
       { path: '/inventario', element: <Inventario /> },
       { path: '/verpedidos', element: <VerPedidos /> },
       { path: '/perfil', element: <Perfil /> },
