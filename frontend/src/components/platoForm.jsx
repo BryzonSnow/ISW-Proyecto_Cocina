@@ -12,7 +12,7 @@ const PlatoForm = ({
   return (
     <form
       onSubmit={onSubmit}
-      className="bg-white p-4 rounded shadow-md w-1/3 h-auto flex flex-col gap-4"
+      className="bg-white p-4 rounded shadow-md w-1/4 h-auto flex flex-col gap-4"
     >
       <div
         style={{
