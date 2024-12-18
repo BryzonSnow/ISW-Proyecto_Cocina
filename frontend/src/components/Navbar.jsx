@@ -64,7 +64,7 @@ const Navbar = () => {
         </div>
         <div className="navbar__right">
           <div className="navbar__user-options">
-            <a href="/usuarios">Usuarios</a>
+            <a href="/empleados">Usuarios</a>
             <a href="/Dirección">Dirección</a>
             <a href="/Comentarios">Comentarios</a>
             <a href="/perfil">Perfil</a>
@@ -132,6 +132,22 @@ const Navbar = () => {
               style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
             >
               Proveedores
+            </Link>
+          </li>
+          <li>
+          <Link
+              to="/empleados"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Empleados
+            </Link>
+          </li>
+          <li>
+          <Link
+              to="/cliente"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Clientes
             </Link>
           </li>
         </ul>

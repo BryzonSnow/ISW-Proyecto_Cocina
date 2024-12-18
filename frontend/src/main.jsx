@@ -18,10 +18,12 @@ import Pedido from '@components/Pedido';
 import Proveedores from '@components/Proveedores';
 //import Turnos from '@components/Turnos';
 import Inventario from '@components/Inventario';
-//import VerPedidos from '@components/VerPedidos';
+import VerPedidos from '@components/VerPedidos';
 import Perfil from '@components/Perfil';
 import GestionMenuPage from './pages/gestionMenuPage.jsx';
+import Empleado from './components/Empleado.jsx';
 //import Gestionmenu from '@components/GestionMenu.jsx';
+import Cliente from './components/Cliente.jsx';
 
 const router = createBrowserRouter([
   {
@@ -42,9 +44,11 @@ const router = createBrowserRouter([
       { path: '/proveedor', element: <Proveedores /> },
 //      { path: '/turnos', element: <Turnos /> },
       { path: '/inventario', element: <Inventario /> },
-//      { path: '/verpedidos', element: <VerPedidos /> },
+      { path: '/verpedidos', element: <VerPedidos /> },
       { path: '/perfil', element: <Perfil /> },
       { path: '/gestionmenu', element: <GestionMenuPage /> },
+      { path: '/empleados', element: <Empleado /> },
+      { path: '/cliente', element: <Cliente/>}
 
     ],
   },
