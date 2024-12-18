@@ -28,7 +28,6 @@ const ingredienteController = {
         );
       }
 
-<<<<<<< HEAD
       // Validación de unicidad
       await validateIngredienteUniqueness(body.nombre, body.inventarioID);
 
@@ -154,49 +153,6 @@ const ingredienteController = {
       return handleErrorServer(res, 500, error.message);
     }
   },
-=======
-    getById: async (req, res) => {
-        try {
-            const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
-            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) });
-            if (!ingrediente) {
-                return res.status(404).json({ message: "Ingrediente no encontrado" });
-            }
-            res.status(200).json(ingrediente);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    },
-
-    update: async (req, res) => {
-        try {
-            const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
-            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) }); 
-            if (!ingrediente) {
-                return res.status(404).json({ message: "Ingrediente no encontrado" });
-            }
-            ingredienteRepo.merge(ingrediente, req.body);
-            const result = await ingredienteRepo.save(ingrediente);
-            res.status(200).json(result);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    },
-
-    delete: async (req, res) => {
-        try {
-            const ingredienteRepo = AppDataSource.getRepository(IngredienteSchema);
-            const ingrediente = await ingredienteRepo.findOneBy({ ingredienteID: parseInt(req.params.id) }); 
-            if (!ingrediente) {
-                return res.status(404).json({ message: "Ingrediente no encontrado" });
-            }
-            await ingredienteRepo.remove(ingrediente);
-            res.status(204).send();
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    },
->>>>>>> main
 };
 
 export default ingredienteController;
