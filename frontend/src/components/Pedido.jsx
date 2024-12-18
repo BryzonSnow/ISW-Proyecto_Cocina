@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { createPedido } from '../services/pedido.service';
 import { getPlatos } from '../services/plato.service';
 import { getCliente } from '../services/cliente.service';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
+=======
+>>>>>>> main
 
 const Pedido = () => {
     const [pedido, setPedido] = useState({
@@ -166,9 +169,12 @@ const Pedido = () => {
                 <button type="button" onClick={handleCreate} style={styles.button}>
                     Crear Pedido
                 </button>
+<<<<<<< HEAD
                 <Link to="/verpedidos" style={styles.buttonLink}>
                     Ver Pedidos
                 </Link>
+=======
+>>>>>>> main
             </form>
         </div>
     );
@@ -251,6 +257,11 @@ const styles = {
         textDecoration: 'none',
         cursor: 'pointer',
         transition: 'background-color 0.3s',
+    },
+    error: {
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: '10px',
     },
     error: {
         color: 'red',

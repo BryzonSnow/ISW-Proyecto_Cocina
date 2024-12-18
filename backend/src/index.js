@@ -21,9 +21,13 @@ import { AppDataSource } from "./config/configDb.js"; // Importar la clase AppDa
 async function setupServer() {
     try {
         const app = express();
+<<<<<<< HEAD
         // Deshabilitar cabecera "x-powered-by"
         app.disable("x-powered-by");
         // Configuración de CORS
+=======
+        
+>>>>>>> main
         app.use(cors({
             credentials: true,
             origin: true,  // Ajusta esto según la URL de tu frontend
@@ -50,6 +54,7 @@ async function setupServer() {
         app.use(passport.session());
         passportJwtSetup();  // Setup de Passport para JWT
 
+<<<<<<< HEAD
         // Middleware de logging
         app.use(morgan("dev"));
 
@@ -63,6 +68,13 @@ async function setupServer() {
         app.use("/api", indexRoutes);  // Aquí puedes incluir todas tus rutas principales
 
         // Iniciar el servidor
+=======
+        app.use(json());
+
+        // Rutas de la API
+        app.use("/api", indexRoutes);  // Asegúrate de que tus rutas estén bien configuradas
+        
+>>>>>>> main
         app.listen(PORT, () => {
             console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
         });

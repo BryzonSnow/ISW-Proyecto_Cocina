@@ -95,12 +95,16 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
+<<<<<<< HEAD
             <Link
               to="/pedidos"
               style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
             >
               Pedidos
             </Link>
+=======
+            <Link to="/pedido" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Pedidos</Link>
+>>>>>>> main
           </li>
           <li>
             <Link
@@ -149,6 +153,12 @@ const Navbar = () => {
             >
               Clientes
             </Link>
+          </li>
+          <li>
+            <Link to="/empleados" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Empleados</Link>
+          </li>
+          <li>
+            <Link to="/clientes" style={{ fontFamily: 'Newsreader, serif', fontSize: '1.4rem' }}>Clientes</Link>
           </li>
         </ul>
       </nav>
