@@ -1,6 +1,6 @@
 import "../styles/navbar.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../services/root.service.js";
 import Cookies from "js-cookie";
 //import { useSnackbar } from "../components/SnackbarContext.jsx";
@@ -9,6 +9,9 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // Para manejar errores de login
 
+  // Estado para almacenar el rol del usuario logueado
+  const [rol, setRol] = useState(null);
+
   const toggleModal = (e) => {
     setIsModalOpen(!isModalOpen);
     if (e.target.className === "modal-overlay") {
@@ -16,7 +19,20 @@ const Navbar = () => {
     }
   };
 
-//  const { showSnackbar } = useSnackbar();
+  useEffect(() => {
+    const payloadCookie = Cookies.get("payload");
+    if (payloadCookie) {
+      try {
+        const payload = JSON.parse(payloadCookie);
+        console.log("Rol del usuario:", payload.rol); // Verificar el valor
+        setRol(payload.rol);
+      } catch (error) {
+        console.error("Error al parsear el payload:", error);
+      }
+    }
+  }, []);
+
+  //  const { showSnackbar } = useSnackbar();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -37,8 +53,8 @@ const Navbar = () => {
 
       if (payloadCookie) {
         try {
-        const payload = JSON.parse(payloadCookie);
-        console.log("Datos del payload:", payload);
+          const payload = JSON.parse(payloadCookie);
+          console.log("Datos del payload:", payload);
         } catch (e) {
           console.error("Error al parsear el payload:", e);
         }
@@ -60,6 +76,13 @@ const Navbar = () => {
     }
   };
 
+  // Función para manejar el logout
+  const handleLogout = () => {
+    Cookies.remove("payload"); // Eliminar la cookie 'payload'
+    setRol(null); // Limpiar el rol del estado
+    alert("Sesión cerrada"); // Mostrar un mensaje de logout
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -68,13 +91,20 @@ const Navbar = () => {
         </div>
         <div className="navbar__right">
           <div className="navbar__user-options">
-            <a href="/Dirección">Dirección</a>
-            <div style={{ margin: "10px 0", textAlign: "left" }}>
-          <Link to="/perfil">
-            <button>Perfil</button>
-          </Link>
-        </div>
-
+            <a
+              href="https://www.google.com/maps/@-37.816279,144.953735,15z?hl=en&entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Dirección</a>
+            <div style={{ margin: "10px 0", textAlign: "left" }}></div>
+              <>
+              {rol === "Administrador" && (
+                <Link to="/perfil">
+                  <button>Perfil</button>
+                </Link>
+              )}
+              </>
+            
             {/* Botón para abrir el modal */}
             <button className="navbar__login" onClick={toggleModal}>
               Login
@@ -101,62 +131,72 @@ const Navbar = () => {
               Menú
             </Link>
           </li>
-          <li>
-            <Link
-              to="/pedidos"
-              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
-            >
-              Pedidos
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/ingrediente"
-              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
-            >
-              Ingrediente
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/inventario"
-              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
-            >
-              Inventario
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/turnos"
-              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
-            >
-              Turnos
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/proveedor"
-              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
-            >
-              Proveedores
-            </Link>
-          </li>
-          <li>
-          <Link
-              to="/empleados"
-              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
-            >
-              Empleados
-            </Link>
-          </li>
-          <li>
-          <Link
-              to="/cliente"
-              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
-            >
-              Clientes
-            </Link>
-          </li>
+          {(rol === "Mesero" ||
+            rol === "Chef" ||
+            rol === "JefeCocina" ||
+            rol === "Administrador") && (
+            <li>
+              <Link to="/pedidos"
+              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >Pedidos</Link>{" "}
+              {/* Solo visible para estos roles */}
+            </li>
+          )}
+          {(rol === "Chef" ||
+            rol === "JefeCocina" ||
+            rol === "Administrador") && (
+            <li>
+              <Link to="/ingrediente"
+              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >Ingredientes</Link>{" "}
+              {/* Solo visible para estos roles */}
+            </li>
+          )}
+          {(rol === "JefeCocina" || rol === "A") && (
+            <li>
+              <Link to="/inventario"
+              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >Inventario</Link>{" "}
+              {/* Solo visible para estos roles */}
+            </li>
+          )}
+          {rol === "Administrador" && (
+            <li>
+              <Link
+                to="/turnos"
+                style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+              >
+                Turnos
+              </Link>
+            </li>
+          )}
+          {rol === "Administrador" && (
+            <li>
+              <Link
+                to="/proveedor"
+                style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+              >
+                Proveedores
+              </Link>
+            </li>
+          )}
+          {rol === "Administrador" && (
+            <li>
+              <Link
+                to="/empleados"
+                style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+              >
+                Empleados
+              </Link>
+            </li>
+          )}
+          {(rol === "Mesero" || rol === "Administrador") && (
+            <li>
+              <Link to="/cliente"
+              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >Clientes</Link>
+            </li>
+          )}
         </ul>
       </nav>
 

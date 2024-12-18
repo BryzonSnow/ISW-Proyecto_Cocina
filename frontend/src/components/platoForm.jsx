@@ -95,26 +95,25 @@ const PlatoForm = ({
       </div>
 
       <div>
-  <label className="block text-gray-700 mb-1">Ingredientes</label>
-  <div className="border p-2 rounded h-40 overflow-y-scroll ingredientes-container">
-    {ingredientes
-      .slice()
-      .sort((a, b) => a.nombre.localeCompare(b.nombre))
-      .map((ingrediente) => (
-        <div key={ingrediente.ingredienteID}>
-          <input
-            type="checkbox"
-            checked={ingredientesCheck.some(
-              (ing) => ing.ingredienteID === ingrediente.ingredienteID
-            )}
-            onChange={() => onSelectIngrediente(ingrediente)}
-          />
-          <span>{ingrediente.nombre}</span>
+        <label className="block text-gray-700 mb-1">Ingredientes</label>
+        <div className="border p-2 rounded h-40 overflow-y-scroll ingredientes-container">
+          {ingredientes
+            .slice()
+            .sort((a, b) => a.nombre.localeCompare(b.nombre))
+            .map((ingrediente) => (
+              <div key={ingrediente.ingredienteID}>
+                <input
+                  type="checkbox"
+                  checked={ingredientesCheck.some(
+                    (ing) => ing.ingredienteID === ingrediente.ingredienteID
+                  )}
+                  onChange={() => onSelectIngrediente(ingrediente)}
+                />
+                <span>{ingrediente.nombre}</span>
+              </div>
+            ))}
         </div>
-      ))}
-  </div>
-</div>
-
+      </div>
 
       <div>
         <button
