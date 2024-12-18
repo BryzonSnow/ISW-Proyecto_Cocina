@@ -3,6 +3,7 @@ import "../styles/Menu.css";
 import { useState, useEffect } from "react";
 import { getPlatos } from "../services/plato.service";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom"; // Importamos Link para la navegación
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -36,7 +37,7 @@ const Menu = () => {
     item.nombre.toLowerCase().includes("ensalada")
   );
 
-// Filtar postres
+  // Filtrar postres
   const postres = menuItems.filter((item) =>
     item.nombre.toLowerCase().includes("postre")
   );
@@ -50,9 +51,9 @@ const Menu = () => {
   return (
     <div className="menu-container">
       {/* Botón de gestionar menú para administradores */}
-      {isAdmin && (
-        <div style={{ margin: "5px 0", textAlign: "left" }}>
-          <a href="/proveedor">
+      {/*{isAdmin && ( */}
+        <div style={{ margin: "10px 0", textAlign: "left" }}>
+          <Link to="/gestionmenu">
             <button
               style={{
                 backgroundColor: "#795548",
@@ -66,13 +67,12 @@ const Menu = () => {
             >
               Gestionar Menú
             </button>
-          </a>
-
+          </Link>
         </div>
-      )}
+      {/*})} */}
 
-{/* Sección para Otros Platos */}
-<h2 className="section-title"></h2>
+      {/* Sección para Otros Platos */}
+      <h2 className="section-title">Otros Platos</h2>
       <div className="menu-grid gap-x-10">
         {otrosPlatos.map((item) => (
           <MenuCard
@@ -86,7 +86,7 @@ const Menu = () => {
       </div>
 
       {/* Sección para Ensaladas */}
-      <h2 className="section-title large-title">Ensaladas</h2>
+      <h2 className="section-title">Ensaladas</h2>
       <div className="menu-grid gap-x-10">
         {ensaladas.map((item) => (
           <MenuCard
@@ -98,7 +98,7 @@ const Menu = () => {
           />
         ))}
       </div>
-        
+
       {/* Sección para Postres */}
       <h2 className="section-title">Postres</h2>
       <div className="menu-grid gap-x-10">
