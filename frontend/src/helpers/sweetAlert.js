@@ -9,21 +9,23 @@ export async function deleteDataAlert() {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Si, eliminar!"
-  })
+  });
 }
 
 export const showSuccessAlert = (titleMessage, message) => {
-  Swal.fire(
-    titleMessage,
-    message,
-    'success'
-  );
+  Swal.fire({
+    title: titleMessage,
+    text: message,
+    icon: 'success',
+    confirmButtonColor: '#3085d6'
+  });
 };
 
 export const showErrorAlert = (titleMessage, message) => {
-  Swal.fire(
-    titleMessage,
-    message,
-    'error'
-  );
+  Swal.fire({
+    title: titleMessage,
+    text: message,
+    icon: 'error',
+    confirmButtonColor: '#d33'
+  });
 };
