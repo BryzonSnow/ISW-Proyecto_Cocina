@@ -9,12 +9,12 @@ import { REFRESH_TOKEN_SECRET } from "../config/configEnv.js"; // Agregar el sec
 // Lógica para iniciar sesión
 export async function loginService(empleado) {
   try {
-    /*console.log("ACCESS_TOKEN_SECRET:", ACCESS_TOKEN_SECRET);
+    console.log("ACCESS_TOKEN_SECRET:", ACCESS_TOKEN_SECRET);
     console.log("REFRESH_TOKEN_SECRET:", REFRESH_TOKEN_SECRET);
 
     if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
       throw new Error("Faltan los secretos para generar los tokens JWT");
-    }*/
+    }
 
     const empleadoRepository = AppDataSource.getRepository(Empleado);
     const { email, password } = empleado;
