@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';  // No es necesario importar BrowserRouter aquí
+import Login from './components/Login';
+import React from 'react';
 import Navbar from './components/Navbar';
 import Ingrediente from './components/Ingrediente'; 
 import Inicio from './components/Inicio';
@@ -12,8 +14,9 @@ import Pedido from './components/Pedido';
 import Cliente from './components/Cliente';
 import Empleado from './components/Empleado';
 import VerPedidos from './components/VerPedidos';
-import PrivateRoute from './components/PrivateRoute';  // Importa el PrivateRoute
+import ProtectedRoute from './components/ProtectedRoute';  // Importa el PrivateRoute
 import { useAuth } from '@context/AuthContext';  // Asegúrate de que el hook useAuth esté configurado
+
 
 const App = () => {
   const { isAuthenticated } = useAuth();  // Obtén el estado de autenticación global
@@ -24,9 +27,9 @@ const App = () => {
       <Routes>
         {/* Ruta pública */}
         <Route path="/" element={<Inicio />} />
-        
+        <Route path="/login" element={<Login />} />        
         {/* Rutas protegidas */}
-        <Route element={<PrivateRoute />}>
+        <Route element={<ProtectedRoute />}>
           <Route path="/menu" element={<Menu />} />
           <Route path="/gestionmenu" element={<Gestionmenu />} />
           <Route path="/ingrediente" element={<Ingrediente />} />
