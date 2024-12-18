@@ -68,9 +68,7 @@ const Navbar = () => {
         </div>
         <div className="navbar__right">
           <div className="navbar__user-options">
-            <a href="/empleados">Usuarios</a>
             <a href="/Dirección">Dirección</a>
-            <a href="/Comentarios">Comentarios</a>
             <div style={{ margin: "10px 0", textAlign: "left" }}>
           <Link to="/perfil">
             <button>Perfil</button>
