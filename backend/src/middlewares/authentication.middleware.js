@@ -4,9 +4,10 @@ import {
     handleErrorClient,
     handleErrorServer,
 } from "../handlers/responseHandlers.js";
+import empleado from "../entity/Empleado.entity.js";
 
 export function authenticateJwt(req, res, next) {
-    passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    passport.authenticate("jwt", { session: false }, (err, empleado, info) => {
         if (err) {
         return handleErrorServer(
             res,
@@ -15,7 +16,9 @@ export function authenticateJwt(req, res, next) {
         );
         }
 
-        if (!user) {
+console.log(req);
+
+        if (!empleado) {
         return handleErrorClient(
             res,
             401,
@@ -24,7 +27,7 @@ export function authenticateJwt(req, res, next) {
         )
         }
 
-        req.user = user;
+        req.empleado = empleado;
         next();
     })(req, res, next);
 }

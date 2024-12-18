@@ -1,98 +1,175 @@
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { logout } from '@services/auth.service.js';
-import '@styles/navbar.css';
+import "../styles/navbar.css";
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import axios from "../services/root.service.js";
+import Cookies from "js-cookie";
+//import { useSnackbar } from "../components/SnackbarContext.jsx";
 
 const Navbar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
-    const userRole = user?.rol;
-    const [menuOpen, setMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // Para manejar errores de login
 
-    const logoutSubmit = () => {
-        try {
-            logout();
-            navigate('/auth'); 
-        } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-        }
-    };
+  const toggleModal = (e) => {
+    setIsModalOpen(!isModalOpen);
+    if (e.target.className === "modal-overlay") {
+      setIsModalOpen(false);
+    }
+  };
 
-    const toggleMenu = () => {
-        if (!menuOpen) {
-            removeActiveClass();
-        } else {
-            addActiveClass();
-        }
-        setMenuOpen(!menuOpen);
-    };
+//  const { showSnackbar } = useSnackbar();
 
-    const removeActiveClass = () => {
-        const activeLinks = document.querySelectorAll('.nav-menu ul li a.active');
-        activeLinks.forEach(link => link.classList.remove('active'));
-    };
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const email = event.target.username.value;
+    const password = event.target.password.value;
 
-    const addActiveClass = () => {
-        const links = document.querySelectorAll('.nav-menu ul li a');
-        links.forEach(link => {
-            if (link.getAttribute('href') === location.pathname) {
-                link.classList.add('active');
-            }
-        });
-    };
+    try {
+      const response = await axios.post("/auth/login", {
+        email,
+        password,
+      });
 
-    return (
-        <nav className="navbar">
-            <div className={`nav-menu ${menuOpen ? 'activado' : ''}`}>
-                <ul>
-                    <li>
-                        <NavLink 
-                            to="/home" 
-                            onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Inicio
-                        </NavLink>
-                    </li>
-                    {userRole === 'administrador' && (
-                    <li>
-                        <NavLink 
-                            to="/users" 
-                            onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Usuarios
-                        </NavLink>
-                    </li>
-                    )}
-                    <li>
-                        <NavLink 
-                            to="/auth" 
-                            onClick={() => { 
-                                logoutSubmit(); 
-                                setMenuOpen(false); 
-                            }} 
-                            activeClassName="active"
-                        >
-                            Cerrar sesión
-                        </NavLink>
-                    </li>
-                </ul>
-            </div>
-            <div className="hamburger" onClick={toggleMenu}>
-                <span className="bar"></span>
-                <span className="bar"></span>
-                <span className="bar"></span>
-            </div>
-        </nav>
-    );
+      console.log("Login exitoso:", response.data);
+      alert("Login exitoso", "success");
+
+      // Obtener la cookie 'payload'
+      const payloadCookie = Cookies.get("payload");
+
+      if (payloadCookie) {
+        const payload = JSON.parse(payloadCookie);
+        console.log("Datos del payload:", payload);
+      } else {
+        console.log("No existe la cookie de payload");
+      }
+
+      setErrorMessage(""); // Limpiar mensaje de error si el login es exitoso
+      setIsModalOpen(false); // Cerrar el modal tras el login exitoso
+    } catch (error) {
+      if (error.response) {
+        // Error del backend
+        setErrorMessage(error.response.data.message || "Error en el login");
+      } else {
+        // Error de red u otro problema
+        setErrorMessage("Error al conectar con el servidor");
+      }
+      console.error("Error en la solicitud:", error);
+    }
+  };
+
+  return (
+    <>
+      <nav className="navbar">
+        <div className="navbar__brand">
+          <h1 style={{ fontFamily: "Newsreader, serif" }}>Restaurante</h1>
+        </div>
+        <div className="navbar__right">
+          <div className="navbar__user-options">
+            <a href="/usuarios">Usuarios</a>
+            <a href="/Dirección">Dirección</a>
+            <a href="/Comentarios">Comentarios</a>
+            <a href="/perfil">Perfil</a>
+            {/* Botón para abrir el modal */}
+            <button className="navbar__login" onClick={toggleModal}>
+              Login
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <nav>
+        <ul className="navbar__links">
+          <li>
+            <Link
+              to="/"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Inicio
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/menu"
+              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+            >
+              Menú
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/pedidos"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Pedidos
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/ingrediente"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Ingrediente
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/inventario"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Inventario
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/turnos"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Turnos
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/proveedor"
+              style={{ fontFamily: "Newsreader, serif", fontSize: "1.4rem" }}
+            >
+              Proveedores
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={toggleModal}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Iniciar sesión</h2>
+            <form onSubmit={handleLogin}>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="email"
+                required
+              />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="password"
+                required
+              />
+              <button type="submit">Login</button>
+            </form>
+            {/* Mensaje de error */}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {/* Botón para cerrar el modal */}
+            <button className="modal-close" onClick={toggleModal}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Navbar;
