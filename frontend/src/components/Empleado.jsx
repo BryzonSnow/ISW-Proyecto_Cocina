@@ -49,8 +49,15 @@ const Empleado = () => {
   };
 
   const validateForm = () => {
-    if (!formData.nombre.trim() || !formData.password.trim()) {
-      setError("El nombre y la contraseña son obligatorios.");
+    if (!formData.nombre.trim()) {
+      setError("El nombre es obligatorio.");
+      return false;
+    }
+    if (editing && formData.password === "") {
+      return true; // Permitir actualizaciones sin cambiar la contraseña
+    }
+    if (!formData.password.trim()) {
+      setError("La contraseña es obligatoria.");
       return false;
     }
     if (!formData.email.includes("@")) {
@@ -208,23 +215,23 @@ const Empleado = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredEmpleados.map((empleado) => (
-            <tr key={empleado.empleadoID} style={styles.tr}>
-              <td style={styles.td}>{empleado.nombre}</td>
-              <td style={styles.td}>{empleado.email}</td>
-              <td style={styles.td}>{empleado.contacto}</td>
-              <td style={styles.td}>{empleado.rol}</td>
-              <td style={styles.td}>
-                <button onClick={() => handleEdit(empleado.empleadoID)} style={styles.editButton}>
-                  Editar
-                </button>
-                <button onClick={() => handleDelete(empleado.empleadoID)} style={styles.deleteButton}>
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {filteredEmpleados.map((empleado) => (
+    <tr key={empleado.empleadoID} style={styles.tr}>
+      <td style={styles.td}>{empleado.nombre}</td>
+      <td style={styles.td}>{empleado.email}</td>
+      <td style={styles.td}>{empleado.contacto}</td>
+      <td style={styles.td}>{empleado.rol}</td>
+      <td style={styles.td}>
+        <button onClick={() => handleEdit(empleado.empleadoID)} style={styles.editButton}>
+          Editar
+        </button>
+        <button onClick={() => handleDelete(empleado.empleadoID)} style={styles.deleteButton}>
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
       </table>
     </div>
   );
