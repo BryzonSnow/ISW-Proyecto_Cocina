@@ -67,7 +67,12 @@ const Navbar = () => {
             <a href="/empleados">Usuarios</a>
             <a href="/Dirección">Dirección</a>
             <a href="/Comentarios">Comentarios</a>
-            <a href="/perfil">Perfil</a>
+            <div style={{ margin: "10px 0", textAlign: "left" }}>
+          <Link to="/perfil">
+            <button>Perfil</button>
+          </Link>
+        </div>
+
             {/* Botón para abrir el modal */}
             <button className="navbar__login" onClick={toggleModal}>
               Login

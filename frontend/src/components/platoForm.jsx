@@ -14,11 +14,37 @@ const PlatoForm = ({
       onSubmit={onSubmit}
       className="bg-white p-4 rounded shadow-md w-1/3 h-auto flex flex-col gap-4"
     >
-      <h2 className="text-xl font-semibold mb-2">
-        {editPlato ? "Actualizar Plato" : "Crear Plato"}
-      </h2>
-
-    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <h2 className="text-xl font-semibold mb-2">
+          {editPlato ? "Actualizar Plato" : "Crear Plato"}
+        </h2>
+        <a
+          href="http://localhost:5173/gestionmenu"
+          style={{ textDecoration: "none" }}
+        >
+          <button
+            style={{
+              backgroundColor: "#FF5722",
+              color: "white",
+              border: "none",
+              padding: "10px 20px",
+              fontSize: "16px",
+              cursor: "pointer",
+              borderRadius: "5px",
+            }}
+          >
+            Atrás
+          </button>
+        </a>
+      </div>
+      <div>
         <label className="block text-gray-700 mb-1">Nombre</label>
         <input
           type="text"
@@ -27,19 +53,19 @@ const PlatoForm = ({
           value={newPlato.nombre}
           onChange={(e) => onChange({ ...newPlato, nombre: e.target.value })}
         />
-    </div>
+      </div>
 
-    <div>
+      <div>
         <label className="block text-gray-700 mb-1">Descripción</label>
         <textarea
-        className="w-full p-2 border rounded"
-        placeholder="Descripción"
-        value={newPlato.descripcion}
-        onChange={(e) =>
+          className="w-full p-2 border rounded"
+          placeholder="Descripción"
+          value={newPlato.descripcion}
+          onChange={(e) =>
             onChange({ ...newPlato, descripcion: e.target.value })
-        }
+          }
         />
-    </div>
+      </div>
 
       <div>
         <label className="block text-gray-700 mb-1">Precio</label>
@@ -71,31 +97,46 @@ const PlatoForm = ({
       <div>
         <label className="block text-gray-700 mb-1">Ingredientes</label>
         <div className="border p-2 rounded h-40 overflow-y-scroll">
-          {ingredientes.map((ingrediente) => (
-            <label
-              key={ingrediente.ingredienteID}
-              className="flex items-center gap-2 mb-1"
-            >
-              <input
-                type="checkbox"
-                checked={ingredientesCheck.some(
-                  (ing) => ing.ingredienteID === ingrediente.ingredienteID
-                )}
-                onChange={() => onSelectIngrediente(ingrediente)}
-              />
-              {ingrediente.nombre}
-            </label>
-          ))}
+          {ingredientes
+            .slice() // Clonamos el array para no mutar el original
+            .sort((a, b) => a.nombre.localeCompare(b.nombre)) // Orden alfabético por nombre
+            .map((ingrediente) => (
+              <label
+                key={ingrediente.ingredienteID}
+                className="flex items-center gap-2 mb-1"
+                style={{
+                  justifyContent: "flex-start",
+                  textAlign: "left",
+                  direction: "ltr",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={ingredientesCheck.some(
+                    (ing) => ing.ingredienteID === ingrediente.ingredienteID
+                  )}
+                  onChange={() => onSelectIngrediente(ingrediente)}
+                />
+                {ingrediente.nombre}
+              </label>
+            ))}
         </div>
       </div>
+      <div>
+          <button
+            type="submit"
+            className="text-white px-4 py-2 rounded hover:opacity-90"
+            style={{ backgroundColor: "#FF5722" }}
+          >
+            {editPlato ? "Actualizar" : "Crear"}
+          </button>
+        </div>
+        {/* pequeño comentario sobre los prefijos de ensaladas y postres} */}
+        <h3 className="text-gray-500 text-sm">
+          Nota: Para Utilizar los apartados de Ensaladas y Postres del menú
+          utilice el prefijo Ensalada y Postre respectivamente.
+        </h3>
 
-      <button
-        type="submit"
-        className="text-white px-4 py-2 rounded hover:opacity-90"
-        style={{ backgroundColor: "#FF5722" }}
-      >
-        {editPlato ? "Actualizar" : "Crear"}
-      </button>
     </form>
   );
 };
