@@ -12,8 +12,10 @@ export function AuthProvider({ children }) {
     const isAuthenticated = user ? true : false;
 
 useEffect(() => {
+    console.log('Usuario:', user);
     if (!isAuthenticated) {
-        navigate('/auth');
+        navigate('/');
+        console.log('No hay usuario logueado');
     }
 }, [isAuthenticated, navigate]);
 

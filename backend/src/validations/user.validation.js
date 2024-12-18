@@ -54,7 +54,7 @@ export const userQueryValidation = Joi.object({
   });
 
 export const userBodyValidation = Joi.object({
-  nombreCompleto: Joi.string()
+  nombre: Joi.string()
     .min(15)
     .max(50)
     .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
@@ -126,7 +126,7 @@ export const userBodyValidation = Joi.object({
     }),
 })
   .or(
-    "nombreCompleto",
+    "nombre",
     "email",
     "password",
     "newPassword",
@@ -137,5 +137,5 @@ export const userBodyValidation = Joi.object({
   .messages({
     "object.unknown": "No se permiten propiedades adicionales.",
     "object.missing":
-      "Debes proporcionar al menos un campo: nombreCompleto, email, password, newPassword, rut o rol.",
+      "Debes proporcionar al menos un campo: nombre, email, password, newPassword, rut o rol.",
   });

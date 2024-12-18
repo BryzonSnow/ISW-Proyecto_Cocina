@@ -1,95 +1,95 @@
 "use strict";
-import User from "../entity/user.entity.js";
 import jwt from "jsonwebtoken";
 import { AppDataSource } from "../config/configDb.js";
 import { comparePassword, encryptPassword } from "../helpers/bcrypt.helper.js";
-import { ACCESS_TOKEN_SECRET } from "../config/configEnv.js";
+import Empleado from "../entity/Empleado.entity.js"; // Asegúrate de que la entidad Empleado esté correctamente definida
+import { ACCESS_TOKEN_SECRET } from "../config/configEnv.js"; // Agregar el secreto para el refresh token
+import { REFRESH_TOKEN_SECRET } from "../config/configEnv.js"; // Agregar el secreto para el refresh token
 
-export async function loginService(user) {
+// Lógica para iniciar sesión
+export async function loginService(empleado) {
   try {
-    const userRepository = AppDataSource.getRepository(User);
-    const { email, password } = user;
+    /*console.log("ACCESS_TOKEN_SECRET:", ACCESS_TOKEN_SECRET);
+    console.log("REFRESH_TOKEN_SECRET:", REFRESH_TOKEN_SECRET);
 
-    const createErrorMessage = (dataInfo, message) => ({
-      dataInfo,
-      message
-    });
+    if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
+      throw new Error("Faltan los secretos para generar los tokens JWT");
+    }*/
 
-    const userFound = await userRepository.findOne({
-      where: { email }
-    });
+    const empleadoRepository = AppDataSource.getRepository(Empleado);
+    const { email, password } = empleado;
 
-    if (!userFound) {
-      return [null, createErrorMessage("email", "El correo electrónico es incorrecto")];
+    const empleadoFound = await empleadoRepository.findOne({ where: { email } });
+
+    if (!empleadoFound) {
+      return [null, { field: "email", message: "El correo electrónico es incorrecto" }];
     }
 
-    const isMatch = await comparePassword(password, userFound.password);
+    const isMatch = await comparePassword(password, empleadoFound.password);
 
     if (!isMatch) {
-      return [null, createErrorMessage("password", "La contraseña es incorrecta")];
+      return [null, { field: "password", message: "La contraseña es incorrecta" }];
     }
 
+    // Creación del payload para el JWT
     const payload = {
-      nombreCompleto: userFound.nombreCompleto,
-      email: userFound.email,
-      rut: userFound.rut,
-      rol: userFound.rol,
+      nombre: empleadoFound.nombre,
+      email: empleadoFound.email,
+      rut: empleadoFound.rut,
+      rol: empleadoFound.rol,
     };
 
+    // Crear el access token
     const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "3d", // El token expira en 3 día
     });
 
-    return [accessToken, null];
+    // Crear el refresh token para renovar el access token
+    const refreshToken = jwt.sign(payload, REFRESH_TOKEN_SECRET, {
+      expiresIn: "10d", // El refresh token expira en 10 días
+    });
+
+    return [{ accessToken, refreshToken }, null];
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
-    return [null, "Error interno del servidor"];
+    return [null, { message: "Error interno del servidor" }];
   }
 }
 
-
-export async function registerService(user) {
+// Lógica para registrar un nuevo empleado
+export async function registerService(empleado) {
   try {
-    const userRepository = AppDataSource.getRepository(User);
+    const empleadoRepository = AppDataSource.getRepository(Empleado);
+    const { nombre, rut, email, password } = empleado;
 
-    const { nombreCompleto, rut, email } = user;
+    // Verificar si el correo o el rut ya están en uso
+    const existingEmailEmpleado = await empleadoRepository.findOne({ where: { email } });
+    if (existingEmailEmpleado) {
+      return [null, { field: "email", message: "Correo electrónico en uso" }];
+    }
 
-    const createErrorMessage = (dataInfo, message) => ({
-      dataInfo,
-      message
-    });
+    const existingRutEmpleado = await empleadoRepository.findOne({ where: { rut } });
+    if (existingRutEmpleado) {
+      return [null, { field: "rut", message: "Rut ya asociado a una cuenta" }];
+    }
 
-    const existingEmailUser = await userRepository.findOne({
-      where: {
-        email,
-      },
-    });
-    
-    if (existingEmailUser) return [null, createErrorMessage("email", "Correo electrónico en uso")];
-
-    const existingRutUser = await userRepository.findOne({
-      where: {
-        rut,
-      },
-    });
-
-    if (existingRutUser) return [null, createErrorMessage("rut", "Rut ya asociado a una cuenta")];
-
-    const newUser = userRepository.create({
-      nombreCompleto,
+    // Crear un nuevo empleado
+    const hashedPassword = await encryptPassword(password);
+    const newEmpleado = empleadoRepository.create({
+      nombre,
       email,
       rut,
-      password: await encryptPassword(user.password),
-      rol: "usuario",
+      password: hashedPassword,
+      rol: "Empleado", // Puedes ajustar el rol según sea necesario
     });
 
-    await userRepository.save(newUser);
+    await empleadoRepository.save(newEmpleado);
 
-    const { password, ...dataUser } = newUser;
-
-    return [dataUser, null];
+    // Retornar los datos del empleado, excluyendo la contraseña
+    const { password: pass, ...dataEmpleado } = newEmpleado;
+    return [dataEmpleado, null];
   } catch (error) {
-    console.error("Error al registrar un usuario", error);
-    return [null, "Error interno del servidor"];
+    console.error("Error al registrar un empleado:", error);
+    return [null, { message: "Error interno del servidor" }];
   }
 }

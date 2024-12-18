@@ -33,6 +33,17 @@ const EmpleadoSchema = new EntitySchema({
             nullable: false,
             default: RolEnum.MESERO,  
         },
+        email: { 
+            type: "varchar",
+            length: 100,
+            nullable: true,  
+            unique: true,    
+        },
+        password: {
+            type: "varchar",
+            length: 255, // Tamaño suficiente para hashes bcrypt
+            nullable: false,
+        },          
     },
     relations: {
         turnos: {

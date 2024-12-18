@@ -1,12 +1,25 @@
 import { Router } from "express";
-import proveedorController from "../controllers/proveedor.controller.js";
+import { authenticateJwt } from "../middlewares/authentication.middleware.js";
+import { isAdmin } from "../middlewares/authorization.middleware.js"; 
+import { createProveedor, 
+    deleteProveedor, 
+    getProveedor, 
+    getProveedores,   
+    updateProveedor,      
+} from "../controllers/proveedor.controller.js";
+
 
 const router = Router();
 
-router.post("/", proveedorController.create);
-router.get("/all", proveedorController.getAll);
-router.get("/:id", proveedorController.getById);
-router.put("/:id", proveedorController.update);
-router.delete("/:id", proveedorController.delete);
+router
+    .use(authenticateJwt)
+    .use(isAdmin);
+
+router
+    .get("/all", getProveedores)
+    .get("/:id", getProveedor)
+    .post("/", createProveedor)
+    .put("/:id", updateProveedor)
+    .delete("/:id", deleteProveedor);
 
 export default router;
