@@ -94,7 +94,7 @@ const Cliente = () => {
         className="bg-white p-4 rounded shadow-md w-1/3 h-auto flex flex-col gap-4"
       >
         <h2 className="text-xl font-semibold mb-2">
-          {editCliente ? "Editar Cliente" : "Crear Cliente"}
+          {editCliente ? "Editar Mesa" : "Crear Mesa"}
         </h2>
         <div>
           <label className="block text-gray-700 mb-1">Nombre</label>
@@ -130,7 +130,7 @@ const Cliente = () => {
 
       {/* Lista de Clientes */}
       <div className="flex-1 overflow-x-auto">
-        <h2 className="text-xl font-semibold mb-2">Clientes</h2>
+        <h2 className="text-xl font-semibold mb-2">Mesas</h2>
         <table className="table-auto w-full bg-white shadow-md rounded">
           <thead>
             <tr className="bg-gray-200">

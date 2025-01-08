@@ -8,7 +8,7 @@ import { getIngredientes } from "../services/ingrediente.service";
 const GestionMenuPage = () => {
   const [platos, setPlatos] = useState([]); // Lista de platos
   const [ingredientes, setIngredientes] = useState([]); // Lista de ingredientes
-  const [ingredientesCheck, setingredientesCheck] = useState([]); // Ingredientes seleccionados
+  const [ingredientesCheck, setingredientesCheck] = useState({});  // Ingredientes seleccionados
   const [newPlato, setNewPlato] = useState({
     nombre: "",
     descripcion: "",
@@ -60,7 +60,15 @@ const GestionMenuPage = () => {
       return;
     }
 
-    newPlato.ingredienteID = ingredientesCheck;
+
+
+    newPlato.ingredienteID = Object.entries(ingredientesCheck).map(([id, cantidad]) => ({
+      ingredienteID: parseInt(id),
+      cantidad,
+  }));
+    
+
+
 
     try {
       if (editPlato) {
@@ -73,6 +81,9 @@ const GestionMenuPage = () => {
         setEditPlato(null);
       } else {
         // Crear nuevo plato
+
+        console.log("Datos preparados para enviar:", newPlato);
+
         const data = await createPlato(newPlato);
         //showSnackbar("Plato creado exitosamente", "success");
         setPlatos([...platos, data]);
@@ -125,16 +136,21 @@ const GestionMenuPage = () => {
   };
 
   // Seleccionar o deseleccionar ingredientes
-  const handleSelectIngrediente = (ingredienteSeleccionado) => {
+  const handleSelectIngrediente = (ingredienteSeleccionado, cantidad) => {
     setingredientesCheck((prevIngredientesCheck) => {
-      const yaSeleccionado = prevIngredientesCheck.some(
-        (ingrediente) => ingrediente.ingredienteID === ingredienteSeleccionado.ingredienteID
-      );
-      return yaSeleccionado
-        ? prevIngredientesCheck.filter(
-            (ingrediente) => ingrediente.ingredienteID !== ingredienteSeleccionado.ingredienteID
-          )
-        : [...prevIngredientesCheck, ingredienteSeleccionado];
+      const currentCantidad = prevIngredientesCheck[ingredienteSeleccionado.ingredienteID] || 0;
+      const newCantidad = Math.max(0, currentCantidad + cantidad); // Evitar números negativos
+  
+      if (newCantidad === 0) {
+        // Eliminar ingrediente si la cantidad es 0
+        const { [ingredienteSeleccionado.ingredienteID]: _, ...rest } = prevIngredientesCheck;
+        return rest;
+      }
+  
+      return {
+        ...prevIngredientesCheck,
+        [ingredienteSeleccionado.ingredienteID]: newCantidad,
+      };
     });
   };
 

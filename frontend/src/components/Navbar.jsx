@@ -95,16 +95,18 @@ const Navbar = () => {
               href="https://www.google.com/maps/@-37.816279,144.953735,15z?hl=en&entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
-            >Dirección</a>
+            >
+              Dirección
+            </a>
             <div style={{ margin: "10px 0", textAlign: "left" }}></div>
-              <>
+            <>
               {rol === "Administrador" && (
                 <Link to="/perfil">
                   <button>Perfil</button>
                 </Link>
               )}
-              </>
-            
+            </>
+
             {/* Botón para abrir el modal */}
             <button className="navbar__login" onClick={toggleModal}>
               Login
@@ -136,28 +138,34 @@ const Navbar = () => {
             rol === "JefeCocina" ||
             rol === "Administrador") && (
             <li>
-              <Link to="/pedidos"
-              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
-              >Pedidos</Link>{" "}
-              {/* Solo visible para estos roles */}
+              <Link
+                to="/pedidos"
+                style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >
+                Pedidos
+              </Link>{" "}
             </li>
           )}
           {(rol === "Chef" ||
             rol === "JefeCocina" ||
             rol === "Administrador") && (
             <li>
-              <Link to="/ingrediente"
-              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
-              >Ingredientes</Link>{" "}
-              {/* Solo visible para estos roles */}
+              <Link
+                to="/ingrediente"
+                style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >
+                Ingredientes
+              </Link>{" "}
             </li>
           )}
-          {(rol === "JefeCocina" || rol === "A") && (
+          {(rol === "JefeCocina" || rol === "Administrador") && (
             <li>
-              <Link to="/inventario"
-              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
-              >Inventario</Link>{" "}
-              {/* Solo visible para estos roles */}
+              <Link
+                to="/inventario"
+                style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >
+                Inventario
+              </Link>{" "}
             </li>
           )}
           {rol === "Administrador" && (
@@ -192,9 +200,12 @@ const Navbar = () => {
           )}
           {(rol === "Mesero" || rol === "Administrador") && (
             <li>
-              <Link to="/cliente"
-              style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
-              >Clientes</Link>
+              <Link
+                to="/cliente"
+                style={{ fontFamily: "Newsreader", fontSize: "1.4rem" }}
+              >
+                Mesas
+              </Link>
             </li>
           )}
         </ul>

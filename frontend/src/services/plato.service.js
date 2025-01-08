@@ -37,26 +37,28 @@ export async function getPlatoById(id) {
     }
 }
 
+
+
 export async function createPlato(platoData) {
     try {
+        //{ ingredienteID, cantidad }
         const { data } = await axios.post(`${API_URL}/plato/`, platoData);
-        return data; // Ajusta según la estructura de tu respuesta del backend
+        return data;
     } catch (error) {
         return error.response?.data || { message: 'Error al crear plato', status: 500 };
     }
 }
+
+
+
 export async function updatePlato(id, platoData) {
     try {
-
         console.log("Datos enviados al backend para actualizar:", platoData);
 
         const { data } = await axios.put(`${API_URL}/plato/${id}`, platoData);
         return data;
-    } catch (error) {
-
-        console.error("Error en updatePlato:", error.response?.data || error.message);
-
-        return error.response?.data || { message: 'Error al actualizar plato', status: 500 };
+    } catch (error) {console.error("Error en updatePlato:", error.response?.data || error.message);
+    return error.response?.data || { message: 'Error al actualizar plato', status: 500 };
     }
 }
 

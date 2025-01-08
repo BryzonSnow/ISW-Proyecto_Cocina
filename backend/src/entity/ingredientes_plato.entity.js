@@ -18,6 +18,11 @@ const PlatoIngredienteSchema = new EntitySchema({
             type: "int",
             primary: true,
         },
+
+        cantidad: {
+            type: "int",
+            nullable: true,
+        },
     },
     relations: {
         ingrediente: {

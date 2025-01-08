@@ -101,15 +101,30 @@ const PlatoForm = ({
             .slice()
             .sort((a, b) => a.nombre.localeCompare(b.nombre))
             .map((ingrediente) => (
-              <div key={ingrediente.ingredienteID}>
-                <input
-                  type="checkbox"
-                  checked={ingredientesCheck.some(
-                    (ing) => ing.ingredienteID === ingrediente.ingredienteID
-                  )}
-                  onChange={() => onSelectIngrediente(ingrediente)}
-                />
+              <div
+                key={ingrediente.ingredienteID}
+                className="flex justify-between items-center mb-2"
+              >
                 <span>{ingrediente.nombre}</span>
+                <div className="flex items-center">
+                  <button
+                    type="button"
+                    className="bg-gray-500 text-white px-2 rounded hover:bg-red-600"
+                    onClick={() => onSelectIngrediente(ingrediente, -1)}
+                  >
+                    -1
+                  </button>
+                  <span className="px-3">
+                    {ingredientesCheck[ingrediente.ingredienteID] || 0}
+                  </span>
+                  <button
+                    type="button"
+                    className="bg-gray-500 text-white px-2 rounded hover:bg-green-600"
+                    onClick={() => onSelectIngrediente(ingrediente, 1)}
+                  >
+                    +1
+                  </button>
+                </div>
               </div>
             ))}
         </div>
