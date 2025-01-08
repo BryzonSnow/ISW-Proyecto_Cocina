@@ -133,6 +133,7 @@ const Navbar = () => {
               Menú
             </Link>
           </li>
+
           {(rol === "Mesero" ||
             rol === "Chef" ||
             rol === "JefeCocina" ||
